@@ -5,3 +5,4 @@ android/build/*
 android/android.iml
 android/local.properties
 android/build.gradle
+server/node_modules/*
