@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "nodemon ."
+    "development": "set NODE_ENV=development&& nodemon .",
+    "staging": "set NODE_ENV=staging&& nodemon .",
+    "production": "set NODE_ENV=production&& nodemon ."
   },
   "author": "Wisniewski Tony - David Paul",
   "license": "ISC"

@@ -1,0 +1,23 @@
+{
+  "Customer": {
+    "dababase": {
+      "dbConfig": {
+        "type":"mongodb",
+        "host": "localhost",
+        "port": 27017,
+        "dbName": "ofait-dev"
+      }
+    },
+    "server": {
+      "webSocket": {
+        "host": "localhost",
+        "port": 9001
+      },
+      "api": {
+        "host": "localhost",
+        "port": 9000,
+        "route": "/api"
+      }
+    }
+  }
+}
