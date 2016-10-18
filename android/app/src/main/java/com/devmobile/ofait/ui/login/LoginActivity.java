@@ -86,7 +86,6 @@ public class LoginActivity extends AppCompatActivity {
                         //todo: demander au serveur si le compte est deja crée
 
                         Preference.setAccount(LoginActivity.this,account);
-                        CategoriesActivity.show(LoginActivity.this);
                     }
 
                     @Override
@@ -132,15 +131,23 @@ public class LoginActivity extends AppCompatActivity {
             //todo: demander au serveur si le compte est deja crée
 
             Preference.setAccount(LoginActivity.this,account);
-            CategoriesActivity.show(LoginActivity.this);
 
         } else {
-            //TODO:montrer une erreur d'identification
             Toast.makeText(LoginActivity.this, R.string.login_toast_error_identification, Toast.LENGTH_LONG).show();
         }
     }
 
     public static void show(Context context){
         context.startActivity(new Intent(context, LoginActivity.class));
+    }
+
+    private void showPseudoLayout(){
+        findViewById(R.id.layout_pseudo).setVisibility(View.VISIBLE);
+    }
+
+    public void createPseudo(View view) {
+        //todo: requete pour ajouter un pseudo au compte
+
+        CategoriesActivity.show(LoginActivity.this);
     }
 }
