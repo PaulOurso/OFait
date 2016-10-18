@@ -1,7 +1,7 @@
 {
-  "name": "server",
+  "name": "O'Fait",
   "version": "1.0.0",
-  "description": "Communauté de partage de connaissance",
+  "description": "Communauté de partage d'infos insolites.",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,5 +10,14 @@
     "production": "set NODE_ENV=production&& nodemon ."
   },
   "author": "Wisniewski Tony - David Paul",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "colors": "^1.1.2",
+    "config": "^1.21.0",
+    "express": "^4.14.0",
+    "helmet": "^2.3.0",
+    "mongoose": "^4.6.4",
+    "socket.io": "^1.5.0"
+  }
 }
