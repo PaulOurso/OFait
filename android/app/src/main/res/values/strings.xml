@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">O\'Fait</string>
+    <string name="login_toast_error_identification">La connexion n\'a pas pu aboutir</string>
 </resources>
