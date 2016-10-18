@@ -13,6 +13,7 @@ import com.devmobile.ofait.utils.Preference;
 import com.facebook.AccessToken;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.google.android.gms.auth.GoogleAuthUtil;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -60,7 +61,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     private void GoogleConnect(Account account) {
-
+        CategoriesActivity.show(this);
     }
 
     private void FBConnect(final Account account){
