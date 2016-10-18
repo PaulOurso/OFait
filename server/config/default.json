@@ -1,0 +1,35 @@
+{
+  "Customer": {
+    "dababase": {
+      "db_config": {
+        "type":"mongodb",
+        "host": "localhost",
+        "port": 27017,
+        "db_name": "ofait-dev"
+      }
+    },
+    "server": {
+      "web_socket": {
+        "host": "localhost",
+        "port": 9001
+      },
+      "api": {
+        "host": "localhost",
+        "port": 9000,
+        "route": "/api"
+      },
+      "logs": {
+        "enabled": true
+      }
+    },
+    "levels": {
+      "default": 10,
+      "list": [
+        { "reputation": 30,   "cost_vote": 50 },
+        { "reputation": 80,   "cost_vote": 40 },
+        { "reputation": 150,  "cost_vote": 30 },
+        { "reputation": 250,  "cost_vote": 20 }
+      ]
+    }
+  }
+}
