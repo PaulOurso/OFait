@@ -12,9 +12,12 @@ import android.widget.Toast;
 
 import com.devmobile.ofait.R;
 import com.devmobile.ofait.models.Account;
-import com.devmobile.ofait.ui.categories.CategoriesActivity;
+import com.devmobile.ofait.models.Answer;
+import com.devmobile.ofait.ui.mainmenu.MainActivity;
 import com.devmobile.ofait.utils.Constant;
 import com.devmobile.ofait.utils.Preference;
+import com.devmobile.ofait.utils.requests.APIHelper;
+import com.devmobile.ofait.utils.requests.TaskComplete;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -30,8 +33,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-import java.util.Arrays;
-
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
@@ -42,14 +43,26 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        account = new Account();
-
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
-
+        initFacebook();
         setContentView(R.layout.activity_login);
+        initGoogle();
+    }
 
+    public static void show(Context context){
+        context.startActivity(new Intent(context, LoginActivity.class));
+    }
+
+    public void initGoogle() {
+        SignInButton button = (SignInButton) findViewById(R.id.google_sign_in_button);
+        if (button != null) {
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d(TAG, "clicked");
+                    googleSignIn();
+                }
+            });
+        }
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -67,44 +80,28 @@ public class LoginActivity extends AppCompatActivity {
                 })
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-
-        SignInButton button = (SignInButton) findViewById(R.id.google_sign_in_button);
-        if (button != null) {
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    System.out.println("clicked");
-                    googleSignIn();
-                }
-            });
-        }
-
+    }
+    
+    public void initFacebook() {
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
         callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        account = new Account();
-                        account.fb_id = loginResult.getAccessToken().getUserId();
-
-                        //todo: demander au serveur si le compte est deja crée
-
-                        Preference.setAccount(LoginActivity.this,account);
+                        onResponseFacebook(loginResult);
                     }
 
                     @Override
-                    public void onCancel() {
-                        // App code
-                    }
+                    public void onCancel() { }
 
                     @Override
-                    public void onError(FacebookException exception) {
-                        // App code
-                    }
+                    public void onError(FacebookException exception) { }
                 });
     }
 
-    private void googleSignIn() {
+    public void googleSignIn() {
         Log.d(TAG, "signIn clicked");
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, Constant.RC_SIGN_IN);
@@ -117,48 +114,74 @@ public class LoginActivity extends AppCompatActivity {
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == Constant.RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
+            onResponseGoogle(result);
         }
         else{
             callbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }
 
-    private void handleSignInResult(GoogleSignInResult result) {
+    public void onResponseGoogle(GoogleSignInResult result) {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
+            account = new Account();
             GoogleSignInAccount acct = result.getSignInAccount();
             account.google_id = acct.getId();
-
-            //todo: demander au serveur si le compte est deja crée
-
-            Preference.setAccount(LoginActivity.this,account);
-
+            getAccountOrCreate();
         } else {
             Toast.makeText(LoginActivity.this, R.string.login_toast_error_identification, Toast.LENGTH_LONG).show();
         }
     }
 
-    public static void show(Context context){
-        context.startActivity(new Intent(context, LoginActivity.class));
+    public void onResponseFacebook(LoginResult loginResult) {
+        account = new Account();
+        account.fb_id = loginResult.getAccessToken().getUserId();
+        getAccountOrCreate();
     }
 
-    private void showPseudoLayout(){
+    public void getAccountOrCreate() {
+        APIHelper.getAccountOrCreate(LoginActivity.this, account, new TaskComplete<Account>() {
+            @Override
+            public void run() {
+                Answer<Account> answer = this.result;
+                if (answer.status < 300) {
+                    account = answer.data;
+                    Preference.setAccount(LoginActivity.this, account);
+                    if (account.pseudo == null)
+                        showPseudoLayout();
+                    else
+                        MainActivity.show(LoginActivity.this);
+                }
+                else
+                    answer.message.displayMessage(LoginActivity.this);
+            }
+        });
+    }
+
+    public void showPseudoLayout(){
         findViewById(R.id.layout_create_pseudo).setVisibility(View.VISIBLE);
     }
 
     public void createPseudo(View view) {
-        String pseudo= ((EditText) findViewById(R.id.create_pseudo_edit)).getText().toString();
+        String pseudo = ((EditText) findViewById(R.id.create_pseudo_edit)).getText().toString();
 
         if(!pseudo.isEmpty()) {
-            //todo: requete pour ajouter le pseudo au compte
-
             account.pseudo = pseudo;
-            Preference.setAccount(LoginActivity.this,account);
-
-            findViewById(R.id.layout_create_pseudo).setVisibility(View.GONE);
-            CategoriesActivity.show(LoginActivity.this);
+            APIHelper.updateAccount(LoginActivity.this, account, new TaskComplete<Account>() {
+                @Override
+                public void run() {
+                    Answer<Account> answer = this.result;
+                    if (answer.status < 300) {
+                        account = answer.data;
+                        Preference.setAccount(LoginActivity.this, account);
+                        findViewById(R.id.layout_create_pseudo).setVisibility(View.GONE);
+                        MainActivity.show(LoginActivity.this);
+                    }
+                    else
+                        answer.message.displayMessage(LoginActivity.this);
+                }
+            });
         }
         else{
             TextView textViewErr = (TextView) findViewById(R.id.error_create_pseudo_no_text);

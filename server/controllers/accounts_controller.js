@@ -9,13 +9,13 @@ exports.findAccountByID = function findAccountByID(req, res) {
     Account.findById(req.params.id).lean().exec()
       .then((account) => {
         if (account === null)
-          return response.formatErr(res, 404, 'error', 'Compte inexistant.');
-        response.formatAnswerObject(res, 200, 'success', '', account);
+          return response.formatErr(res, 404, {message:'Compte inexistant.'});
+        response.formatAnswerObject(res, 200, {message:null}, account);
       })
-      .catch((err) => response.formatErr(res, 500, 'error', err));
+      .catch((err) => response.formatErr(res, 500, err));
   }
   else {
-    response.formatErr(res, 400, 'error', {message: 'Erreur dans la requête.'});
+    response.formatErr(res, 400, {message: 'Erreur dans la requête.'});
   }
 }
 
@@ -27,13 +27,13 @@ exports.getAccountFromLogin = function getAccountFromLogin(req, res) {
     Account.findOne(param).lean().exec()
       .then((account) => {
         if (account === null)
-          return response.formatErr(res, 404, 'error', 'Compte inexistant.');
-        response.formatAnswerObject(res, 200, 'success', '', account);
+          return response.formatErr(res, 404, {message:'Compte inexistant.'});
+        response.formatAnswerObject(res, 200, {message:null}, account);
       })
-      .catch((err) => response.formatErr(res, 500, 'error', err));
+      .catch((err) => response.formatErr(res, 500, err));
   }
   else {
-    response.formatErr(res, 400, 'error', {message: 'Paramètres manquants.'});
+    response.formatErr(res, 400, {message: 'Paramètres manquants.'});
   }
 }
 
@@ -45,15 +45,15 @@ exports.addAccountIfNotExist = function addAccountIfNotExist(req, res) {
     Account.findOne(param).lean().exec()
       .then((account) => {
         if (account && account._id)
-          return response.formatAnswerObject(res, 200, 'success', '', account);
+          return response.formatAnswerObject(res, 200, {message:null}, account);
         return new Account(req.body);
       })
       .then((newAccount) => newAccount.save())
-      .then((account) => response.formatAnswerObject(res, 201, 'success', '', account))
-      .catch((err) => response.formatErr(res, 500, 'error', err));
+      .then((account) => response.formatAnswerObject(res, 201, {message:null}, account))
+      .catch((err) => response.formatErr(res, 500, err));
   }
   else {
-    response.formatErr(res, 400, 'error', {message: 'Paramètres manquants.'});
+    response.formatErr(res, 400, {message: 'Paramètres manquants.'});
   }
 }
 
@@ -68,10 +68,10 @@ exports.updateAccountByID = function updateAccountByID(req, res) {
         return account;
       })
       .then((account) => account.save())
-      .then((account) => response.formatAnswerObject(res, 201, 'success', '', account))
-      .catch((err) => response.formatErr(res, 500, 'error', err));
+      .then((account) => response.formatAnswerObject(res, 201, {message:null}, account))
+      .catch((err) => response.formatErr(res, 500, err));
   }
   else {
-    response.formatErr(res, 400, 'error', {message: 'Paramètres manquants.'});
+    response.formatErr(res, 400, {message: 'Paramètres manquants.'});
   }
 }
