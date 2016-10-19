@@ -11,17 +11,14 @@ import com.android.volley.Response;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.devmobile.ofait.R;
 import com.devmobile.ofait.models.Answer;
 import com.devmobile.ofait.utils.FastDialog;
 import com.google.gson.Gson;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,8 +37,9 @@ public class APIRequest<TypeData> {
     private int method;
     private final static String[] METHOD_LOG = new String[] {"GET", "POST", "PUT", "DELETE"};
     private Answer<TypeData> answer;
+    private Type resultClass;
 
-    public APIRequest(Context c, TaskComplete taskCpl) {
+    public APIRequest(Context c, Type resClass, TaskComplete taskCpl) {
         context = c;
         params = new HashMap<>();
         displayProgressDialog = true;
@@ -49,6 +47,7 @@ public class APIRequest<TypeData> {
         taskComplete = taskCpl;
         method = -99999;
         answer = new Answer<>();
+        resultClass = resClass;
     }
 
     public void addParam(String key, String value) {
@@ -79,12 +78,12 @@ public class APIRequest<TypeData> {
         showLog(url);
         RequestQueue queue = Volley.newRequestQueue(context);
         showDialog();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(method, url, (String) null, new Listener<JSONObject>() {
+        StringRequest stringRequest = new StringRequest(method, url, new Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(String response) {
                 Gson gson = new Gson();
                 Log.d(TAG+" RESPONSE ("+METHOD_LOG[method]+")", "(url: "+url+") -> "+response);
-                answer = gson.fromJson(response.toString(), answer.typeObjectOf());
+                answer = gson.fromJson(response, resultClass);
                 if (taskComplete != null) {
                     taskComplete.result = answer;
                     taskComplete.run();
@@ -97,14 +96,13 @@ public class APIRequest<TypeData> {
                 dismissDialog();
                 NetworkResponse response = error.networkResponse;
                 String res = null;
-                JSONObject responseJSON = new JSONObject();
                 try {
                     res = new String(response.data,  HttpHeaderParser.parseCharset(response.headers, "utf-8"));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
                 Gson gson = new Gson();
-                answer = gson.fromJson(res, answer.typeObjectOf());
+                answer = gson.fromJson(res, resultClass);
                 if (taskComplete != null) {
                     taskComplete.result = answer;
                     taskComplete.run();
@@ -119,11 +117,11 @@ public class APIRequest<TypeData> {
             @Override
             public Map<String, String> getHeaders() {
                 HashMap<String, String> headers = new HashMap<>();
-                headers.put("Content-Type", "application/json; charset=utf-8");
+                headers.put("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
                 return headers;
             }
         };
-        queue.add(jsonObjectRequest);
+        queue.add(stringRequest);
     }
 
     private void showDialog() {

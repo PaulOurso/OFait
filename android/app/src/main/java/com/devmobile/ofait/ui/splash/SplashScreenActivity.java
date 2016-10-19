@@ -96,15 +96,18 @@ public class SplashScreenActivity extends AppCompatActivity {
         });
     }
 
-    public void checkAccount(Account account) {
-        APIHelper.getAccountFromLogin(SplashScreenActivity.this, true, account, new TaskComplete<Account>() {
+    public void checkAccount(Account acc) {
+        APIHelper.getAccountFromLogin(SplashScreenActivity.this, true, acc, new TaskComplete<Account>() {
             @Override
             public void run() {
                 Answer<Account> answer = this.result;
                 if (answer.status < 300) {
-                    stopTimer();
-                    Preference.setAccount(SplashScreenActivity.this, answer.data);
-                    MainActivity.show(SplashScreenActivity.this);
+                    Account account = answer.data;
+                    if (account.pseudo != null) {
+                        stopTimer();
+                        Preference.setAccount(SplashScreenActivity.this, answer.data);
+                        MainActivity.show(SplashScreenActivity.this);
+                    }
                 }
                 else
                     Preference.setAccount(SplashScreenActivity.this, null);
