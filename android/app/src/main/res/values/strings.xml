@@ -14,6 +14,8 @@
     
     <string name="pseudo_text">Choisissez votre pseudo:</string>
     <string name="button_pseudo_text">OK</string>
-    <string name="pseudo_hint">Here</string>
->>>>>>> work on layout
+    <string name="pseudo_hint">Pseudo</string>
+    <string name="error_create_pseudo_no_text">Veuillez entrer un pseudo</string>
+    <string name="button_pseudo_create">Ok</string>
+    <string name="button_pseudo_quit">Retour</string>
 </resources>

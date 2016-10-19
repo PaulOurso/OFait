@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.devmobile.ofait.R;
@@ -35,11 +37,13 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     CallbackManager callbackManager;
     GoogleApiClient mGoogleApiClient;
+    Account account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        account = new Account();
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
@@ -80,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        Account account = new Account();
+                        account = new Account();
                         account.fb_id = loginResult.getAccessToken().getUserId();
 
                         //todo: demander au serveur si le compte est deja crée
@@ -125,7 +129,6 @@ public class LoginActivity extends AppCompatActivity {
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            Account account = new Account();
             account.google_id = acct.getId();
 
             //todo: demander au serveur si le compte est deja crée
@@ -142,12 +145,31 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void showPseudoLayout(){
-        findViewById(R.id.layout_pseudo).setVisibility(View.VISIBLE);
+        findViewById(R.id.layout_create_pseudo).setVisibility(View.VISIBLE);
     }
 
     public void createPseudo(View view) {
-        //todo: requete pour ajouter un pseudo au compte
+        String pseudo= ((EditText) findViewById(R.id.create_pseudo_edit)).getText().toString();
 
-        CategoriesActivity.show(LoginActivity.this);
+        if(!pseudo.isEmpty()) {
+            //todo: requete pour ajouter le pseudo au compte
+
+            account.pseudo = pseudo;
+            Preference.setAccount(LoginActivity.this,account);
+
+            findViewById(R.id.layout_create_pseudo).setVisibility(View.GONE);
+            CategoriesActivity.show(LoginActivity.this);
+        }
+        else{
+            TextView textViewErr = (TextView) findViewById(R.id.error_create_pseudo_no_text);
+            textViewErr.setVisibility(View.VISIBLE);
+            textViewErr.setText( R.string.error_create_pseudo_no_text);
+        }
+    }
+
+    public void quitCreatePseudo(View view) {
+        EditText editText = (EditText) findViewById(R.id.create_pseudo_edit);
+        editText.setText("");
+        findViewById(R.id.layout_create_pseudo).setVisibility(View.GONE);
     }
 }
