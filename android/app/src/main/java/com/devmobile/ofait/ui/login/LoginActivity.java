@@ -52,6 +52,11 @@ public class LoginActivity extends AppCompatActivity {
         context.startActivity(new Intent(context, LoginActivity.class));
     }
 
+    public void next() {
+        MainActivity.show(LoginActivity.this);
+        finish();
+    }
+
     public void initGoogle() {
         SignInButton button = (SignInButton) findViewById(R.id.google_sign_in_button);
         if (button != null) {
@@ -150,8 +155,9 @@ public class LoginActivity extends AppCompatActivity {
                     Preference.setAccount(LoginActivity.this, account);
                     if (account.pseudo == null)
                         showPseudoLayout();
-                    else
-                        MainActivity.show(LoginActivity.this);
+                    else {
+                        next();
+                    }
                 }
                 else
                     answer.message.displayMessage(LoginActivity.this);
@@ -176,7 +182,7 @@ public class LoginActivity extends AppCompatActivity {
                         account = answer.data;
                         Preference.setAccount(LoginActivity.this, account);
                         findViewById(R.id.layout_create_pseudo).setVisibility(View.GONE);
-                        MainActivity.show(LoginActivity.this);
+                        next();
                     }
                     else
                         answer.message.displayMessage(LoginActivity.this);

@@ -20,8 +20,8 @@ exports.findAccountByID = function findAccountByID(req, res) {
 }
 
 exports.getAccountFromLogin = function getAccountFromLogin(req, res) {
-  var fb_id = req.body.fb_id;
-  var google_id = req.body.google_id;
+  var fb_id = req.query.fb_id;
+  var google_id = req.query.google_id;
   if (fb_id || google_id) {
     var param = fb_id ? {fb_id: fb_id} : {google_id: google_id};
     Account.findOne(param).lean().exec()

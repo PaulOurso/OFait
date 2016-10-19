@@ -26,12 +26,13 @@ public class APIHelper {
     public static void getAccountFromLogin(Context c, boolean fromSplash, Account account, TaskComplete taskComplete) {
         APIRequest<Account> apiRequest = new APIRequest<>(c, Account.typeAnswerOf(), taskComplete);
         apiRequest.setShowDialog(!fromSplash);
+        String url = URL_MY_ACCOUNT;
         if (account.fb_id != null)
-            apiRequest.addParam("fb_id", account.fb_id);
+            url = URL_MY_ACCOUNT+"?fb_id="+account.fb_id;
         else if (account.google_id != null)
-            apiRequest.addParam("google_id", account.google_id);
+            url = URL_MY_ACCOUNT+"?google_id="+account.google_id;
         apiRequest.setMethod(Request.Method.GET);
-        apiRequest.execute(URL_MY_ACCOUNT);
+        apiRequest.execute(url);
     }
 
     public static void getAccountOrCreate(Context c, Account account, TaskComplete taskComplete) {

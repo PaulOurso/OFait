@@ -14,7 +14,8 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".ui.splash.SplashScreenActivity">
+        <activity android:name=".ui.splash.SplashScreenActivity"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,7 +31,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.categories.CategoriesActivity"></activity>
         <activity
             android:name=".ui.mainmenu.MainActivity"
             android:label="@string/title_activity_main"
