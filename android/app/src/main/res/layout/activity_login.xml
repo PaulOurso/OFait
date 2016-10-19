@@ -10,6 +10,9 @@
     tools:context=".ui.login.LoginActivity"
     android:orientation="vertical">
 
+    <include layout="@layout/layout_create_pseudo" />
+
+
     <com.facebook.login.widget.LoginButton
         android:id="@+id/fb_login_button"
         android:layout_width="300dp"

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">O\'Fait</string>
     <string name="login_toast_error_identification">La connexion n\'a pas pu aboutir</string>
+    
     <string name="title_activity_main">MainActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -10,4 +11,11 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    
+    <string name="pseudo_text">Choisissez votre pseudo:</string>
+    <string name="button_pseudo_text">OK</string>
+    <string name="pseudo_hint">Pseudo</string>
+    <string name="error_create_pseudo_no_text">Veuillez entrer un pseudo</string>
+    <string name="button_pseudo_create">Ok</string>
+    <string name="button_pseudo_quit">Retour</string>
 </resources>
