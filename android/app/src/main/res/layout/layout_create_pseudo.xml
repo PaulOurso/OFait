@@ -38,7 +38,7 @@
         android:id="@+id/create_pseudo_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_pseudo_create"
+        android:text="@string/ok"
         android:layout_gravity="center"
         android:onClick="createPseudo"/>
 

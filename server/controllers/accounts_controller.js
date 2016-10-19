@@ -19,6 +19,24 @@ exports.findAccountByID = function findAccountByID(req, res) {
   }
 }
 
+exports.getAccountFromLogin = function getAccountFromLogin(req, res) {
+  var fb_id = req.body.fb_id;
+  var google_id = req.body.google_id;
+  if (fb_id || google_id) {
+    var param = fb_id ? {fb_id: fb_id} : {google_id: google_id};
+    Account.findOne(param).lean().exec()
+      .then((account) => {
+        if (account === null)
+          return response.formatErr(res, 404, 'error', 'Compte inexistant.');
+        response.formatAnswerObject(res, 200, 'success', '', account);
+      })
+      .catch((err) => response.formatErr(res, 500, 'error', err));
+  }
+  else {
+    response.formatErr(res, 400, 'error', {message: 'Paramètres manquants.'});
+  }
+}
+
 exports.addAccountIfNotExist = function addAccountIfNotExist(req, res) {
   var fb_id = req.body.fb_id;
   var google_id = req.body.google_id;
