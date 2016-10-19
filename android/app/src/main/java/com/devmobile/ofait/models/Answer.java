@@ -1,5 +1,8 @@
 package com.devmobile.ofait.models;
 
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.List;
 
 /**
@@ -13,4 +16,8 @@ public class Answer<TypeData> {
     public List<TypeData> datas;
     public TypeData data;
 
+    public Type typeObjectOf() {
+        return new TypeToken<Answer<TypeData>>() {
+        }.getType();
+    }
 }

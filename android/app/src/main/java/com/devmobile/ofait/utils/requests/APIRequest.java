@@ -5,16 +5,23 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.devmobile.ofait.R;
 import com.devmobile.ofait.models.Answer;
 import com.devmobile.ofait.utils.FastDialog;
 import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +29,7 @@ import java.util.Map;
 /**
  * Created by Tony Wisniewski on 10/10/2016.
  */
-public class APIRequest {
+public class APIRequest<TypeData> {
 
     private static final String TAG = "APIRequest";
     private Context context;
@@ -32,7 +39,7 @@ public class APIRequest {
     private TaskComplete taskComplete;
     private int method;
     private final static String[] METHOD_LOG = new String[] {"GET", "POST", "PUT", "DELETE"};
-    private Answer result;
+    private Answer<TypeData> answer;
 
     public APIRequest(Context c, TaskComplete taskCpl) {
         context = c;
@@ -41,6 +48,7 @@ public class APIRequest {
         dialog = null;
         taskComplete = taskCpl;
         method = -99999;
+        answer = new Answer<>();
     }
 
     public void addParam(String key, String value) {
@@ -71,34 +79,51 @@ public class APIRequest {
         showLog(url);
         RequestQueue queue = Volley.newRequestQueue(context);
         showDialog();
-        StringRequest stringRequest = new StringRequest(
-                method, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        dismissDialog();
-                        Gson gson = new Gson();
-                        Log.d(TAG+" RESPONSE ("+METHOD_LOG[method]+")", "(url: "+url+") -> "+response);
-                        result = gson.fromJson(response, Answer.class);
-                        if (taskComplete != null) {
-                            taskComplete.result = result;
-                            taskComplete.run();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        dismissDialog();
-                        FastDialog.showDialog(context, FastDialog.SIMPLE_DIALOG, context.getString(R.string.error_http)+": "+error.getMessage());
-                    }
-                }) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(method, url, (String) null, new Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Gson gson = new Gson();
+                Log.d(TAG+" RESPONSE ("+METHOD_LOG[method]+")", "(url: "+url+") -> "+response);
+                answer = gson.fromJson(response.toString(), answer.typeObjectOf());
+                if (taskComplete != null) {
+                    taskComplete.result = answer;
+                    taskComplete.run();
+                }
+                dismissDialog();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                dismissDialog();
+                NetworkResponse response = error.networkResponse;
+                String res = null;
+                JSONObject responseJSON = new JSONObject();
+                try {
+                    res = new String(response.data,  HttpHeaderParser.parseCharset(response.headers, "utf-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                Gson gson = new Gson();
+                answer = gson.fromJson(res, answer.typeObjectOf());
+                if (taskComplete != null) {
+                    taskComplete.result = answer;
+                    taskComplete.run();
+                }
+            }
+        }) {
             @Override
             protected Map<String, String> getParams() {
                 return APIRequest.this.getParams();
             }
+
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
         };
-        queue.add(stringRequest);
+        queue.add(jsonObjectRequest);
     }
 
     private void showDialog() {
