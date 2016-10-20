@@ -14,12 +14,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.android.volley.Request;
 import com.devmobile.ofait.R;
+import com.devmobile.ofait.ui.fragment.AddContentFragment;
 import com.devmobile.ofait.ui.fragment.ContentFragment;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private boolean viewIsAtHome;
+    private Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        fragment = null;
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -65,13 +72,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-
     public void displayDefaultView() {
         displayView(-1);
     }
 
     public void displayView(int viewId) {
-        Fragment fragment = null;
         String title = getString(R.string.app_name);
 
         switch (viewId) {
@@ -81,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 viewIsAtHome = true;
                 break;
             case R.id.nav_add:
-                // TODO: add Fragment Add
+                fragment = AddContentFragment.getInstance();
                 title  = getString(R.string.fragment_add_title);
                 viewIsAtHome = false;
                 break;
@@ -119,6 +124,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+    }
+
+    public void uiDispatcher(View v){
+        String action = v.getTag().toString();
+        try {
+            Method m = fragment.getClass().getMethod(action, MainActivity.class);
+            m.invoke(fragment, MainActivity.this);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     public void onClickNavAccount(View view) {

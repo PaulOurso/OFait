@@ -21,6 +21,7 @@ const database      = require('./database/database');
 
 // Controllers
 const accounts_ctrl = require('./controllers/accounts_controller');
+const content_ctrl = require('./controllers/content_controller');
 
 // Init IO Socket
 var serverIO = http.createServer(app_socket);
@@ -50,7 +51,10 @@ if(logs_config.enabled) {
 // Routes
 app_api.get(api_config.route+'/account/:id', accounts_ctrl.findAccountByID);
 app_api.get(api_config.route+'/find_my_account', accounts_ctrl.getAccountFromLogin);
+
 app_api.post(api_config.route+'/account', accounts_ctrl.addAccountIfNotExist);
+app_api.post(api_config.route+'/content', content_ctrl.createContent);
+
 app_api.put(api_config.route+'/account/:id', accounts_ctrl.updateAccountByID);
 
 

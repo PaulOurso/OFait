@@ -3,7 +3,7 @@
     android:id="@+id/layout_create_pseudo"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:visibility="gone">
+    android:visibility="">
 
     <TextView
         android:layout_width="wrap_content"
@@ -26,7 +26,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
-        android:hint="@string/pseudo_hint"/>
+        android:hint="@string/pseudo_hint"
+        android:gravity="center"/>
 
     <LinearLayout
         android:layout_width="match_parent"
