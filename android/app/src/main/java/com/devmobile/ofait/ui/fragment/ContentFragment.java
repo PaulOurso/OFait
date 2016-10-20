@@ -2,12 +2,19 @@ package com.devmobile.ofait.ui.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.devmobile.ofait.R;
+import com.lorentzos.flingswipe.SwipeFlingAdapterView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,9 +22,13 @@ import com.devmobile.ofait.R;
 public class ContentFragment extends Fragment {
 
     private static ContentFragment contentInstance;
+    public SwipeFlingAdapterView flingContainer;
+    public List<String> listContents;
+    public ArrayAdapter<String> arrayAdapter;
 
     public ContentFragment() {
         // Required empty public constructor
+        listContents = new ArrayList<>();
     }
 
     public static ContentFragment getInstance() {
@@ -33,4 +44,51 @@ public class ContentFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_content, container, false);
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        flingContainer = (SwipeFlingAdapterView) view.findViewById(R.id.fling_cards_contents);
+        listContents.clear();
+        listContents.add("Test 1");
+        listContents.add("Test 2");
+        listContents.add("Test 3");
+        listContents.add("Test 4");
+        arrayAdapter = new ArrayAdapter<>(getContext(), R.layout.item_card_content, listContents);
+        flingContainer.setAdapter(arrayAdapter);
+        flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
+            @Override
+            public void removeFirstObjectInAdapter() {
+                listContents.remove(0);
+                arrayAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onLeftCardExit(Object o) {
+                Toast.makeText(getContext(), "Left", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onRightCardExit(Object o) {
+                Toast.makeText(getContext(), "Right", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdapterAboutToEmpty(int i) {
+                listContents.add("Test Suivant");
+                arrayAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onScroll(float v) {
+
+            }
+        });
+
+        flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClicked(int i, Object o) {
+                Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }
