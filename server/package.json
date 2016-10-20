@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "development": "set NODE_ENV=development&& nodemon .",
     "development-t": "set NODE_ENV=development-t&& nodemon .",
+    "development-p": "set NODE_ENV=development-p&& nodemon .",
     "staging": "set NODE_ENV=staging&& nodemon .",
     "production": "set NODE_ENV=production&& nodemon ."
   },

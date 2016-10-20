@@ -11,7 +11,7 @@ import com.devmobile.ofait.models.Account;
  */
 public class APIHelper {
     // Localhost
-    public static final String DOMAIN = "http://192.168.20.160:9000/api";
+    public static final String DOMAIN = "http://192.168.21.169:9000/api";
     // Access server
     //public static final String DOMAIN = "http://ofait.ddns.net/api";
 
