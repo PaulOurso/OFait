@@ -10,5 +10,6 @@ Init
 Run server
 ==================
 1. Change directory to "/server"
+2. Start `mongod`
 2. Run server (choice):
-`npm run serve` (**REQUIRE nodemon installed !!**) or `node .`
+`npm run development` or other (see package) (**REQUIRE nodemon installed !!**)
