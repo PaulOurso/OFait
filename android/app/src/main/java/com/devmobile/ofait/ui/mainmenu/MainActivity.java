@@ -75,25 +75,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (viewId) {
             case R.id.nav_contents:
-                fragment = ContentFragment.newInstance();
-                title  = "Les insolites";
+                fragment = ContentFragment.getInstance();
+                title  = getString(R.string.fragment_contents_title);
                 viewIsAtHome = true;
                 break;
             case R.id.nav_add:
                 // TODO: add Fragment Add
+                title  = getString(R.string.fragment_add_title);
                 viewIsAtHome = false;
                 break;
             case R.id.nav_my_contents:
                 // TODO: add Fragment My Contents
+                title  = getString(R.string.fragment_my_contents_title);
                 viewIsAtHome = false;
                 break;
             case R.id.nav_favorites:
                 // TODO: add Fragment Favorites
+                title  = getString(R.string.fragment_favorites_title);
+                viewIsAtHome = false;
+                break;
+            case R.id.nav_account:
+                // TODO: add Fragment Account
+                title  = getString(R.string.fragment_account_title);
                 viewIsAtHome = false;
                 break;
             default:
-                fragment = ContentFragment.newInstance();
-                title  = "Les insolites";
+                fragment = ContentFragment.getInstance();
+                title  = getString(R.string.fragment_contents_title);
                 viewIsAtHome = true;
                 break;
         }

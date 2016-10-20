@@ -14,14 +14,16 @@ import com.devmobile.ofait.R;
  */
 public class ContentFragment extends Fragment {
 
+    private static ContentFragment contentInstance;
 
     public ContentFragment() {
         // Required empty public constructor
     }
 
-    public static ContentFragment newInstance() {
-        ContentFragment fragment = new ContentFragment();
-        return fragment;
+    public static ContentFragment getInstance() {
+        if (contentInstance == null)
+            contentInstance = new ContentFragment();
+        return contentInstance;
     }
 
     @Override
