@@ -15,6 +15,7 @@
         android:gravity="center"/>
 
     <EditText
+        android:id="@+id/new_content_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="votre information insolite"

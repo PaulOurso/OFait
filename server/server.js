@@ -21,7 +21,7 @@ const database      = require('./database/database');
 
 // Controllers
 const accounts_ctrl = require('./controllers/accounts_controller');
-const content_ctrl = require('./controllers/content_controller');
+const content_ctrl = require('./controllers/contents_controller');
 
 // Init IO Socket
 var serverIO = http.createServer(app_socket);

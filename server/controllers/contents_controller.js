@@ -9,14 +9,25 @@ exports.createContent = function createContent(req,res){
 
 	if(account_id && content_value){
 
-		newContent = new Content(req.body);
+		Account.findById(account_id).lean().exec()
+      		.then((account) => {
+		        if (account === null){
+		          return response.formatErr(res, 404, {message:'Compte inexistant.'});
+		        }
 
-		Content.save(newContent).lean().exec()
-			.then(function(content){
-				response.formatAnswerObjects(res, 201, {message:null},account);
-			}).catch(function(err){
-				response.formatErr(res, 500, err)
-			});
+		        var voteLeft = 
+		    	var newContent = new Content(req.body);
+
+				newContent.save()
+					.then(function(content){
+						response.formatAnswerObject(res, 201, {message:null},newContent);
+					}).catch(function(err){
+						response.formatErr(res, 500, err);
+					});
+				})
+      		.catch((err) => response.formatErr(res, 500, err));
+
+		
 	}
 	else{
 		response.formatErr(res, 400, {message: 'Paramètres manquants.'});

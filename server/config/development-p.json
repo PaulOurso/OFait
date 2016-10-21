@@ -7,6 +7,15 @@
       "api": {
         "host": "192.168.21.169"
       }
+    },
+    "levels": {
+      "default": 1,
+      "list": [
+        { "reputation": 30,   "cost_vote": 5 },
+        { "reputation": 80,   "cost_vote": 4 },
+        { "reputation": 150,  "cost_vote": 3 },
+        { "reputation": 250,  "cost_vote": 2 }
+      ]
     }
   }
 }
