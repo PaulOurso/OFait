@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.devmobile.ofait.R;
@@ -41,7 +40,7 @@ public class ArrayAdapterContent extends ArrayAdapter<String> {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.item_card_content, parent, false);
             viewHolder = new ContentViewHolder();
-            viewHolder.text = (TextView) convertView.findViewById(R.id.card_content_title);
+            viewHolder.text = (TextView) convertView.findViewById(R.id.card_content_created_by);
             convertView.setTag(viewHolder);
         }
         else

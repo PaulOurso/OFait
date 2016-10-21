@@ -15,6 +15,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.devmobile.ofait.R;
 import com.devmobile.ofait.models.Answer;
+import com.devmobile.ofait.models.Message;
 import com.devmobile.ofait.utils.FastDialog;
 import com.google.gson.Gson;
 import java.io.UnsupportedEncodingException;
@@ -96,18 +97,28 @@ public class APIRequest<TypeData> {
                 dismissDialog();
                 NetworkResponse response = error.networkResponse;
                 String res = null;
-                if (response != null && response.data != null) {
-                    try {
-                        res = new String(response.data, HttpHeaderParser.parseCharset(response.headers, "utf-8"));
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
+                if (response != null) {
+                    if (response.data != null) {
+                        try {
+                            res = new String(response.data, HttpHeaderParser.parseCharset(response.headers, "utf-8"));
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                        Gson gson = new Gson();
+                        answer = gson.fromJson(res, resultClass);
+                        if (taskComplete != null) {
+                            taskComplete.result = answer;
+                            taskComplete.run();
+                        }
+                    } else if (response.statusCode == 404) {
+                        Message message = new Message();
+                        message.message = context.getString(R.string.error_request_server);
+                        message.displayMessage(context);
                     }
-                    Gson gson = new Gson();
-                    answer = gson.fromJson(res, resultClass);
-                    if (taskComplete != null) {
-                        taskComplete.result = answer;
-                        taskComplete.run();
-                    }
+                } else {
+                    Message message = new Message();
+                    message.message = context.getString(R.string.error_request_no_response);
+                    message.displayMessage(context);
                 }
             }
         }) {

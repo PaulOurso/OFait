@@ -23,6 +23,8 @@
     <string name="not_connect">Vous n\'êtes pas connecté.</string>
     <string name="error_http">Erreur de requête</string>
     <string name="loading">Chargement…</string>
+    <string name="error_request_server">Une erreur s\'est produite entre vous et le serveur.</string>
+    <string name="error_request_no_response">Le serveur ne répond pas.</string>
 
     <!-- MENU NAV -->
     <string name="nav_contents">Contenu</string>

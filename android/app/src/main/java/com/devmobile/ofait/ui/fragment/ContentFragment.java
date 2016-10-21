@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.devmobile.ofait.R;
+import com.devmobile.ofait.models.Content;
 import com.devmobile.ofait.ui.adapters.ArrayAdapterContent;
+import com.devmobile.ofait.ui.mainmenu.MainActivity;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
@@ -93,5 +96,20 @@ public class ContentFragment extends Fragment {
                 Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void voteLike(MainActivity activity) {
+        Log.d("ContentFrag", "VOTE LIKE");
+        flingContainer.getTopCardListener().selectRight();
+    }
+
+    public void voteDislike(MainActivity activity) {
+        Log.d("ContentFrag", "VOTE DISLIKE");
+        flingContainer.getTopCardListener().selectLeft();
+    }
+
+    public void setFavorite(MainActivity activity) {
+        //Content content = listContents.get(0);
+        Log.d("ContentFrag", "SET FAVORITE");
     }
 }
