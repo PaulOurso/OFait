@@ -13,7 +13,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    
+
     <string name="pseudo_text">Choisissez votre pseudo:</string>
     <string name="pseudo_hint">Pseudo</string>
     <string name="error_create_pseudo_no_text">Veuillez entrer un pseudo</string>
@@ -34,4 +34,8 @@
     <string name="fragment_my_contents_title">Mes contenus</string>
     <string name="fragment_favorites_title">Mes favoris</string>
     <string name="fragment_account_title">Mon compte</string>
+
+    <!-- CREATE CONTENT -->
+    <string name="create_content_done">Votre contenu a été crée !</string>
+    <string name="create_content_error">Une erreur est apparu à la création de votre contenu</string>
 </resources>

@@ -5,13 +5,14 @@ import android.content.Context;
 
 import com.android.volley.Request;
 import com.devmobile.ofait.models.Account;
+import com.devmobile.ofait.models.Content;
 
 /**
  * Created by Tony Wisniewski on 10/10/2016.
  */
 public class APIHelper {
     // Localhost
-    public static final String DOMAIN = "http://192.168.20.160:9000/api";
+    public static final String DOMAIN = "http://192.168.21.169:9000/api";
     // Access server
     //public static final String DOMAIN = "http://ofait.ddns.net/api";
 
@@ -19,6 +20,7 @@ public class APIHelper {
     public static final String URL_CREATE_ACCOUNT = DOMAIN + "/account";
     public static final String URL_ACCOUNT = DOMAIN + "/account/%s";
     public static final String URL_JOIN_GROUP = DOMAIN + "/accounts/%1$s/groups/rel/%2$s";
+    public static final String URL_CREATE_CONTENT = DOMAIN + "/content";
 
     public static void getAccountFromLogin(Context c, Account account, TaskComplete taskComplete) {
         getAccountFromLogin(c, false, account, taskComplete);
@@ -51,5 +53,13 @@ public class APIHelper {
         apiRequest.addParam("pseudo", account.pseudo);
         apiRequest.setMethod(Request.Method.PUT);
         apiRequest.execute(url);
+    }
+
+    public static void createNewContent(Context c, Content newContent,TaskComplete taskComplete){
+        APIRequest<Content> apiRequest =new APIRequest<>(c, Content.typeAnswerOf(), taskComplete);
+        apiRequest.addParam("account_id", newContent.account_id);
+        apiRequest.addParam("content_value", newContent.content_value);
+        apiRequest.setMethod(Request.Method.POST);
+        apiRequest.execute(URL_CREATE_CONTENT);
     }
 }
