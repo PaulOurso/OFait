@@ -1,14 +1,61 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.fragment.ContentFragment">
 
-    <com.lorentzos.flingswipe.SwipeFlingAdapterView
-        android:id="@+id/fling_cards_contents"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="20dp"/>
+        android:layout_height="match_parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_buttons_vote"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+                <ImageButton
+                    style="@style/ButtonVote"
+                    android:src="@drawable/btn_dislike" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+                <ImageButton
+                    style="@style/ButtonVote"
+                    android:src="@drawable/btn_not_favorite" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+                <ImageButton
+                    style="@style/ButtonVote"
+                    android:src="@drawable/btn_like" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <com.lorentzos.flingswipe.SwipeFlingAdapterView
+            android:id="@+id/fling_cards_contents"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/height_buttons_vote"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp"
+            app:max_visible="5" />
+
+    </RelativeLayout>
 </FrameLayout>

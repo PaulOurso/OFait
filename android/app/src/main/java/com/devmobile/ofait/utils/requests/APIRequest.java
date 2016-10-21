@@ -96,16 +96,18 @@ public class APIRequest<TypeData> {
                 dismissDialog();
                 NetworkResponse response = error.networkResponse;
                 String res = null;
-                try {
-                    res = new String(response.data,  HttpHeaderParser.parseCharset(response.headers, "utf-8"));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                Gson gson = new Gson();
-                answer = gson.fromJson(res, resultClass);
-                if (taskComplete != null) {
-                    taskComplete.result = answer;
-                    taskComplete.run();
+                if (response != null && response.data != null) {
+                    try {
+                        res = new String(response.data, HttpHeaderParser.parseCharset(response.headers, "utf-8"));
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    Gson gson = new Gson();
+                    answer = gson.fromJson(res, resultClass);
+                    if (taskComplete != null) {
+                        taskComplete.result = answer;
+                        taskComplete.run();
+                    }
                 }
             }
         }) {

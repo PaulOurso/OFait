@@ -4,13 +4,16 @@ package com.devmobile.ofait.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.devmobile.ofait.R;
+import com.devmobile.ofait.ui.adapters.ArrayAdapterContent;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
@@ -24,7 +27,7 @@ public class ContentFragment extends Fragment {
     private static ContentFragment contentInstance;
     public SwipeFlingAdapterView flingContainer;
     public List<String> listContents;
-    public ArrayAdapter<String> arrayAdapter;
+    public ArrayAdapterContent arrayAdapter;
 
     public ContentFragment() {
         // Required empty public constructor
@@ -53,7 +56,7 @@ public class ContentFragment extends Fragment {
         listContents.add("Test 2");
         listContents.add("Test 3");
         listContents.add("Test 4");
-        arrayAdapter = new ArrayAdapter<>(getContext(), R.layout.item_card_content, listContents);
+        arrayAdapter = new ArrayAdapterContent(getContext(), R.layout.item_card_content, listContents);
         flingContainer.setAdapter(arrayAdapter);
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
             @Override
