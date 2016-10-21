@@ -63,7 +63,8 @@ public class AddContentFragment extends Fragment {
                         Toast.makeText(AddContentFragment.getInstance().getContext(), R.string.create_content_done, Toast.LENGTH_LONG).show();
                     }
                     else{
-                        Toast.makeText(AddContentFragment.getInstance().getContext(), R.string.create_content_error, Toast.LENGTH_LONG).show();
+                        newContentText.setText("");
+                        answer.message.displayMessage(AddContentFragment.getInstance().getContext());
                     }
 
                 }
