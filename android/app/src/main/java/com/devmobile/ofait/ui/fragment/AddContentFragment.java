@@ -43,11 +43,20 @@ public class AddContentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        APIHelper.getNbContentsOfAnAccount(this.getContext(), Preference.getAccount(), new TaskComplete() {
+        APIHelper.getNbContentsOfAnAccount(this.getContext(), Preference.getAccount(this.getContext()), new TaskComplete() {
             @Override
             public void run() {
-                Resources res = getResources();
-                String text = String.format(res.getString(R.string.content_count),result);
+                Log.d("AddContentFragment", "in request run");
+                if(result.data == null){
+                    Log.d("AddContentFragment", "data is null");
+                    Resources res = getResources();
+                    String text = String.format(res.getString(R.string.content_count),0);
+                }
+                else{
+                    Log.d("AddContentFragment", "data is not null");
+                    Resources res = getResources();
+                    String text = String.format(res.getString(R.string.content_count),result.data);
+                }
             }
         });
 

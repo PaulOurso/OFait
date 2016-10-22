@@ -12,7 +12,7 @@ import com.devmobile.ofait.models.Content;
  */
 public class APIHelper {
     // Localhost
-    public static final String DOMAIN = "http://192.168.21.169:9000/api";
+    public static final String DOMAIN = "http://192.168.1.19:9000/api";
     // Access server
     //public static final String DOMAIN = "http://ofait.ddns.net/api";
 
@@ -66,8 +66,7 @@ public class APIHelper {
 
     public static void getNbContentsOfAnAccount(Context c, Account account, TaskComplete taskComplete) {
         APIRequest<Integer> apiRequest = new APIRequest<>(c, Account.typeAnswerOf(), taskComplete);
-        String url = URL_MY_ACCOUNT;
-        url = URL_MY_ACCOUNT+"?account_id="+account._id;
+        String url = URL_NB_CONTENTS+"?account_id="+account._id;
         apiRequest.setMethod(Request.Method.GET);
         apiRequest.execute(url);
     }

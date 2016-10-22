@@ -87,9 +87,15 @@ exports.getNbContentsToMake = function getNbContentsToMake(req, res){
         var nbVotesUnused = accountHelper.getVotesUnused(account);
         var votesByContent = accountHelper.getNbVoteToMakeContent(account);
 
+        if(nbVotesUnused == -1){
+          return response.formatErr(res,500,{message:"Erreur sur la recherche de votes"})
+        }
+
+        console.log(Math.floor(nbVotesUnused/votesByContent));
+
         return response.formatAnswerObject(res, 201, {message:null},Math.floor(nbVotesUnused/votesByContent));
       })
       .catch(function(err){
-        response.formatErr(res,500,err);
+        response.formatErr(res,500,{message:"Probleme rencontré pour trouvé le compte"});
       }); 
 }

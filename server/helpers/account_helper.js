@@ -10,6 +10,9 @@ exports.getVotesUnused = function getVotesUnused(account){
 
 			return nbVotes - account.votesSpent;
 		})
+		.catch(function(err){
+			return -1;
+		})
 }
 
 exports.getNbVoteToMakeContent = function getNbVoteToMakeContent(account){
