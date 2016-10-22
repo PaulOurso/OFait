@@ -1,6 +1,7 @@
 package com.devmobile.ofait.ui.fragment;
 
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
@@ -41,6 +42,16 @@ public class AddContentFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        APIHelper.getNbContentsOfAnAccount(this.getContext(), Preference.getAccount(), new TaskComplete() {
+            @Override
+            public void run() {
+                Resources res = getResources();
+                String text = String.format(res.getString(R.string.content_count),result);
+            }
+        });
+
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_content, container, false);
     }

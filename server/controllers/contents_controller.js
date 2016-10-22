@@ -34,7 +34,7 @@ exports.createContent = function createContent(req,res){
 				});	
 	        }
 	        else{
-	        	return response.formatErr(res, 403, {message: "Vous n'avez pas fait suffisament de votes pour créer un contenu"});
+	        	return response.formatErr(res, 403, {message: "Vous n'avez pas suffisament de votes pour créer un contenu"});
 	        }
 	    	
 		})

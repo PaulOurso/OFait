@@ -21,6 +21,7 @@ public class APIHelper {
     public static final String URL_ACCOUNT = DOMAIN + "/account/%s";
     public static final String URL_JOIN_GROUP = DOMAIN + "/accounts/%1$s/groups/rel/%2$s";
     public static final String URL_CREATE_CONTENT = DOMAIN + "/content";
+    public static final String URL_NB_CONTENTS = DOMAIN + "/accountNbContents/%s";
 
     public static void getAccountFromLogin(Context c, Account account, TaskComplete taskComplete) {
         getAccountFromLogin(c, false, account, taskComplete);
@@ -61,5 +62,13 @@ public class APIHelper {
         apiRequest.addParam("content_value", newContent.content_value);
         apiRequest.setMethod(Request.Method.POST);
         apiRequest.execute(URL_CREATE_CONTENT);
+    }
+
+    public static void getNbContentsOfAnAccount(Context c, Account account, TaskComplete taskComplete) {
+        APIRequest<Integer> apiRequest = new APIRequest<>(c, Account.typeAnswerOf(), taskComplete);
+        String url = URL_MY_ACCOUNT;
+        url = URL_MY_ACCOUNT+"?account_id="+account._id;
+        apiRequest.setMethod(Request.Method.GET);
+        apiRequest.execute(url);
     }
 }

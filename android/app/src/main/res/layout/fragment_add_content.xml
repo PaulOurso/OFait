@@ -5,7 +5,24 @@
     tools:context="com.devmobile.ofait.ui.fragment.AddContentFragment"
     android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/creatable_content_"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:layout_marginBottom="30dp"/>
+
+    <TextView
+        android:id="@+id/content_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/content_count"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:layout_marginBottom="30dp"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,12 +36,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="votre information insolite"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:minLines="3"
+        android:maxLines="15"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/ok"
+        android:text="@string/create_content_button"
         android:layout_gravity="center"
         android:tag="createNewContent"
         android:onClick="uiDispatcher"/>

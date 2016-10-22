@@ -22,4 +22,4 @@ exports.getNbVoteToMakeContent = function getNbVoteToMakeContent(account){
 		}
 	}
 	return nbVotes;
-} 
+}

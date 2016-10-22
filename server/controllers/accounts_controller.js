@@ -1,6 +1,7 @@
 'use strict'
 
 const Account        = require('../models/Account'),
+      accountHelper  = require('../helpers/account_helper'),
       response       = require('../helpers/answer_helper');
 
 exports.findAccountByID = function findAccountByID(req, res) {
@@ -74,4 +75,21 @@ exports.updateAccountByID = function updateAccountByID(req, res) {
   else {
     response.formatErr(res, 400, {message: 'Paramètres manquants.'});
   }
+}
+
+exports.getNbContentsToMake = function getNbContentsToMake(req, res){
+
+  var id = req.query.account_id;
+
+  Account.findById(id).exec()
+      .then((account) => {
+
+        var nbVotesUnused = accountHelper.getVotesUnused(account);
+        var votesByContent = accountHelper.getNbVoteToMakeContent(account);
+
+        return response.formatAnswerObject(res, 201, {message:null},Math.floor(nbVotesUnused/votesByContent));
+      })
+      .catch(function(err){
+        response.formatErr(res,500,err);
+      }); 
 }
