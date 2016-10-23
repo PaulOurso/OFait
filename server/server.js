@@ -51,6 +51,7 @@ if(logs_config.enabled) {
 // Routes
 app_api.get(api_config.route+'/account/:id', accounts_ctrl.findAccountByID);
 app_api.get(api_config.route+'/find_my_account', accounts_ctrl.getAccountFromLogin);
+app_api.get(api_config.route+'/accountNbContents/:id', accounts_ctrl.getNbContentsToMake)
 
 app_api.post(api_config.route+'/account', accounts_ctrl.addAccountIfNotExist);
 app_api.post(api_config.route+'/content', content_ctrl.createContent);

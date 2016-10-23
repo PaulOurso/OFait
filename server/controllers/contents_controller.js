@@ -17,15 +17,26 @@ exports.createContent = function createContent(req,res){
 	          return response.formatErr(res, 404, {message:'Compte inexistant.'});
 	        }
 
-	        var nbVotes = accountHelper.getVotesUnused(account);
-	    	var newContent = new Content(req.body);
+	        var nbVotesUnused = accountHelper.getVotesUnused(account);
+	        var nbVotesToUse = accountHelper.getNbVoteToMakeContent(account);
 
-			newContent.save()
-			.then(function(content){
-					response.formatAnswerObject(res, 201, {message:null},newContent);
-			}).catch(function(err){
-				response.formatErr(res, 500, err);
-			});
+	        if(nbVotesUnused >= nbVotesToUse){
+
+		        var newContent = new Content(req.body);
+
+				newContent.save()
+				.then(function(content){
+					account.votesSpent += nbVotesToUse;
+	        		account.save();
+					response.formatAnswerObject(res, 201, {message:null},content);
+				}).catch(function(err){
+					response.formatErr(res, 500, err);
+				});	
+	        }
+	        else{
+	        	return response.formatErr(res, 403, {message: "Vous n'avez pas suffisament de votes pour créer un contenu"});
+	        }
+	    	
 		})
   		.catch((err) => response.formatErr(res, 500, err));
 	}

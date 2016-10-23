@@ -1,6 +1,7 @@
 package com.devmobile.ofait.ui.fragment;
 
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
@@ -41,6 +42,25 @@ public class AddContentFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        APIHelper.getNbContentsOfAnAccount(this.getContext(), Preference.getAccount(this.getContext()), new TaskComplete() {
+            @Override
+            public void run() {
+                Log.d("AddContentFragment", "in request run");
+                if(result.data == null){
+                    Log.d("AddContentFragment", "data is null");
+                    Resources res = getResources();
+                    String text = String.format(res.getString(R.string.content_count),0);
+                }
+                else{
+                    Log.d("AddContentFragment", "data is not null");
+                    Resources res = getResources();
+                    String text = String.format(res.getString(R.string.content_count),result.data);
+                }
+            }
+        });
+
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_content, container, false);
     }
@@ -63,7 +83,8 @@ public class AddContentFragment extends Fragment {
                         Toast.makeText(AddContentFragment.getInstance().getContext(), R.string.create_content_done, Toast.LENGTH_LONG).show();
                     }
                     else{
-                        Toast.makeText(AddContentFragment.getInstance().getContext(), R.string.create_content_error, Toast.LENGTH_LONG).show();
+                        newContentText.setText("");
+                        answer.message.displayMessage(AddContentFragment.getInstance().getContext());
                     }
 
                 }
