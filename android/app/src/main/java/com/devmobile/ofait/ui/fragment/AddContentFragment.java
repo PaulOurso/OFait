@@ -67,7 +67,7 @@ public class AddContentFragment extends Fragment {
                     contentsToMake.setText(text);
                 }
                 else{
-                    String text = String.format(getString(R.string.content_count), -666);
+                    String text = "";
                     contentsToMake.setText(text);
                     answer.message.displayMessage(AddContentFragment.getInstance().getContext());
                 }

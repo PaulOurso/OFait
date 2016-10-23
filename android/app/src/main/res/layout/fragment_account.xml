@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.devmobile.ofait.ui.fragment.AccountFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="1">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
@@ -34,6 +35,13 @@
         android:layout_marginBottom="30dp"
         android:gravity="center"/>
 
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_gravity="center_horizontal" />
+
     <TextView
         android:id="@+id/account_content_available"
         android:layout_width="match_parent"
@@ -44,11 +52,18 @@
         android:gravity="center"/>
 
     <TextView
-        android:id="@+id/account_content_votes_left"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/account_content_votes_left_text"
         android:textSize="20dp"
         android:layout_marginBottom="30dp"
         android:gravity="center"/>
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar2"
+        android:layout_gravity="center" />
+
 </LinearLayout>
