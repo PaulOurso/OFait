@@ -12,7 +12,7 @@
         android:text="@string/creatable_content_"
         android:gravity="center"
         android:textSize="20dp"
-        android:layout_marginBottom="30dp"/>
+        android:layout_marginBottom="10dp"/>
 
     <TextView
         android:id="@+id/content_number"
@@ -22,14 +22,6 @@
         android:gravity="center"
         android:textSize="20dp"
         android:layout_marginBottom="30dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="A vous d'écrire !"
-        android:textSize="20dp"
-        android:layout_marginBottom="30dp"
-        android:gravity="center"/>
 
     <EditText
         android:id="@+id/new_content_text"

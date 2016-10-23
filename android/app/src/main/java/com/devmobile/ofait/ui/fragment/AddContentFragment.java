@@ -2,11 +2,13 @@ package com.devmobile.ofait.ui.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.devmobile.ofait.R;
@@ -40,17 +42,31 @@ public class AddContentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_add_content, container, false);
+    }
+
+    @Override
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         APIHelper.getAccountStats(this.getContext(), Preference.getAccount(this.getContext()), new TaskComplete<Account>() {
             @Override
             public void run() {
                 Answer<Account> answer = this.result;
-                String text = String.format(getResources().getString(R.string.content_count), answer.data.remaining_contents);
+                TextView contentsToMake = (TextView) view.findViewById(R.id.content_number);
+
+                if(answer.status < 300 ) {
+                    String text = String.format(getString(R.string.content_count), answer.data.remaining_contents);
+                    contentsToMake.setText(text);
+                }
+                else{
+                    String text = String.format(getString(R.string.content_count), -666);
+                    contentsToMake.setText(text);
+                    answer.message.displayMessage(AddContentFragment.getInstance().getContext());
+                }
             }
         });
-
-
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_content, container, false);
     }
 
     public void createNewContent(MainActivity activity) {
