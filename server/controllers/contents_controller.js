@@ -56,15 +56,15 @@ exports.getContentsToVote = function getContentsToVote(req,res) {
 		Vote.find({account: account_id}).lean().exec()
 			.then((myVotes) => {
 				var myVotesContentsID = myVotes.map((elem) => elem.content);
-				Content.find({ $and: [ {created_by: {$ne: account_id}}, {_id: {$nin: myVotesContentsID}} ] }, select).sort({created_date:1}).limit(20).populate('created_by votes', 'pseudo').lean().exec()
+				Content.find({ $and: [ {created_by: {$ne: account_id}}, {_id: {$nin: myVotesContentsID}} ] }, select).sort({created_date:1}).limit(20).populate('created_by votes').lean().exec()
 					.then((contents) => {
 						contents = contents.map((c) => {
 							return {
 								_id 					: c._id,
-								created_by		: c.created_by,
+								created_by		: { pseudo: c.created_by.pseudo },
 								content_value	: c.content_value,
 								created_date  : c.created_date,
-								nbPoints 			: c.votes.reduce((total, curVote) => { return total + curVote.value }, 0)
+								nb_points 		: c.votes.reduce((total, curVote) => { return total + curVote.value }, 0)
 							};
 						});
 						response.formatAnswerArray(res, 200, {message:null}, contents);

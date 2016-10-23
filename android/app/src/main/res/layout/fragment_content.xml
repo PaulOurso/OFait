@@ -23,7 +23,7 @@
                 <ImageButton
                     style="@style/ButtonVote"
                     android:src="@drawable/btn_dislike"
-                    android:tag="voteDislike"
+                    android:tag="btnVoteDislike"
                     android:onClick="uiDispatcher" />
             </RelativeLayout>
 
@@ -35,7 +35,7 @@
                 <ImageButton
                     style="@style/ButtonVote"
                     android:src="@drawable/btn_not_favorite"
-                    android:tag="setFavorite"
+                    android:tag="btnSetFavorite"
                     android:onClick="uiDispatcher" />
             </RelativeLayout>
 
@@ -47,7 +47,7 @@
                 <ImageButton
                     style="@style/ButtonVote"
                     android:src="@drawable/btn_like"
-                    android:tag="voteLike"
+                    android:tag="btnVoteLike"
                     android:onClick="uiDispatcher" />
             </RelativeLayout>
         </LinearLayout>

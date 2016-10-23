@@ -1,8 +1,17 @@
 package com.devmobile.ofait.utils.sockets;
 
+import android.util.Log;
+
+import com.devmobile.ofait.models.Account;
+import com.devmobile.ofait.models.Vote;
 import com.devmobile.ofait.ui.mainmenu.MainActivity;
+import com.devmobile.ofait.utils.Preference;
+import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.URISyntaxException;
 
@@ -18,6 +27,8 @@ public class SocketManager {
 
     private Socket mSocket;
     private MainActivity mActivity;
+
+    //TODO: Ajouter un listener pour la reconnexion avec ajout de account
 
     public static SocketManager getInstance(MainActivity activity) {
         if (mSocketManager == null)
@@ -36,11 +47,38 @@ public class SocketManager {
     }
 
     public void connect() {
-        mSocket.connect();
+        if (!mSocket.connected()) {
+            mSocket.on("connect", new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
+                    Account account = Preference.getAccount(mActivity);
+                    initSocket(account);
+                }
+            });
+            mSocket.connect();
+        }
     }
 
     public void disconnect() {
-        if (mSocket != null)
+        if (mSocket != null) {
             mSocket.disconnect();
+            mSocket.off("connect");
+        }
+    }
+
+    public void initSocket(Account account) {
+        mSocket.emit("init_socket", account._id);
+    }
+
+    public void actionVote(Vote vote) {
+        JSONObject jsonVote = new JSONObject();
+        try {
+            jsonVote.put("account", vote.account._id);
+            jsonVote.put("content", vote.content._id);
+            jsonVote.put("value", vote.value);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mSocket.emit("vote", jsonVote);
     }
 }

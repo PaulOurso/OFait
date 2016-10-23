@@ -2,7 +2,6 @@ package com.devmobile.ofait.ui.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +57,7 @@ public class ArrayAdapterContent extends ArrayAdapter<Content> {
         Content content = getItem(position);
         viewHolder.tvContentValue.setText(content.content_value);
         viewHolder.tvContentCreatedBy.setText(getContext().getString(R.string.content_created_by, content.created_by.pseudo));
-        viewHolder.tvContentPoints.setText(getContext().getString(R.string.content_points, content.points));
+        viewHolder.tvContentPoints.setText(getContext().getString(R.string.content_points, content.nb_points));
 
         Calendar calendar = FormatHelper.formatStringToCal(content.created_date);
         String date = getContext().getString(

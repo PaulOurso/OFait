@@ -17,6 +17,7 @@ import com.devmobile.ofait.R;
 import com.devmobile.ofait.models.Account;
 import com.devmobile.ofait.models.Answer;
 import com.devmobile.ofait.models.Content;
+import com.devmobile.ofait.models.Vote;
 import com.devmobile.ofait.ui.adapters.ArrayAdapterContent;
 import com.devmobile.ofait.ui.mainmenu.MainActivity;
 import com.devmobile.ofait.utils.Preference;
@@ -38,15 +39,19 @@ public class ContentFragment extends Fragment {
     public List<Content> listContents;
     public ArrayAdapterContent arrayAdapter;
     private boolean isRefreshing = false;
+    private Account account;
+    private MainActivity mainActivity;
 
     public ContentFragment() {
         // Required empty public constructor
         listContents = new ArrayList<>();
     }
 
-    public static ContentFragment getInstance() {
-        if (contentInstance == null)
+    public static ContentFragment getInstance(MainActivity activity) {
+        if (contentInstance == null) {
             contentInstance = new ContentFragment();
+            contentInstance.mainActivity = activity;
+        }
         return contentInstance;
     }
 
@@ -60,6 +65,7 @@ public class ContentFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        account = Preference.getAccount(getContext());
         flingContainer = (SwipeFlingAdapterView) view.findViewById(R.id.fling_cards_contents);
         listContents.clear();
         arrayAdapter = new ArrayAdapterContent(getContext(), R.layout.item_card_content, listContents);
@@ -73,17 +79,19 @@ public class ContentFragment extends Fragment {
 
             @Override
             public void onLeftCardExit(Object o) {
-                Toast.makeText(getContext(), "Left", Toast.LENGTH_SHORT).show();
+                //Log.d("ContentFrag", "VOTE DISLIKE");
+                voteDislike((Content) o);
             }
 
             @Override
             public void onRightCardExit(Object o) {
-                Toast.makeText(getContext(), "Right", Toast.LENGTH_SHORT).show();
+                //Log.d("ContentFrag", "VOTE LIKE");
+                voteLike((Content) o);
             }
 
             @Override
             public void onAdapterAboutToEmpty(int i) {
-                Log.d("SWIPER", "Empty");
+                //Log.d("SWIPER", "Empty");
                 refreshData();
             }
 
@@ -101,25 +109,43 @@ public class ContentFragment extends Fragment {
         });
     }
 
-    public void voteLike(MainActivity activity) {
-        Log.d("ContentFrag", "VOTE LIKE");
-        flingContainer.getTopCardListener().selectRight();
+    public void btnVoteLike(MainActivity activity) {
+        if (listContents.size() > 0)
+            flingContainer.getTopCardListener().selectRight();
     }
 
-    public void voteDislike(MainActivity activity) {
-        Log.d("ContentFrag", "VOTE DISLIKE");
-        flingContainer.getTopCardListener().selectLeft();
+    public void btnVoteDislike(MainActivity activity) {
+        if (listContents.size() > 0)
+            flingContainer.getTopCardListener().selectLeft();
     }
 
-    public void setFavorite(MainActivity activity) {
+    public void btnSetFavorite(MainActivity activity) {
         //Content content = listContents.get(0);
         Log.d("ContentFrag", "SET FAVORITE");
+        if (listContents.size() > 0) {
+            // TODO: Add favorite
+        }
+    }
+
+    public void voteLike(Content content) {
+        Vote vote = new Vote();
+        vote.account = account;
+        vote.content = content;
+        vote.value = 1;
+        mainActivity.socketManager.actionVote(vote);
+    }
+
+    public void voteDislike(Content content) {
+        Vote vote = new Vote();
+        vote.account = account;
+        vote.content = content;
+        vote.value = 0;
+        mainActivity.socketManager.actionVote(vote);
     }
 
     public void refreshData() {
         if (!isRefreshing) {
             isRefreshing = true;
-            Account account = Preference.getAccount(getContext());
             APIHelper.getContentsToVote(getContext(), account, new TaskComplete<Content>() {
                 @Override
                 public void run() {
@@ -128,9 +154,11 @@ public class ContentFragment extends Fragment {
                     if (answer.status < 300) {
                         List<Content> listContentsD = answer.datas;
                         List<Content> listNewContents = clearDuplicateData(listContentsD);
-                        Collections.shuffle(listNewContents);
-                        listContents.addAll(listNewContents);
-                        arrayAdapter.notifyDataSetChanged();
+                        if (listNewContents.size() > 0) {
+                            Collections.shuffle(listNewContents);
+                            listContents.addAll(listNewContents);
+                            arrayAdapter.notifyDataSetChanged();
+                        }
                     }
                     else
                         answer.message.displayMessage(getContext());

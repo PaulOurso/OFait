@@ -14,11 +14,16 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.android.volley.Request;
 import com.devmobile.ofait.R;
+import com.devmobile.ofait.models.Account;
 import com.devmobile.ofait.ui.fragment.AddContentFragment;
 import com.devmobile.ofait.ui.fragment.ContentFragment;
+import com.devmobile.ofait.utils.Preference;
+import com.devmobile.ofait.utils.sockets.SocketManager;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -27,6 +32,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private boolean viewIsAtHome;
     private Fragment fragment;
+    public SocketManager socketManager;
+
+
+    public static void show(Context context){
+        context.startActivity(new Intent(context, MainActivity.class));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +56,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         displayDefaultView();
+        socketManager = SocketManager.getInstance(MainActivity.this);
     }
 
-    public static void show(Context context){
-        context.startActivity(new Intent(context, MainActivity.class));
+    @Override
+    protected void onResume() {
+        super.onResume();
+        socketManager.connect();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        socketManager.disconnect();
     }
 
     @Override
@@ -82,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (viewId) {
             case R.id.nav_contents:
-                fragment = ContentFragment.getInstance();
+                fragment = ContentFragment.getInstance(MainActivity.this);
                 title  = getString(R.string.fragment_contents_title);
                 viewIsAtHome = true;
                 break;
@@ -107,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 viewIsAtHome = false;
                 break;
             default:
-                fragment = ContentFragment.getInstance();
+                fragment = ContentFragment.getInstance(MainActivity.this);
                 title  = getString(R.string.fragment_contents_title);
                 viewIsAtHome = true;
                 break;
