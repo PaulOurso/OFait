@@ -14,3 +14,15 @@ exports.getNbVoteToMakeContent = function getNbVoteToMakeContent(account){
 	}
 	return nbVotes;
 }
+
+exports.getNextLevelReputation = function getNextLevelReputation(account){
+	var lvlReputation = -1;
+
+	for(var i = 0; i<list_config.list.length; i++){
+		if(account.reputation < list_config.list[i].reputation){
+			lvlReputation = list_config.list[i].reputation;
+      		break;
+		}
+	}
+	return lvlReputation;
+}

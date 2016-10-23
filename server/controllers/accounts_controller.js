@@ -91,6 +91,7 @@ exports.getStatsAccountByID = function getStatsAccountByID(req, res){
 
         var nbVotesUnused = account.votes.length - account.votesSpent;
         var votesByContent = accountHelper.getNbVoteToMakeContent(account);
+        var nextLvlReputation = accountHelper.getNextLevelReputation(account);
 
         var remaining_contents = 0;
         if (votesByContent > 0)
@@ -106,8 +107,10 @@ exports.getStatsAccountByID = function getStatsAccountByID(req, res){
           fb_id             : account.fb_id,
           votesSpent        : account.votesSpent,
           notif             : account.notif,
+          votes             : account.votes,
           reputation        : account.reputation,
-          remaining_contents: remaining_contents
+          remaining_contents: remaining_contents,
+          nextLvlReputation : nextLvlReputation
         }
 
         return response.formatAnswerObject(res, 201, {message:null}, account);

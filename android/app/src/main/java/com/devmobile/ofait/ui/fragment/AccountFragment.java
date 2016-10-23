@@ -50,8 +50,17 @@ public class AccountFragment extends Fragment {
             public void run() {
                 Answer<Account> answer = this.result;
                 TextView accountName = (TextView) view.findViewById(R.id.account_name);
+
+                //reputations
                 TextView accountReputationValue = (TextView) view.findViewById(R.id.account_reputation_value);
+                TextView accountNextReputation= (TextView) view.findViewById(R.id.account_next_reputation);
+
+                //content available
                 TextView accountContentAvailable = (TextView) view.findViewById(R.id.account_content_available);
+
+                //votes
+                TextView accountCurrentVotes= (TextView) view.findViewById(R.id.account_current_votes);
+                TextView accountVotesLevel= (TextView) view.findViewById(R.id.account_votes_next_content);
 
                 String textPseudo = String.format(getString(R.string.dynamical_string), Preference.getAccount(AccountFragment.getInstance().getContext()).pseudo);
                 accountName.setText(textPseudo);
@@ -60,14 +69,21 @@ public class AccountFragment extends Fragment {
 
                     String textReputation= String.format(getString(R.string.dynamical_integer), answer.data.reputation);
                     accountReputationValue.setText(textReputation);
+                    String textNextReputation= String.format(getString(R.string.dynamical_integer), answer.data.nextLvlReputation);
+                    accountNextReputation.setText(textNextReputation);
 
-                    String textRemainingContents= String.format(getString(R.string.dynamical_integer), answer.data.remaining_contents);
+                    String textRemainingContents= String.format(getString(R.string.account_content_available_text), answer.data.remaining_contents);
                     accountContentAvailable.setText(textRemainingContents);
+
+                    /*String textCurrentVotes= String.format(getString(R.string.dynamical_integer), answer.data.votes.size());
+                    accountCurrentVotes.setText(textCurrentVotes);
+                    String textVotesLevel= String.format(getString(R.string.dynamical_integer), answer.data.votes.size());
+                    accountVotesLevel.setText(textVotesLevel);*/
                 }
                 else{
                     String text = "";
                     accountReputationValue.setText(text);
-                    accountContentAvailable.setText(text);
+                    accountContentAvailable.setText(text+ getString(R.string.account_content_votes_left_text));
 
                     answer.message.displayMessage(AccountFragment.getInstance().getContext());
                 }

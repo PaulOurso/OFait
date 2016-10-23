@@ -10,7 +10,12 @@
     },
     "levels": {
       "default": 0,
-      "list": [   ]
+      "list": [
+        { "reputation": 30,   "cost_vote": 50 },
+        { "reputation": 80,   "cost_vote": 40 },
+        { "reputation": 150,  "cost_vote": 30 },
+        { "reputation": 250,  "cost_vote": 20 }
+      ]
     }
   }
 }
