@@ -17,6 +17,7 @@ public class Account {
     public int votesSpent;
     public int reputation;
     public List<Vote> votes;
+    public int remaining_contents;
 
     public static Type typeAnswerOf() {
         return new TypeToken<Answer<Account>>() {

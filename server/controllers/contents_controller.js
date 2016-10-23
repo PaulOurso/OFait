@@ -18,7 +18,7 @@ exports.createContent = function createContent(req,res){
           return response.formatErr(res, 404, {message:'Compte inexistant.'});
         }
 
-        var nbVotesUnused = accountHelper.getVotesUnused(account);
+        var nbVotesUnused = account.votes.length - account.votesSpent;
         var nbVotesToUse = accountHelper.getNbVoteToMakeContent(account);
 				if(nbVotesUnused >= nbVotesToUse){
 					var newContent = new Content(req.body);

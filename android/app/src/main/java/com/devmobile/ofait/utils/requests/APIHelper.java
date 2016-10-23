@@ -12,16 +12,15 @@ import com.devmobile.ofait.models.Content;
  */
 public class APIHelper {
     // Localhost
-    public static final String DOMAIN = "http://192.168.1.19:9000/api";
+    public static final String DOMAIN = "http://192.168.1.14:9000/api";
     // Access server
     //public static final String DOMAIN = "http://ofait.ddns.net/api";
 
     public static final String URL_MY_ACCOUNT = DOMAIN + "/find_my_account";
     public static final String URL_CREATE_ACCOUNT = DOMAIN + "/account";
     public static final String URL_ACCOUNT = DOMAIN + "/account/%s";
-    public static final String URL_JOIN_GROUP = DOMAIN + "/accounts/%1$s/groups/rel/%2$s";
     public static final String URL_CREATE_CONTENT = DOMAIN + "/content";
-    public static final String URL_NB_CONTENTS = DOMAIN + "/accountNbContents/%s";
+    public static final String URL_ACCOUNT_STATS = DOMAIN + "/account/%s/stats";
     public static final String URL_GET_CONTENTS_TO_VOTE = DOMAIN + "/account/%s/contents_to_vote";
 
     public static void getAccountFromLogin(Context c, Account account, TaskComplete taskComplete) {
@@ -65,9 +64,9 @@ public class APIHelper {
         apiRequest.execute(URL_CREATE_CONTENT);
     }
 
-    public static void getNbContentsOfAnAccount(Context c, Account account, TaskComplete taskComplete) {
-        APIRequest<Integer> apiRequest = new APIRequest<>(c, Account.typeAnswerOf(), taskComplete);
-        String url = URL_NB_CONTENTS + "?account_id=" + account._id;
+    public static void getAccountStats(Context c, Account account, TaskComplete taskComplete) {
+        APIRequest<Account> apiRequest = new APIRequest<>(c, Account.typeAnswerOf(), taskComplete);
+        String url = String.format(URL_ACCOUNT_STATS, account._id);
         apiRequest.setMethod(Request.Method.GET);
         apiRequest.execute(url);
     }

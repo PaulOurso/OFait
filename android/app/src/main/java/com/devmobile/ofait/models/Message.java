@@ -14,7 +14,7 @@ public class Message {
     public String TAG = "Message Anwser";
 
     public void displayMessage(Context c) {
-        if (message != null) {
+        if (message != null && c != null) {
             FastDialog.showDialog(c, FastDialog.SIMPLE_DIALOG, message);
         }
     }

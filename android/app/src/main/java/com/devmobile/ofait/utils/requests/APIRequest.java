@@ -120,10 +120,12 @@ public class APIRequest<TypeData> {
                         message.message = context.getString(R.string.error_request_server);
                         message.displayMessage(context);
                     }
-                } else {
-                    Message message = new Message();
+                }
+                else {
+                    Log.d(TAG, "Le serveur ne répond pas !");
+                    /*Message message = new Message();
                     message.message = context.getString(R.string.error_request_no_response);
-                    message.displayMessage(context);
+                    message.displayMessage(context);*/
                 }
             }
         }) {

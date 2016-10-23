@@ -1,7 +1,6 @@
 package com.devmobile.ofait.ui.fragment;
 
 
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -41,20 +40,11 @@ public class AddContentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        APIHelper.getNbContentsOfAnAccount(this.getContext(), Preference.getAccount(this.getContext()), new TaskComplete() {
+        APIHelper.getAccountStats(this.getContext(), Preference.getAccount(this.getContext()), new TaskComplete<Account>() {
             @Override
             public void run() {
-                Log.d("AddContentFragment", "in request run");
-                if(result.data == null){
-                    Log.d("AddContentFragment", "data is null");
-                    Resources res = getResources();
-                    String text = String.format(res.getString(R.string.content_count),0);
-                }
-                else{
-                    Log.d("AddContentFragment", "data is not null");
-                    Resources res = getResources();
-                    String text = String.format(res.getString(R.string.content_count),result.data);
-                }
+                Answer<Account> answer = this.result;
+                String text = String.format(getResources().getString(R.string.content_count), answer.data.remaining_contents);
             }
         });
 

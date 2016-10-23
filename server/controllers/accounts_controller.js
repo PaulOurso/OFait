@@ -81,23 +81,33 @@ exports.updateAccountByID = function updateAccountByID(req, res) {
   }
 }
 
-exports.getNbContentsToMake = function getNbContentsToMake(req, res){
+exports.getStatsAccountByID = function getStatsAccountByID(req, res){
 
   var id = req.query.account_id;
 
-  Account.findById(id).exec()
+  Account.findById(id).lean().exec()
       .then((account) => {
 
-        var nbVotesUnused = accountHelper.getVotesUnused(account);
+        var nbVotesUnused = account.votes.length - account.votesSpent;
         var votesByContent = accountHelper.getNbVoteToMakeContent(account);
 
+        console.log(nbVotesUnused);
+        console.log(votesByContent);
         if(nbVotesUnused == -1){
           return response.formatErr(res,500,{message:"Erreur sur la recherche de votes"})
         }
+        account = {
+          _id               : account._id,
+          pseudo            : account.pseudo,
+          google_id         : account.google_id,
+          fb_id             : account.fb_id,
+          votesSpent        : account.votesSpent,
+          reputation        : account.reputation,
+          remaining_contents: Math.floor(nbVotesUnused/votesByContent)
+        }
+        //console.log(Math.floor(nbVotesUnused/votesByContent));
 
-        console.log(Math.floor(nbVotesUnused/votesByContent));
-
-        return response.formatAnswerObject(res, 201, {message:null},Math.floor(nbVotesUnused/votesByContent));
+        return response.formatAnswerObject(res, 201, {message:null}, account);
       })
       .catch(function(err){
         response.formatErr(res,500,{message:"Probleme rencontré pour trouvé le compte"});
