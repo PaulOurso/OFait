@@ -98,7 +98,6 @@ public class AddContentFragment extends Fragment {
                         newContentText.setText("");
                         answer.message.displayMessage(AddContentFragment.getInstance().getContext());
                     }
-
                 }
             });
         }

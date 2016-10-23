@@ -14,9 +14,16 @@ import com.devmobile.ofait.R;
  */
 public class AccountFragment extends Fragment {
 
+    private static AccountFragment accountFragment;
 
     public AccountFragment() {
         // Required empty public constructor
+    }
+
+    public static AccountFragment getInstance() {
+        if (accountFragment == null)
+            accountFragment = new AccountFragment();
+        return accountFragment;
     }
 
 
