@@ -1,11 +1,8 @@
 package com.devmobile.ofait.ui.fragment;
 
 
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,20 +40,11 @@ public class AddContentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        APIHelper.getNbContentsOfAnAccount(this.getContext(), Preference.getAccount(this.getContext()), new TaskComplete() {
+        APIHelper.getAccountStats(this.getContext(), Preference.getAccount(this.getContext()), new TaskComplete<Account>() {
             @Override
             public void run() {
-                Log.d("AddContentFragment", "in request run");
-                if(result.data == null){
-                    Log.d("AddContentFragment", "data is null");
-                    Resources res = getResources();
-                    String text = String.format(res.getString(R.string.content_count),0);
-                }
-                else{
-                    Log.d("AddContentFragment", "data is not null");
-                    Resources res = getResources();
-                    String text = String.format(res.getString(R.string.content_count),result.data);
-                }
+                Answer<Account> answer = this.result;
+                String text = String.format(getResources().getString(R.string.content_count), answer.data.remaining_contents);
             }
         });
 
@@ -72,7 +60,7 @@ public class AddContentFragment extends Fragment {
             Content newContent = new Content();
             Account account = Preference.getAccount(this.getContext());
             newContent.content_value = newContentText.getText().toString();
-            newContent.account_id = account._id;
+            newContent.created_by = account;
 
             APIHelper.createNewContent(this.getContext(),newContent,new TaskComplete<Content>() {
                 @Override

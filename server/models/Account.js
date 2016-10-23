@@ -2,7 +2,8 @@
 
 'use strict';
 
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'),
+        Schema = mongoose.Schema;
 
 mongoose.Promise = global.Promise;
 
@@ -11,7 +12,8 @@ var accountSchema = mongoose.Schema({
   'fb_id'         : {type:String, index:true},
   'google_id'     : {type:String, index:true},
   'reputation'    : {type:Number, default:0},
-  'votesSpent'    : {type:Number, default:0}
+  'votesSpent'    : {type:Number, default:0},
+  'votes'         : [{type: Schema.Types.ObjectId, ref: 'Vote'}]
 }, {versionKey: false});
 
 module.exports = mongoose.model('Account', accountSchema);

@@ -21,7 +21,8 @@ const database      = require('./database/database');
 
 // Controllers
 const accounts_ctrl = require('./controllers/accounts_controller');
-const content_ctrl = require('./controllers/contents_controller');
+const contents_ctrl = require('./controllers/contents_controller');
+const votes_ctrl    = require('./controllers/votes_controller');
 
 // Init IO Socket
 var serverIO = http.createServer(app_socket);
@@ -47,14 +48,17 @@ if(logs_config.enabled) {
   })
 }
 
+// Sockets
+io.sockets.on('connection', votes_ctrl.initSocket);
 
 // Routes
 app_api.get(api_config.route+'/account/:id', accounts_ctrl.findAccountByID);
 app_api.get(api_config.route+'/find_my_account', accounts_ctrl.getAccountFromLogin);
-app_api.get(api_config.route+'/accountNbContents/:id', accounts_ctrl.getNbContentsToMake)
+app_api.get(api_config.route+'/account/:id/stats', accounts_ctrl.getStatsAccountByID)
+app_api.get(api_config.route+'/account/:id/contents_to_vote', contents_ctrl.getContentsToVote);
 
 app_api.post(api_config.route+'/account', accounts_ctrl.addAccountIfNotExist);
-app_api.post(api_config.route+'/content', content_ctrl.createContent);
+app_api.post(api_config.route+'/content', contents_ctrl.createContent);
 
 app_api.put(api_config.route+'/account/:id', accounts_ctrl.updateAccountByID);
 
