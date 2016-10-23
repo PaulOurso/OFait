@@ -8,6 +8,7 @@ import com.devmobile.ofait.utils.Preference;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,6 +42,10 @@ public class SocketManager {
         }
     }
 
+    private void initSocket(Account account) {
+        mSocket.emit("init_socket", account._id);
+    }
+
     public void connect() {
         if (!mSocket.connected()) {
             mSocket.on("connect", new Emitter.Listener() {
@@ -48,6 +53,22 @@ public class SocketManager {
                 public void call(Object... args) {
                     Account account = Preference.getAccount(mActivity);
                     initSocket(account);
+                }
+            });
+            mSocket.on("voted_for_me", new Emitter.Listener() {
+                @Override
+                public void call(final Object... args) {
+                    mActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            JSONObject data = (JSONObject) args[0];
+                            if (data !=  null) {
+                                Gson gson = new Gson();
+                                Vote vote = gson.fromJson(data.toString(), Vote.class);
+                                mActivity.displayVoteForMe(vote);
+                            }
+                        }
+                    });
                 }
             });
             mSocket.connect();
@@ -59,10 +80,6 @@ public class SocketManager {
             mSocket.disconnect();
             mSocket.off("connect");
         }
-    }
-
-    public void initSocket(Account account) {
-        mSocket.emit("init_socket", account._id);
     }
 
     public void actionVote(Vote vote) {

@@ -22,20 +22,23 @@ function setClient(socket, account_id) {
 
 function actionVote(socket, voteJSON) {
   if (voteJSON.account && voteJSON.content && Number.isInteger(voteJSON.value)) {
-    //console.log(voteJSON);
     var vote = new Vote(voteJSON);
     vote.save()
       .then((newVote) => {
-        Account.findById(newVote.account)
+        Account.findById(newVote.account).exec()
           .then((account) => {
             account.votes.push(newVote);
             account.save();
           });
-        Content.findById(newVote.content)
+        Content.findById(newVote.content).exec()
           .then((content) => {
             content.votes.push(newVote);
             content.save();
-          })
+          });
+        var iDest = clients.map((e) => { return e.account_id }).indexOf(newVote.account);
+        if (iDest >= 0 && iDest < clients.length) {
+          socket.to(clients[select].id).emit("voted_for_me", {value:newVote.value});
+        }
       });
   }
 }

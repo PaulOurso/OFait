@@ -12,7 +12,7 @@ exports.createContent = function createContent(req,res){
   var select = '_id created_by content_value created_date';
 	if(created_by && content_value){
 
-		Account.findById(created_by).lean().exec()
+		Account.findById(created_by).exec()
   		.then(function(account){
         if (account === null){
           return response.formatErr(res, 404, {message:'Compte inexistant.'});

@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import com.android.volley.Request;
 import com.devmobile.ofait.R;
 import com.devmobile.ofait.models.Account;
+import com.devmobile.ofait.models.Vote;
 import com.devmobile.ofait.ui.fragment.AddContentFragment;
 import com.devmobile.ofait.ui.fragment.ContentFragment;
 import com.devmobile.ofait.utils.Preference;
@@ -163,5 +164,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void onClickNavAccount(View view) {
         displayView(R.id.nav_account);
+    }
+
+    public void displayVoteForMe(Vote vote) {
+        Log.d("MainActivity", "vote for me "+String.valueOf(vote.value));
     }
 }

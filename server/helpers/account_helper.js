@@ -9,6 +9,7 @@ exports.getNbVoteToMakeContent = function getNbVoteToMakeContent(account){
 	for(var i = 0; i<list_config.list.length; i++){
 		if(account.reputation < list_config.list[i].reputation){
 			nbVotes = list_config.list[i].cost_vote;
+      break;
 		}
 	}
 	return nbVotes;
