@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.devmobile.ofait.ui.fragment.AccountFragment"
+    android:orientation="vertical">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/account_name"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/dynamical_string"
+        android:textSize="20dp"
+        android:layout_marginBottom="30dp"/>
+
+    <TextView
+        android:id="@+id/account_reputation_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/account_reputation_text"
+        android:textSize="20dp"
+        android:layout_marginBottom="30dp"/>
+
+    <TextView
+        android:id="@+id/account_reputation_value"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/dynamical_integer"
+        android:textSize="20dp"
+        android:layout_marginBottom="30dp"/>
+
+    <TextView
+        android:id="@+id/account_content_available"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/account_content_available_text"
+        android:textSize="20dp"
+        android:layout_marginBottom="30dp"/>
+
+    <TextView
+        android:id="@+id/account_content_votes_left"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/account_content_votes_left_text"
+        android:textSize="20dp"
+        android:layout_marginBottom="30dp"/>
+</LinearLayout>
