@@ -1,10 +1,9 @@
 package com.devmobile.ofait.utils.sockets;
 
-import android.util.Log;
-
 import com.devmobile.ofait.models.Account;
 import com.devmobile.ofait.models.Vote;
 import com.devmobile.ofait.ui.mainmenu.MainActivity;
+import com.devmobile.ofait.utils.IPConfig;
 import com.devmobile.ofait.utils.Preference;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
@@ -21,14 +20,10 @@ import java.net.URISyntaxException;
 
 public class SocketManager {
 
-    //public static final String DOMAIN = "http://ofait.ddns.net/api";
-    public static final String DOMAIN = "http://192.168.1.14:9001/";
     private static SocketManager mSocketManager;
 
     private Socket mSocket;
     private MainActivity mActivity;
-
-    //TODO: Ajouter un listener pour la reconnexion avec ajout de account
 
     public static SocketManager getInstance(MainActivity activity) {
         if (mSocketManager == null)
@@ -40,7 +35,7 @@ public class SocketManager {
     private SocketManager(MainActivity activity) {
         mActivity = activity;
         try {
-            mSocket = IO.socket(DOMAIN);
+            mSocket = IO.socket(IPConfig.DOMAIN_SOCKET);
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
