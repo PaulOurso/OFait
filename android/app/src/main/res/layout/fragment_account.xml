@@ -9,40 +9,46 @@
     <TextView
         android:id="@+id/account_name"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/dynamical_string"
-        android:textSize="20dp"
-        android:layout_marginBottom="30dp"/>
+        android:textSize="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:gravity="center"/>
 
     <TextView
         android:id="@+id/account_reputation_text"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/account_reputation_text"
         android:textSize="20dp"
-        android:layout_marginBottom="30dp"/>
+        android:layout_marginBottom="5dp"
+        android:gravity="center"/>
 
     <TextView
         android:id="@+id/account_reputation_value"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/dynamical_integer"
         android:textSize="20dp"
-        android:layout_marginBottom="30dp"/>
+        android:layout_marginBottom="30dp"
+        android:gravity="center"/>
 
     <TextView
         android:id="@+id/account_content_available"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/account_content_available_text"
         android:textSize="20dp"
-        android:layout_marginBottom="30dp"/>
+        android:layout_marginBottom="30dp"
+        android:gravity="center"/>
 
     <TextView
         android:id="@+id/account_content_votes_left"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/account_content_votes_left_text"
         android:textSize="20dp"
-        android:layout_marginBottom="30dp"/>
+        android:layout_marginBottom="30dp"
+        android:gravity="center"/>
 </LinearLayout>
