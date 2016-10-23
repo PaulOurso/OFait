@@ -101,12 +101,12 @@ public class ContentFragment extends Fragment {
             }
         });
 
-        flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
+        /*flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
             @Override
             public void onItemClicked(int i, Object o) {
                 Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
     }
 
     public void btnVoteLike(MainActivity activity) {
