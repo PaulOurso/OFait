@@ -22,7 +22,7 @@ public class APIHelper {
     public static final String URL_JOIN_GROUP = DOMAIN + "/accounts/%1$s/groups/rel/%2$s";
     public static final String URL_CREATE_CONTENT = DOMAIN + "/content";
     public static final String URL_NB_CONTENTS = DOMAIN + "/accountNbContents/%s";
-    public static final String URL_GET_CONTENTS_TO_VOTE = DOMAIN + "/contents_to_vote";
+    public static final String URL_GET_CONTENTS_TO_VOTE = DOMAIN + "/account/%s/contents_to_vote";
 
     public static void getAccountFromLogin(Context c, Account account, TaskComplete taskComplete) {
         getAccountFromLogin(c, false, account, taskComplete);
@@ -59,7 +59,7 @@ public class APIHelper {
 
     public static void createNewContent(Context c, Content newContent,TaskComplete taskComplete){
         APIRequest<Content> apiRequest =new APIRequest<>(c, Content.typeAnswerOf(), taskComplete);
-        apiRequest.addParam("account_id", newContent.account_id);
+        apiRequest.addParam("created_by", newContent.created_by._id);
         apiRequest.addParam("content_value", newContent.content_value);
         apiRequest.setMethod(Request.Method.POST);
         apiRequest.execute(URL_CREATE_CONTENT);
@@ -74,8 +74,9 @@ public class APIHelper {
 
     public static void getContentsToVote(Context c, Account account, TaskComplete taskComplete) {
         APIRequest<Content> apiRequest = new APIRequest<>(c, Content.typeAnswerOf(), taskComplete);
-        String url = URL_GET_CONTENTS_TO_VOTE+"?account_id="+account._id;
+        String url = String.format(URL_GET_CONTENTS_TO_VOTE, account._id);
         apiRequest.setMethod(Request.Method.GET);
+        apiRequest.setShowDialog(false);
         apiRequest.execute(url);
     }
 }

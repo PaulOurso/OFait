@@ -11,8 +11,8 @@ import java.lang.reflect.Type;
 public class Vote {
 
     public String _id;
-    public String account_id;
-    public String content_id;
+    public Account account;
+    public Content content;
     public int value;
     public String created_date;
 

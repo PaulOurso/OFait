@@ -52,6 +52,13 @@
             </RelativeLayout>
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/no_contents_available"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/no_contents_available" />
+
         <com.lorentzos.flingswipe.SwipeFlingAdapterView
             android:id="@+id/fling_cards_contents"
             android:layout_width="match_parent"
@@ -61,7 +68,8 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:paddingTop="5dp"
-            app:max_visible="5" />
+            app:min_adapter_stack="2"
+            app:max_visible="2" />
 
     </RelativeLayout>
 </FrameLayout>

@@ -14,12 +14,18 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.devmobile.ofait.R;
+import com.devmobile.ofait.models.Account;
+import com.devmobile.ofait.models.Answer;
 import com.devmobile.ofait.models.Content;
 import com.devmobile.ofait.ui.adapters.ArrayAdapterContent;
 import com.devmobile.ofait.ui.mainmenu.MainActivity;
+import com.devmobile.ofait.utils.Preference;
+import com.devmobile.ofait.utils.requests.APIHelper;
+import com.devmobile.ofait.utils.requests.TaskComplete;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,8 +35,9 @@ public class ContentFragment extends Fragment {
 
     private static ContentFragment contentInstance;
     public SwipeFlingAdapterView flingContainer;
-    public List<String> listContents;
+    public List<Content> listContents;
     public ArrayAdapterContent arrayAdapter;
+    private boolean isRefreshing = false;
 
     public ContentFragment() {
         // Required empty public constructor
@@ -55,10 +62,6 @@ public class ContentFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         flingContainer = (SwipeFlingAdapterView) view.findViewById(R.id.fling_cards_contents);
         listContents.clear();
-        listContents.add("Test 1");
-        listContents.add("Test 2");
-        listContents.add("Test 3");
-        listContents.add("Test 4");
         arrayAdapter = new ArrayAdapterContent(getContext(), R.layout.item_card_content, listContents);
         flingContainer.setAdapter(arrayAdapter);
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
@@ -80,8 +83,8 @@ public class ContentFragment extends Fragment {
 
             @Override
             public void onAdapterAboutToEmpty(int i) {
-                listContents.add("Test Suivant");
-                arrayAdapter.notifyDataSetChanged();
+                Log.d("SWIPER", "Empty");
+                refreshData();
             }
 
             @Override
@@ -111,5 +114,45 @@ public class ContentFragment extends Fragment {
     public void setFavorite(MainActivity activity) {
         //Content content = listContents.get(0);
         Log.d("ContentFrag", "SET FAVORITE");
+    }
+
+    public void refreshData() {
+        if (!isRefreshing) {
+            isRefreshing = true;
+            Account account = Preference.getAccount(getContext());
+            APIHelper.getContentsToVote(getContext(), account, new TaskComplete<Content>() {
+                @Override
+                public void run() {
+                    isRefreshing = false;
+                    Answer<Content> answer = this.result;
+                    if (answer.status < 300) {
+                        List<Content> listContentsD = answer.datas;
+                        List<Content> listNewContents = clearDuplicateData(listContentsD);
+                        Collections.shuffle(listNewContents);
+                        listContents.addAll(listNewContents);
+                        arrayAdapter.notifyDataSetChanged();
+                    }
+                    else
+                        answer.message.displayMessage(getContext());
+                }
+            });
+        }
+    }
+
+    public List<Content> clearDuplicateData(List<Content> newListD) {
+        List<Content> newList = new ArrayList<>();
+        boolean existing;
+        for (Content newC : newListD) {
+            existing = false;
+            for (Content presentC : listContents) {
+                if (presentC._id.equals(newC._id)) {
+                    existing = true;
+                    break;
+                }
+            }
+            if (!existing)
+                newList.add(newC);
+        }
+        return newList;
     }
 }

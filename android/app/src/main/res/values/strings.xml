@@ -43,4 +43,24 @@
     <string name="creatable_content_">Contenus en reserve</string>
     <string name="create_content_button">Créer</string>
     <string name="content_count">%d</string>
+
+    <!-- Contents -->
+    <string name="content_date">%1$d %2$s %3$d</string>
+    <string name="content_created_by">Par %s</string>
+    <string name="content_points">%d points</string>
+    <string name="no_contents_available">Pas de contenu disponible.</string>
+    <string-array name="months">
+        <item>Janvier</item>
+        <item>Février</item>
+        <item>Mars</item>
+        <item>Avril</item>
+        <item>Mai</item>
+        <item>Juin</item>
+        <item>Juillet</item>
+        <item>Août</item>
+        <item>Septembre</item>
+        <item>Octobre</item>
+        <item>Novembre</item>
+        <item>Décembre</item>
+    </string-array>
 </resources>

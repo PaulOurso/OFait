@@ -3,9 +3,7 @@ package com.devmobile.ofait.ui.fragment;
 
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +70,7 @@ public class AddContentFragment extends Fragment {
             Content newContent = new Content();
             Account account = Preference.getAccount(this.getContext());
             newContent.content_value = newContentText.getText().toString();
-            newContent.account_id = account._id;
+            newContent.created_by = account;
 
             APIHelper.createNewContent(this.getContext(),newContent,new TaskComplete<Content>() {
                 @Override

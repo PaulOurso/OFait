@@ -13,6 +13,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.devmobile.ofait.BuildConfig;
 import com.devmobile.ofait.R;
 import com.devmobile.ofait.models.Answer;
 import com.devmobile.ofait.models.Message;
@@ -76,14 +77,16 @@ public class APIRequest<TypeData> {
             Toast.makeText(context, R.string.not_connect, Toast.LENGTH_SHORT).show();
             return;
         }
-        showLog(url);
+        if (BuildConfig.DEBUG)
+            showLogRequest(url);
         RequestQueue queue = Volley.newRequestQueue(context);
         showDialog();
         StringRequest stringRequest = new StringRequest(method, url, new Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Gson gson = new Gson();
-                Log.d(TAG+" RESPONSE ("+METHOD_LOG[method]+")", "(url: "+url+") -> "+response);
+                if (BuildConfig.DEBUG)
+                    showLogResponse(url, response);
                 answer = gson.fromJson(response, resultClass);
                 if (taskComplete != null) {
                     taskComplete.result = answer;
@@ -106,6 +109,8 @@ public class APIRequest<TypeData> {
                         }
                         Gson gson = new Gson();
                         answer = gson.fromJson(res, resultClass);
+                        if (answer != null && BuildConfig.DEBUG && answer.message != null)
+                            answer.message.displayLog();
                         if (taskComplete != null) {
                             taskComplete.result = answer;
                             taskComplete.run();
@@ -151,7 +156,7 @@ public class APIRequest<TypeData> {
         }
     }
 
-    private void showLog(String url) {
+    private void showLogRequest(String url) {
         String log = url + " params: {";
         int i = 0;
         for (Map.Entry<String, String> entry : params.entrySet()) {
@@ -162,5 +167,9 @@ public class APIRequest<TypeData> {
         }
         log += "}";
         Log.d(TAG+" REQUEST ("+METHOD_LOG[method]+")", log);
+    }
+
+    private void showLogResponse(String url, String response) {
+        Log.d(TAG+" RESPONSE ("+METHOD_LOG[method]+")", "(url: "+url+") -> "+response);
     }
 }

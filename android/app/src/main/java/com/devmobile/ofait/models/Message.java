@@ -1,6 +1,7 @@
 package com.devmobile.ofait.models;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.devmobile.ofait.utils.FastDialog;
 
@@ -10,10 +11,16 @@ import com.devmobile.ofait.utils.FastDialog;
 
 public class Message {
     public String message;
+    public String TAG = "Message Anwser";
 
     public void displayMessage(Context c) {
         if (message != null) {
             FastDialog.showDialog(c, FastDialog.SIMPLE_DIALOG, message);
         }
+    }
+
+    public void displayLog() {
+        if (message != null)
+            Log.d(TAG, message);
     }
 }
