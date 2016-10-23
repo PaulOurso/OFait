@@ -83,7 +83,7 @@ exports.updateAccountByID = function updateAccountByID(req, res) {
 
 exports.getStatsAccountByID = function getStatsAccountByID(req, res){
 
-  var id = req.query.account_id;
+  var id = req.params.id;
 
   Account.findById(id).lean().exec()
       .then((account) => {
@@ -91,8 +91,10 @@ exports.getStatsAccountByID = function getStatsAccountByID(req, res){
         var nbVotesUnused = account.votes.length - account.votesSpent;
         var votesByContent = accountHelper.getNbVoteToMakeContent(account);
 
-        console.log(nbVotesUnused);
-        console.log(votesByContent);
+        var remaining_contents = 0;
+        if (votesByContent > 0)
+          remaining_contents = Math.floor(nbVotesUnused/votesByContent)
+
         if(nbVotesUnused == -1){
           return response.formatErr(res,500,{message:"Erreur sur la recherche de votes"})
         }
@@ -103,9 +105,8 @@ exports.getStatsAccountByID = function getStatsAccountByID(req, res){
           fb_id             : account.fb_id,
           votesSpent        : account.votesSpent,
           reputation        : account.reputation,
-          remaining_contents: Math.floor(nbVotesUnused/votesByContent)
+          remaining_contents: remaining_contents
         }
-        //console.log(Math.floor(nbVotesUnused/votesByContent));
 
         return response.formatAnswerObject(res, 201, {message:null}, account);
       })
