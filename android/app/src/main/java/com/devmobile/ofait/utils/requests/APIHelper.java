@@ -6,22 +6,19 @@ import android.content.Context;
 import com.android.volley.Request;
 import com.devmobile.ofait.models.Account;
 import com.devmobile.ofait.models.Content;
+import com.devmobile.ofait.utils.IPConfig;
 
 /**
  * Created by Tony Wisniewski on 10/10/2016.
  */
 public class APIHelper {
-    // Localhost
-    public static final String DOMAIN = "http://192.168.1.19:9000/api";
-    // Access server
-    //public static final String DOMAIN = "http://ofait.ddns.net/api";
-
-    public static final String URL_MY_ACCOUNT = DOMAIN + "/find_my_account";
-    public static final String URL_CREATE_ACCOUNT = DOMAIN + "/account";
-    public static final String URL_ACCOUNT = DOMAIN + "/account/%s";
-    public static final String URL_CREATE_CONTENT = DOMAIN + "/content";
-    public static final String URL_ACCOUNT_STATS = DOMAIN + "/account/%s/stats";
-    public static final String URL_GET_CONTENTS_TO_VOTE = DOMAIN + "/account/%s/contents_to_vote";
+    
+    public static final String URL_MY_ACCOUNT = IPConfig.DOMAIN_API + "/find_my_account";
+    public static final String URL_CREATE_ACCOUNT = IPConfig.DOMAIN_API + "/account";
+    public static final String URL_ACCOUNT = IPConfig.DOMAIN_API + "/account/%s";
+    public static final String URL_CREATE_CONTENT = IPConfig.DOMAIN_API + "/content";
+    public static final String URL_ACCOUNT_STATS = IPConfig.DOMAIN_API + "/account/%s/stats";
+    public static final String URL_GET_CONTENTS_TO_VOTE = IPConfig.DOMAIN_API + "/account/%s/contents_to_vote";
 
     public static void getAccountFromLogin(Context c, Account account, TaskComplete taskComplete) {
         getAccountFromLogin(c, false, account, taskComplete);
