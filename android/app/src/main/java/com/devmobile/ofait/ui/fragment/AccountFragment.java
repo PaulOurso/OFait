@@ -9,7 +9,9 @@ import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.devmobile.ofait.R;
@@ -58,11 +60,30 @@ public class AccountFragment extends Fragment implements MenuAction {
             @Override
             public void run() {
                 Answer<Account> answer = this.result;
-                Account account = answer.data;
+                final Account account = answer.data;
                 TextView accountName = (TextView) getActivity().findViewById(R.id.account_name);
 
                 String textPseudo = String.format(getString(R.string.dynamical_string), Preference.getAccount(AccountFragment.getInstance().getContext()).pseudo);
                 accountName.setText(textPseudo);
+
+                // Notif
+                Switch notifSwitch = (Switch) getActivity().findViewById(R.id.account_switch_notif);
+                notifSwitch.setChecked(account.notif);
+                notifSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        account.notif = isChecked;
+                        APIHelper.updateAccount(AccountFragment.this.getContext(), account, new TaskComplete<Account>() {
+                            @Override
+                            public void run() {
+                                Answer<Account> asw = this.result;
+                                if (asw.status < 300) {
+                                    Preference.setAccount(AccountFragment.this.getContext(), asw.data);
+                                }
+                            }
+                        });
+                    }
+                });
 
                 //reputations
                 TextView accountReputationValue = (TextView) getActivity().findViewById(R.id.account_reputation_value);
