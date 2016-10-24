@@ -49,6 +49,7 @@ public class APIHelper {
         APIRequest<Account> apiRequest = new APIRequest<>(c, Account.typeAnswerOf(), taskComplete);
         String url = String.format(URL_ACCOUNT, account._id);
         apiRequest.addParam("pseudo", account.pseudo);
+        apiRequest.addParam("notif", String.valueOf(account.notif));
         apiRequest.setMethod(Request.Method.PUT);
         apiRequest.execute(url);
     }
@@ -57,6 +58,7 @@ public class APIHelper {
         APIRequest<Content> apiRequest =new APIRequest<>(c, Content.typeAnswerOf(), taskComplete);
         apiRequest.addParam("created_by", newContent.created_by._id);
         apiRequest.addParam("content_value", newContent.content_value);
+        apiRequest.addParam("notif", String.valueOf(newContent.notif));
         apiRequest.setMethod(Request.Method.POST);
         apiRequest.execute(URL_CREATE_CONTENT);
     }

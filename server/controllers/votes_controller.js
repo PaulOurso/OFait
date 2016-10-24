@@ -34,11 +34,13 @@ function actionVote(socket, voteJSON) {
           .then((content) => {
             content.votes.push(newVote);
             content.save();
+            if (content.notif) {
+              var iDest = clients.map((e) => { return e.account_id }).indexOf(newVote.account);
+              if (iDest >= 0 && iDest < clients.length) {
+                socket.to(clients[select].id).emit("voted_for_me", {value:newVote.value});
+              }
+            }
           });
-        var iDest = clients.map((e) => { return e.account_id }).indexOf(newVote.account);
-        if (iDest >= 0 && iDest < clients.length) {
-          socket.to(clients[select].id).emit("voted_for_me", {value:newVote.value});
-        }
       });
   }
 }

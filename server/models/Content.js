@@ -11,6 +11,7 @@ var contentSchema = mongoose.Schema({
   'created_by'    : { type: Schema.Types.ObjectId, ref: 'Account', index:true, required:true },
   'content_value' : {type:String, required:true},
   'created_date'  : {type:Date, default: Date.now},
+  'notif'         : {type:Boolean, default:false},
   'votes'         : [{type: Schema.Types.ObjectId, ref: 'Vote'}]
 }, {versionKey: false});
 

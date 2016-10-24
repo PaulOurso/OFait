@@ -6,7 +6,7 @@ const Account        = require('../models/Account'),
 
 exports.findAccountByID = function findAccountByID(req, res) {
   var id = req.params.id;
-  var select = '_id pseudo votesSpent reputation fb_id google_id';
+  var select = '_id pseudo votesSpent reputation fb_id google_id notif';
   if (id && id.match(/^[0-9a-fA-F]{24}$/)) {
     Account.findById(req.params.id, select).lean().exec()
       .then((account) => {
@@ -24,7 +24,7 @@ exports.findAccountByID = function findAccountByID(req, res) {
 exports.getAccountFromLogin = function getAccountFromLogin(req, res) {
   var fb_id = req.query.fb_id;
   var google_id = req.query.google_id;
-  var select = '_id pseudo votesSpent reputation fb_id google_id';
+  var select = '_id pseudo votesSpent reputation fb_id google_id notif';
   if (fb_id || google_id) {
     var param = fb_id ? {fb_id: fb_id} : {google_id: google_id};
     Account.findOne(param, select).lean().exec()
@@ -43,7 +43,7 @@ exports.getAccountFromLogin = function getAccountFromLogin(req, res) {
 exports.addAccountIfNotExist = function addAccountIfNotExist(req, res) {
   var fb_id = req.body.fb_id;
   var google_id = req.body.google_id;
-  var select = '_id pseudo votesSpent reputation fb_id google_id';
+  var select = '_id pseudo votesSpent reputation fb_id google_id notif';
   if (fb_id || google_id) {
     var param = fb_id ? {fb_id: fb_id} : {google_id: google_id};
     Account.findOne(param, select).lean().exec()
@@ -63,13 +63,14 @@ exports.addAccountIfNotExist = function addAccountIfNotExist(req, res) {
 
 exports.updateAccountByID = function updateAccountByID(req, res) {
   var id = req.params.id;
-  var select = '_id pseudo votesSpent reputation fb_id google_id'
+  var select = '_id pseudo votesSpent reputation fb_id google_id notif'
   if (id && id.match(/^[0-9a-fA-F]{24}$/)) {
     Account.findById(id, select).exec()
       .then((account) => {
         if (!account)
           return Promise.reject('Compte non trouvé.');
         account.pseudo = req.body.pseudo || account.pseudo;
+        account.notif  = req.body.notif || account.notif;
         return account;
       })
       .then((account) => account.save())
@@ -104,6 +105,7 @@ exports.getStatsAccountByID = function getStatsAccountByID(req, res){
           google_id         : account.google_id,
           fb_id             : account.fb_id,
           votesSpent        : account.votesSpent,
+          notif             : account.notif,
           reputation        : account.reputation,
           remaining_contents: remaining_contents
         }
