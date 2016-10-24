@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -19,13 +18,14 @@ import com.devmobile.ofait.models.Answer;
 import com.devmobile.ofait.models.Content;
 import com.devmobile.ofait.ui.mainmenu.MainActivity;
 import com.devmobile.ofait.utils.Preference;
+import com.devmobile.ofait.utils.interfaces.MenuAction;
 import com.devmobile.ofait.utils.requests.APIHelper;
 import com.devmobile.ofait.utils.requests.TaskComplete;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddContentFragment extends Fragment {
+public class AddContentFragment extends Fragment implements MenuAction {
 
 
     private static AddContentFragment addContentFragment;
@@ -55,12 +55,45 @@ public class AddContentFragment extends Fragment {
         Switch notifForMyContentSwitch = (Switch) view.findViewById(R.id.new_content_switch_notif);
         Account account = Preference.getAccount(this.getContext());
         notifForMyContentSwitch.setChecked(account.notif);
+        refreshData();
+    }
 
+    public void createNewContent(MainActivity activity) {
+        final EditText newContentText = (EditText) activity.findViewById(R.id.new_content_text);
+        final Switch notifForMyContentSwitch = (Switch) activity.findViewById(R.id.new_content_switch_notif);
+
+        if(!newContentText.getText().toString().isEmpty()){
+            Content newContent = new Content();
+            Account account = Preference.getAccount(this.getContext());
+            newContent.content_value = newContentText.getText().toString();
+            newContent.created_by = account;
+            newContent.notif = notifForMyContentSwitch.isChecked();
+
+            APIHelper.createNewContent(this.getContext(),newContent,new TaskComplete<Content>() {
+                @Override
+                public void run() {
+                    Answer<Content> answer = this.result;
+                    newContentText.setText("");
+                    Account account = Preference.getAccount(AddContentFragment.this.getContext());
+                    notifForMyContentSwitch.setChecked(account.notif);
+                    if (answer.status < 300) {
+                        Toast.makeText(AddContentFragment.getInstance().getContext(), R.string.create_content_done, Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        answer.message.displayMessage(AddContentFragment.getInstance().getContext());
+                    }
+                }
+            });
+        }
+    }
+
+    public void refreshData() {
+        Account account = Preference.getAccount(this.getContext());
         APIHelper.getAccountStats(this.getContext(), account, new TaskComplete<Account>() {
             @Override
             public void run() {
                 Answer<Account> answer = this.result;
-                TextView contentsToMake = (TextView) view.findViewById(R.id.content_number);
+                TextView contentsToMake = (TextView) AddContentFragment.this.getActivity().findViewById(R.id.content_number);
 
                 if(answer.status < 300 ) {
                     String text = String.format(getString(R.string.content_count), answer.data.remaining_contents);
@@ -75,32 +108,8 @@ public class AddContentFragment extends Fragment {
         });
     }
 
-    public void createNewContent(MainActivity activity) {
-        final EditText newContentText = (EditText) activity.findViewById(R.id.new_content_text);
-        Switch notifForMyContentSwitch = (Switch) activity.findViewById(R.id.new_content_switch_notif);
-
-        if(!newContentText.getText().toString().isEmpty()){
-            Content newContent = new Content();
-            Account account = Preference.getAccount(this.getContext());
-            newContent.content_value = newContentText.getText().toString();
-            newContent.created_by = account;
-            newContent.notif = notifForMyContentSwitch.isChecked();
-
-            APIHelper.createNewContent(this.getContext(),newContent,new TaskComplete<Content>() {
-                @Override
-                public void run() {
-                    Answer<Content> answer = this.result;
-                    if (answer.status < 300) {
-                        newContentText.setText("");
-                        Toast.makeText(AddContentFragment.getInstance().getContext(), R.string.create_content_done, Toast.LENGTH_LONG).show();
-                    }
-                    else{
-                        newContentText.setText("");
-                        answer.message.displayMessage(AddContentFragment.getInstance().getContext());
-                    }
-                }
-            });
-        }
+    @Override
+    public void refresh() {
+        refreshData();
     }
-
 }

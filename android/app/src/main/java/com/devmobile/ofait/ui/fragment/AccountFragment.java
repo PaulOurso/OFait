@@ -16,6 +16,7 @@ import com.devmobile.ofait.R;
 import com.devmobile.ofait.models.Account;
 import com.devmobile.ofait.models.Answer;
 import com.devmobile.ofait.utils.Preference;
+import com.devmobile.ofait.utils.interfaces.MenuAction;
 import com.devmobile.ofait.utils.requests.APIHelper;
 import com.devmobile.ofait.utils.requests.TaskComplete;
 
@@ -24,7 +25,7 @@ import java.text.DecimalFormatSymbols;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AccountFragment extends Fragment {
+public class AccountFragment extends Fragment implements MenuAction {
 
     private static AccountFragment accountFragment;
 
@@ -49,32 +50,34 @@ public class AccountFragment extends Fragment {
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        refreshData();
+    }
 
+    public void refreshData() {
         APIHelper.getAccountStats(this.getContext(), Preference.getAccount(this.getContext()), new TaskComplete<Account>() {
             @Override
             public void run() {
                 Answer<Account> answer = this.result;
                 Account account = answer.data;
-                TextView accountName = (TextView) view.findViewById(R.id.account_name);
+                TextView accountName = (TextView) getActivity().findViewById(R.id.account_name);
 
                 String textPseudo = String.format(getString(R.string.dynamical_string), Preference.getAccount(AccountFragment.getInstance().getContext()).pseudo);
                 accountName.setText(textPseudo);
 
                 //reputations
-                TextView accountReputationValue = (TextView) view.findViewById(R.id.account_reputation_value);
-                TextView accountPreviousReputation= (TextView) view.findViewById(R.id.account_previous_reputation);
-                TextView accountNextReputation= (TextView) view.findViewById(R.id.account_next_reputation);
+                TextView accountReputationValue = (TextView) getActivity().findViewById(R.id.account_reputation_value);
+                TextView accountPreviousReputation= (TextView) getActivity().findViewById(R.id.account_previous_reputation);
+                TextView accountNextReputation= (TextView) getActivity().findViewById(R.id.account_next_reputation);
 
                 //content available
-                TextView accountContentAvailable = (TextView) view.findViewById(R.id.account_content_available);
+                TextView accountContentAvailable = (TextView) getActivity().findViewById(R.id.account_content_available);
 
                 //votes
-                TextView accountCurrentVotes= (TextView) view.findViewById(R.id.account_current_votes);
-                TextView accountVotesLevel= (TextView) view.findViewById(R.id.account_votes_next_content);
+                TextView accountCurrentVotes= (TextView) getActivity().findViewById(R.id.account_current_votes);
+                TextView accountVotesLevel= (TextView) getActivity().findViewById(R.id.account_votes_next_content);
 
-                ProgressBar progressReputation = (ProgressBar) view.findViewById(R.id.progressBar_reputation);
-                ProgressBar progressVotes= (ProgressBar) view.findViewById(R.id.progressBar_votes);
-
+                ProgressBar progressReputation = (ProgressBar) getActivity().findViewById(R.id.progressBar_reputation);
+                ProgressBar progressVotes= (ProgressBar) getActivity().findViewById(R.id.progressBar_votes);
 
                 if(answer.status < 300 ) {
 
@@ -108,16 +111,20 @@ public class AccountFragment extends Fragment {
 
                 }
                 else{
-                    String nullText = "";
-                    accountReputationValue.setText(nullText);
-                    accountContentAvailable.setText(nullText+ getString(R.string.account_content_votes_left_text));
-                    accountPreviousReputation.setText(nullText);
-                    accountNextReputation.setText(nullText);
-                    accountCurrentVotes.setText(nullText);
-                    accountVotesLevel.setText(nullText);
+                    accountReputationValue.setText("");
+                    accountContentAvailable.setText(getString(R.string.account_content_votes_left_text));
+                    accountPreviousReputation.setText("");
+                    accountNextReputation.setText("");
+                    accountCurrentVotes.setText("");
+                    accountVotesLevel.setText("");
                     answer.message.displayMessage(AccountFragment.getInstance().getContext());
                 }
             }
         });
+    }
+
+    @Override
+    public void refresh() {
+        refreshData();
     }
 }

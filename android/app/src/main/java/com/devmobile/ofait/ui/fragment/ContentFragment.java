@@ -21,6 +21,7 @@ import com.devmobile.ofait.models.Vote;
 import com.devmobile.ofait.ui.adapters.ArrayAdapterContent;
 import com.devmobile.ofait.ui.mainmenu.MainActivity;
 import com.devmobile.ofait.utils.Preference;
+import com.devmobile.ofait.utils.interfaces.MenuAction;
 import com.devmobile.ofait.utils.notifs.NotifInfo;
 import com.devmobile.ofait.utils.requests.APIHelper;
 import com.devmobile.ofait.utils.requests.TaskComplete;
@@ -34,7 +35,7 @@ import java.util.Random;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ContentFragment extends Fragment {
+public class ContentFragment extends Fragment implements MenuAction {
 
     private static ContentFragment contentInstance;
     public SwipeFlingAdapterView flingContainer;
@@ -190,5 +191,12 @@ public class ContentFragment extends Fragment {
                 newList.add(newC);
         }
         return newList;
+    }
+
+    @Override
+    public void refresh() {
+        if (listContents.size() <= 2) {
+            refreshData();
+        }
     }
 }
