@@ -59,7 +59,7 @@ exports.getContentsToVote = function getContentsToVote(req,res) {
 		Vote.find({account: account_id}).lean().exec()
 			.then((myVotes) => {
 				var myVotesContentsID = myVotes.map((elem) => elem.content);
-				Content.find({ $and: [ {created_by: {$ne: account_id}}, {_id: {$nin: myVotesContentsID}} ] }, select).sort({created_date:1}).limit(20).populate('created_by votes').lean().exec()
+				Content.find({ $and: [ {created_by: {$ne: account_id}}, {_id: {$nin: myVotesContentsID}} ] }, select).populate('created_by votes').lean().exec()
 					.then((contents) => {
 						contents = contents.map((c) => {
 							return {
@@ -67,9 +67,15 @@ exports.getContentsToVote = function getContentsToVote(req,res) {
 								created_by		: { pseudo: c.created_by.pseudo },
 								content_value	: c.content_value,
 								created_date  : c.created_date,
+								nb_votes			: c.votes.length,
 								nb_points 		: c.votes.reduce((total, curVote) => { return total + curVote.value }, 0)
 							};
 						});
+
+						// Sort nb_points DESC
+						contents = contents.sort((first, second) => { return second.nb_points - first.nb_points});
+						// limite answer 20
+						contents = contents.splice(0, 20);
 						response.formatAnswerArray(res, 200, {message:null}, contents);
 					})
 					.catch((err) => {
