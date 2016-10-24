@@ -26,6 +26,7 @@ import com.devmobile.ofait.ui.fragment.AccountFragment;
 import com.devmobile.ofait.ui.fragment.AddContentFragment;
 import com.devmobile.ofait.ui.fragment.ContentFragment;
 import com.devmobile.ofait.utils.Preference;
+import com.devmobile.ofait.utils.notifs.NotifInfo;
 import com.devmobile.ofait.utils.sockets.SocketManager;
 
 import java.lang.reflect.InvocationTargetException;
@@ -177,5 +178,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void displayVoteForMe(Vote vote) {
         Log.d("MainActivity", "vote for me "+String.valueOf(vote.value));
+        int resDrawable = vote.value == 1 ? R.drawable.btn_like : R.drawable.btn_dislike;
+        NotifInfo notifInfo = new NotifInfo(MainActivity.this, R.layout.item_notif);
+        notifInfo.setSrc(MainActivity.this, R.id.item_notif_img, resDrawable);
+        notifInfo.startAnimation(MainActivity.this);
     }
 }

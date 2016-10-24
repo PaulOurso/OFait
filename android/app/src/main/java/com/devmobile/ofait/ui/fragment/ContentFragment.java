@@ -102,15 +102,11 @@ public class ContentFragment extends Fragment {
             }
         });
 
-        flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
+        /*flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
             @Override
             public void onItemClicked(int i, Object o) {
-                NotifInfo notifInfo = new NotifInfo(mainActivity, R.layout.item_notif);
-                notifInfo.setSrc(mainActivity, R.id.item_notif_img, R.drawable.btn_dislike);
-                notifInfo.startAnimation(mainActivity);
-                Log.d("FlingContainer", "ON CLICK");
             }
-        });
+        });*/
     }
 
     public void btnVoteLike(MainActivity activity) {

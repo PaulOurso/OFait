@@ -34,12 +34,15 @@ function actionVote(socket, voteJSON) {
           .then((content) => {
             content.votes.push(newVote);
             content.save();
-            if (content.notif) {
-              var iDest = clients.map((e) => { return e.account_id }).indexOf(newVote.account);
-              if (iDest >= 0 && iDest < clients.length) {
-                socket.to(clients[select].id).emit("voted_for_me", {value:newVote.value});
+            Content.find({ $and: [{created_by: content.created_by}] }).sort({created_date:-1}).limit(1)
+              .then((lastContent) => {
+                if (lastContent && lastContent._id == content._id && content.notif) {
+                  var iDest = clients.map((e) => { return e.account_id }).indexOf(newVote.account);
+                  if (iDest >= 0 && iDest < clients.length) {
+                    socket.to(clients[select].id).emit("voted_for_me", {value:newVote.value});
+                }
               }
-            }
+            });
           });
       });
   }

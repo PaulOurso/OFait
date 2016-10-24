@@ -1,6 +1,8 @@
 package com.devmobile.ofait.utils.notifs;
 
 import android.content.Context;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -42,6 +44,12 @@ public class NotifInfo {
             @Override
             public void onAnimationEnd(Animation animation) {
                 itemView.setVisibility(View.GONE);
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        frameLayout.removeView(itemView);
+                    }
+                });
             }
 
             @Override
