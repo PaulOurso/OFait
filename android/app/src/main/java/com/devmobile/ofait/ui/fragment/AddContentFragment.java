@@ -7,7 +7,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,7 +52,11 @@ public class AddContentFragment extends Fragment {
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        APIHelper.getAccountStats(this.getContext(), Preference.getAccount(this.getContext()), new TaskComplete<Account>() {
+        Switch notifForMyContentSwitch = (Switch) view.findViewById(R.id.new_content_switch_notif);
+        Account account = Preference.getAccount(this.getContext());
+        notifForMyContentSwitch.setChecked(account.notif);
+
+        APIHelper.getAccountStats(this.getContext(), account, new TaskComplete<Account>() {
             @Override
             public void run() {
                 Answer<Account> answer = this.result;
@@ -71,12 +77,14 @@ public class AddContentFragment extends Fragment {
 
     public void createNewContent(MainActivity activity) {
         final EditText newContentText = (EditText) activity.findViewById(R.id.new_content_text);
+        Switch notifForMyContentSwitch = (Switch) activity.findViewById(R.id.new_content_switch_notif);
 
         if(!newContentText.getText().toString().isEmpty()){
             Content newContent = new Content();
             Account account = Preference.getAccount(this.getContext());
             newContent.content_value = newContentText.getText().toString();
             newContent.created_by = account;
+            newContent.notif = notifForMyContentSwitch.isChecked();
 
             APIHelper.createNewContent(this.getContext(),newContent,new TaskComplete<Content>() {
                 @Override

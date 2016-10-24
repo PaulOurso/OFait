@@ -17,6 +17,7 @@ public class Content {
     public String created_date;
     public List<Vote> votes;
     public int nb_points;
+    public boolean notif;
 
     public static Type typeAnswerOf() {
         return new TypeToken<Answer<Content>>() {

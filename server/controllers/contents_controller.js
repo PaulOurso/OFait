@@ -9,7 +9,7 @@ const Account 		 = require('../models/Account'),
 exports.createContent = function createContent(req,res){
 	var created_by = req.body.created_by;
 	var content_value = req.body.content_value;
-  var select = '_id created_by content_value created_date';
+  var select = '_id created_by content_value created_date notif';
 	if(created_by && content_value){
 
 		Account.findById(created_by).exec()
@@ -26,7 +26,7 @@ exports.createContent = function createContent(req,res){
 						.then(function(content){
 							account.votesSpent += nbVotesToUse;
 	        		account.save();
-	        		Content.findById(content._id, select).populate('created_by', 'pseudo google_id fb_id votesSpent reputation').lean().exec()
+	        		Content.findById(content._id, select).populate('created_by', 'pseudo google_id fb_id votesSpent reputation notif').lean().exec()
 								.then((content) => {
 									response.formatAnswerObject(res, 201, {message:null}, content);
 								})

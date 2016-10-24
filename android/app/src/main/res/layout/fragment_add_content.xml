@@ -23,6 +23,24 @@
         android:textSize="20dp"
         android:layout_marginBottom="30dp"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="30dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/notif_for_my_content"/>
+        <Switch
+            android:id="@+id/new_content_switch_notif"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp" />
+    </LinearLayout>
+
     <EditText
         android:id="@+id/new_content_text"
         android:layout_width="match_parent"
