@@ -176,6 +176,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
             ft.replace(R.id.content_frame, fragment);
             ft.commit();
         }

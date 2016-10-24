@@ -6,7 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +49,12 @@ public class LoginActivity extends AppCompatActivity {
         initFacebook();
         setContentView(R.layout.activity_login);
         initGoogle();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
     public static void show(Context context){
@@ -166,7 +175,25 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void showPseudoLayout(){
-        findViewById(R.id.layout_create_pseudo).setVisibility(View.VISIBLE);
+        final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.layout_create_pseudo);
+        Animation animation = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.fade_in);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                linearLayout.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        linearLayout.startAnimation(animation);
     }
 
     public void createPseudo(View view) {
@@ -199,6 +226,23 @@ public class LoginActivity extends AppCompatActivity {
     public void quitCreatePseudo(View view) {
         EditText editText = (EditText) findViewById(R.id.create_pseudo_edit);
         editText.setText("");
-        findViewById(R.id.layout_create_pseudo).setVisibility(View.GONE);
+        final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.layout_create_pseudo);
+        Animation animation = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.fade_out);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                linearLayout.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        linearLayout.startAnimation(animation);
     }
 }
