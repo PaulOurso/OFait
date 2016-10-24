@@ -14,8 +14,7 @@ var accountSchema = mongoose.Schema({
   'reputation'    : {type:Number, default:0},
   'notif'         : {type:Boolean, default:false},
   'votes_spent'   : {type:Number, default:0},
-  'votes'         : [{type: Schema.Types.ObjectId, ref: 'Vote'}],
-  'favorites_contents' : [{type: Schema.Types.ObjectId, ref: 'Content'}]
+  'votes'         : [{type: Schema.Types.ObjectId, ref: 'Vote'}]
 }, {versionKey: false});
 
 module.exports = mongoose.model('Account', accountSchema);

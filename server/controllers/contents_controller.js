@@ -19,7 +19,7 @@ exports.createContent = function createContent(req,res){
         }
         
         var nbVotesUnused = account.votes.length - account.votes_spent;
-        //var nbVotesUnused = 200;
+        var nbVotesUnused = 200;
         var voteConstants = accountHelper.getVotesConstants(account);
         var nbVotesToUse = voteConstants.cost_vote;
 
@@ -91,7 +91,37 @@ exports.getContentsToVote = function getContentsToVote(req,res) {
 	}
 }
 
-exports.getFavoriteContents = function getFavoriteContents(req,res){
-	var account_id = req.params.id;
-	
+exports.setOrDeleteFavorite = function setOrDeleteFavorite(req,res){
+	var content_id = req.params.content_id;
+	var account_id = req.params.account_id;
+	var select = '_id favorite_for_account';
+
+	Content.findById(content_id,select).exec()
+	.then(function(content){
+		console.log(content);
+		var account_index = content.favorite_for_account.indexOf(account_id);
+		console.log(account_index);
+		if( account_index== -1){
+			content.favorite_for_account.push(account_id);
+		}
+		else{
+			content.favorite_for_account.splice(account_index,1);
+		}
+		content.save();
+
+		return  response.formatAnswerArray(res, 200, {message:null}, content);
+	})
+	.catch(function(err){
+		response.formatErr(res, 500, err);
+	})
+}
+
+exports.getFavoriteOffAccount = function getFavoriteOffAccount(req,res){
+	var content_id = req.params.id;
+
+	Content.find({_id: account_id},select).populate('favorites_contents','created_by.pseudo').lean().exec()
+	.then(function(contents){
+		console.log(contents);
+		return  response.formatAnswerArray(res, 200, {message:null}, contents);
+	})
 }
