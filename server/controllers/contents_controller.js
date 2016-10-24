@@ -17,27 +17,30 @@ exports.createContent = function createContent(req,res){
         if (account === null){
           return response.formatErr(res, 404, {message:'Compte inexistant.'});
         }
+        
+        var nbVotesUnused = account.votes.length - account.votes_spent;
+        //var nbVotesUnused = 200;
+        var voteConstants = accountHelper.getVotesConstants(account);
+        var nbVotesToUse = voteConstants.cost_vote;
 
-        var nbVotesUnused = account.votes.length - account.votesSpent;
-        var nbVotesToUse = accountHelper.getNbVoteToMakeContent(account);
-				if(nbVotesUnused >= nbVotesToUse){
-					var newContent = new Content(req.body);
-					newContent.save()
-						.then(function(content){
-							account.votesSpent += nbVotesToUse;
-	        		account.save();
-	        		Content.findById(content._id, select).populate('created_by', 'pseudo google_id fb_id votesSpent reputation notif').lean().exec()
-								.then((content) => {
-									response.formatAnswerObject(res, 201, {message:null}, content);
-								})
-								.catch(function(err){
-									response.formatErr(res, 500, err);
-								});
+		if(nbVotesUnused >= nbVotesToUse){
+			var newContent = new Content(req.body);
+			newContent.save()
+				.then(function(content){
+					account.votes_spent += nbVotesToUse;
+		    		account.save();
+		    		Content.findById(content._id, select).populate('created_by', 'pseudo google_id fb_id votes_spent reputation notif').lean().exec()
+						.then((content) => {
+							response.formatAnswerObject(res, 201, {message:null}, content);
 						})
 						.catch(function(err){
 							response.formatErr(res, 500, err);
 						});
-				}
+				})
+				.catch(function(err){
+					response.formatErr(res, 500, err);
+				});
+		}
         else{
         	response.formatErr(res, 403, {message: "Vous n'avez pas suffisament de votes pour créer un contenu"});
         }

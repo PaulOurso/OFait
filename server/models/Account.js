@@ -12,8 +12,8 @@ var accountSchema = mongoose.Schema({
   'fb_id'         : {type:String, index:true},
   'google_id'     : {type:String, index:true},
   'reputation'    : {type:Number, default:0},
-  'votesSpent'    : {type:Number, default:0},
   'notif'         : {type:Boolean, default:false},
+  'votes_spent'    : {type:Number, default:0},
   'votes'         : [{type: Schema.Types.ObjectId, ref: 'Vote'}]
 }, {versionKey: false});
 

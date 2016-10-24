@@ -3,6 +3,8 @@
     <string name="ok">OK</string>
     <string name="cancel">Annuler</string>
     <string name="login_toast_error_identification">La connexion n\'a pas pu aboutir</string>
+    <string name="dynamical_string">%s</string>
+    <string name="dynamical_integer">%d</string>
 
     <string name="title_activity_main">MainActivity</string>
 
@@ -64,4 +66,10 @@
         <item>Novembre</item>
         <item>Décembre</item>
     </string-array>
+
+    <!-- ACCOUNT -->
+    <string name="account_reputation_text">Reputation :</string>
+    <string name="account_content_available_text">%d contenu en reserve</string>
+    <string name="account_content_votes_left_text">Progression avant le prochain contenu</string>
+    <string name="text_0">0</string>
 </resources>
