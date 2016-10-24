@@ -13,8 +13,9 @@ var accountSchema = mongoose.Schema({
   'google_id'     : {type:String, index:true},
   'reputation'    : {type:Number, default:0},
   'notif'         : {type:Boolean, default:false},
-  'votes_spent'    : {type:Number, default:0},
-  'votes'         : [{type: Schema.Types.ObjectId, ref: 'Vote'}]
+  'votes_spent'   : {type:Number, default:0},
+  'votes'         : [{type: Schema.Types.ObjectId, ref: 'Vote'}],
+  'favorites_contents' : [{type: Schema.Types.ObjectId, ref: 'Content'}]
 }, {versionKey: false});
 
 module.exports = mongoose.model('Account', accountSchema);

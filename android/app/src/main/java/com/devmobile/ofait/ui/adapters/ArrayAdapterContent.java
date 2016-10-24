@@ -23,6 +23,8 @@ public class ArrayAdapterContent extends ArrayAdapter<Content> {
 
     public LayoutInflater layoutInflater;
     public int resId;
+    public enum FRAGMENT_CALLING{FRAGMENT_CONTENT, FRAGMENT_BOOKMARK, FRAGMENT_HISTORY};
+    public FRAGMENT_CALLING current_fragment_calling;
 
     public ArrayAdapterContent(Context context, int resource, List<Content> objects) {
         super(context, resource, objects);

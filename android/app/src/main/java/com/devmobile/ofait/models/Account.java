@@ -15,6 +15,7 @@ public class Account {
     public String google_id;
     public String fb_id;
     public int remaining_contents;
+    public List<Content> favorites_contents;
     public boolean notif;
     public int nb_votes;
     public int votes_by_content;

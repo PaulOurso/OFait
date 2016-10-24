@@ -72,6 +72,7 @@ public class ContentFragment extends Fragment implements MenuAction {
         flingContainer = (SwipeFlingAdapterView) view.findViewById(R.id.fling_cards_contents);
         listContents.clear();
         arrayAdapter = new ArrayAdapterContent(getContext(), R.layout.item_card_content, listContents);
+        arrayAdapter.current_fragment_calling = ArrayAdapterContent.FRAGMENT_CALLING.FRAGMENT_CONTENT;
         flingContainer.setAdapter(arrayAdapter);
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
             @Override

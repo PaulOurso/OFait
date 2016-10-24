@@ -54,7 +54,7 @@ exports.createContent = function createContent(req,res){
 
 exports.getContentsToVote = function getContentsToVote(req,res) {
 	var account_id = req.params.id;
-  var select = '_id created_by content_value created_date votes';
+  	var select = '_id created_by content_value created_date votes';
 	if (account_id && account_id.match(/^[0-9a-fA-F]{24}$/)) {
 		Vote.find({account: account_id}).lean().exec()
 			.then((myVotes) => {
@@ -89,4 +89,9 @@ exports.getContentsToVote = function getContentsToVote(req,res) {
 	else {
 		response.formatErr(res, 400, {message: 'Paramètres manquants.'});
 	}
+}
+
+exports.getFavoriteContents = function getFavoriteContents(req,res){
+	var account_id = req.params.id;
+	
 }
