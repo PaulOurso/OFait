@@ -17,8 +17,7 @@ exports.createContent = function createContent(req,res){
         if (account === null){
           return response.formatErr(res, 404, {message:'Compte inexistant.'});
         }
-
-<<<<<<< 535be6940784afa2ef2de0ae89924159e4cdc6d9
+        
         var nbVotesUnused = account.votes.length - account.votes_spent;
         //var nbVotesUnused = 200;
         var voteConstants = accountHelper.getVotesConstants(account);
@@ -28,9 +27,9 @@ exports.createContent = function createContent(req,res){
 			var newContent = new Content(req.body);
 			newContent.save()
 				.then(function(content){
-					account.votesSpent += nbVotesToUse;
+					account.votes_spent += nbVotesToUse;
 		    		account.save();
-		    		Content.findById(content._id, select).populate('created_by', 'pseudo google_id fb_id votesSpent reputation notif').lean().exec()
+		    		Content.findById(content._id, select).populate('created_by', 'pseudo google_id fb_id votes_spent reputation notif').lean().exec()
 						.then((content) => {
 							response.formatAnswerObject(res, 201, {message:null}, content);
 						})

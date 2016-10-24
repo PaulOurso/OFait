@@ -93,14 +93,14 @@ public class AccountFragment extends Fragment {
                     String textVotesLevel= String.format(getString(R.string.dynamical_integer), account.votes_by_content);
                     accountVotesLevel.setText(textVotesLevel);
 
-                    progressReputation.setMax(account.next_lvl_reputation);
+                    progressReputation.setMax(account.next_lvl_reputation-account.previous_reputation);
                     if(account.next_lvl_reputation == -1){
                         accountNextReputation.setText(DecimalFormatSymbols.getInstance().getInfinity());
                         progressReputation.setMax(1);
                         progressReputation.setProgress(1);
                     }
                     else{
-                        progressReputation.setProgress(account.reputation);
+                        progressReputation.setProgress(account.reputation-account.previous_reputation);
                     }
 
                     progressVotes.setMax(account.votes_by_content);
