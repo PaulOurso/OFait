@@ -4,7 +4,8 @@ const Account 		 = require('../models/Account'),
 	  Content        = require('../models/Content'),
 	  Vote 					 = require('../models/Vote'),
     response       = require('../helpers/answer_helper'),
-    accountHelper  = require('../helpers/account_helper');
+    accountHelper  = require('../helpers/account_helper'),
+    contentHelper  = require('../helpers/content_helper');
 
 exports.createContent = function createContent(req,res){
 	var created_by = req.body.created_by;
@@ -54,7 +55,7 @@ exports.createContent = function createContent(req,res){
 
 exports.getContentsToVote = function getContentsToVote(req,res) {
 	var account_id = req.params.id;
-  	var select = '_id created_by content_value created_date votes';
+  	var select = '_id created_by content_value created_date votes favorite_for_account';
 	if (account_id && account_id.match(/^[0-9a-fA-F]{24}$/)) {
 		Vote.find({account: account_id}).lean().exec()
 			.then((myVotes) => {
@@ -68,7 +69,8 @@ exports.getContentsToVote = function getContentsToVote(req,res) {
 								content_value	: c.content_value,
 								created_date  : c.created_date,
 								nb_votes			: c.votes.length,
-								nb_points 		: c.votes.reduce((total, curVote) => { return total + curVote.value }, 0)
+								nb_points 		: c.votes.reduce((total, curVote) => { return total + curVote.value }, 0),
+								isFavorite		: contentHelper.checkIfFavorite(c,account_id)
 							};
 						});
 
@@ -99,19 +101,18 @@ exports.setOrDeleteFavorite = function setOrDeleteFavorite(req,res){
 	Content.findById(content_id,select).exec()
 	.then(function(content){
 
-		var isFavorite= true;
-		var account_index = content.favorite_for_account.indexOf(account_id);
-		console.log(account_index);
-		if( account_index== -1){
+		var isFavorite= contentHelper.checkIfFavorite(content,account_id);
+		if( !isFavorite){
 			content.favorite_for_account.push(account_id);
 		}
 		else{
+			var account_index = content.favorite_for_account.indexOf(account_id);
 			content.favorite_for_account.splice(account_index,1);
-			isFavorite=false;
 		}
 		content.save();
+		console.log(isFavorite);
 
-		return  response.formatAnswerObject(res, 200, {message:null}, {_id: content._id,isFavorite:isFavorite});
+		return  response.formatAnswerObject(res, 200, {message:null}, {_id: content._id,isFavorite:!isFavorite});
 	})
 	.catch(function(err){
 		response.formatErr(res, 500, err);

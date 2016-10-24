@@ -45,6 +45,7 @@ public class ContentFragment extends Fragment implements MenuAction {
     private boolean isRefreshing = false;
     private Account account;
     private MainActivity mainActivity;
+    private ImageButton buttonFavorite;
 
     public ContentFragment() {
         // Required empty public constructor
@@ -75,11 +76,16 @@ public class ContentFragment extends Fragment implements MenuAction {
         arrayAdapter = new ArrayAdapterContent(getContext(), R.layout.item_card_content, listContents);
         arrayAdapter.current_fragment_calling = ArrayAdapterContent.FRAGMENT_CALLING.FRAGMENT_CONTENT;
         flingContainer.setAdapter(arrayAdapter);
+         buttonFavorite = (ImageButton) view.findViewById(R.id.button_favorite);
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
             @Override
             public void removeFirstObjectInAdapter() {
                 listContents.remove(0);
                 arrayAdapter.notifyDataSetChanged();
+                if(listContents.size() > 0){
+                    Log.d("ContentFragment",String.valueOf(listContents.get(0).isFavorite));
+                    refreshImageFavorite(listContents.get(0));
+                }
             }
 
             @Override
@@ -135,19 +141,16 @@ public class ContentFragment extends Fragment implements MenuAction {
         Log.d("ContentFrag", "SET FAVORITE");
         if (listContents.size() > 0) {
 
-            final ImageButton buttonFavorite = (ImageButton) activity.findViewById(R.id.button_favorite);
-
             APIHelper.putOrDeleteFavorite(getContext(), listContents.get(0), account, new TaskComplete<Content>() {
                 @Override
                 public void run() {
                     Answer<Content> answer= this.result;
                     if(answer.status<300){
+                        refreshImageFavorite(answer.data);
                         if(answer.data.isFavorite){
-                            buttonFavorite.setImageResource(R.drawable.btn_favorite);
                             Toast.makeText(getContext(), R.string.add_content_to_favorite, Toast.LENGTH_LONG).show();
                         }
                         else{
-                            buttonFavorite.setImageResource(R.drawable.btn_not_favorite);
                             Toast.makeText(getContext(), R.string.remove_content_to_favorite, Toast.LENGTH_LONG).show();
                         }
                     }
@@ -220,6 +223,14 @@ public class ContentFragment extends Fragment implements MenuAction {
     public void refresh() {
         if (listContents.size() <= 2) {
             refreshData();
+        }
+    }
+    public void refreshImageFavorite(Content content){
+        if(content.isFavorite){
+            buttonFavorite.setImageResource(R.drawable.btn_favorite);
+        }
+        else{
+            buttonFavorite.setImageResource(R.drawable.btn_not_favorite);
         }
     }
 }
