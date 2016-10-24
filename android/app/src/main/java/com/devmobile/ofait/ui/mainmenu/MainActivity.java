@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.devmobile.ofait.R;
@@ -59,6 +60,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         displayDefaultView();
         socketManager = SocketManager.getInstance(MainActivity.this);
+
+        TextView pseudo = (TextView) navigationView.getHeaderView(0).findViewById(R.id.menu_pseudo);
+        pseudo.setText(Preference.getAccount(this).pseudo);
+
+        LinearLayout menu_layout = (LinearLayout) navigationView.getHeaderView(0).findViewById(R.id.menu_layout);
+        menu_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayView(R.id.nav_account);
+            }
+        });
     }
 
     @Override
@@ -161,10 +173,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-    }
-
-    public void onClickNavAccount(View view) {
-        displayView(R.id.nav_account);
     }
 
     public void displayVoteForMe(Vote vote) {
