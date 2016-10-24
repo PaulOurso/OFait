@@ -2,7 +2,9 @@
 
 const Account      = require('../models/Account'),
     Content        = require('../models/Content'),
-    Vote           = require('../models/Vote');
+    Vote           = require('../models/Vote'),
+    config         = require('config'),
+    levels         = config.get('Customer.levels');
 
 var clients        = [];
 
@@ -28,19 +30,32 @@ function actionVote(socket, voteJSON) {
         Account.findById(newVote.account).exec()
           .then((account) => {
             account.votes.push(newVote);
+            if ((account.votes.length % levels.nb_votes_to_win_rep) == 0) {
+              account.reputation += levels.win_rep_after_nb_votes;
+            }
             account.save();
-          });
-        Content.findById(newVote.content).exec()
+          })
+          .catch((err) => console.log(err));
+        Content.findById(newVote.content).populate('created_by').exec()
           .then((content) => {
             content.votes.push(newVote);
-            content.save();
-            if (content.notif) {
-              var iDest = clients.map((e) => { return e.account_id }).indexOf(newVote.account);
-              if (iDest >= 0 && iDest < clients.length) {
-                socket.to(clients[select].id).emit("voted_for_me", {value:newVote.value});
-              }
+            if (content.votes.length == levels.nb_votes_to_win_hot && newVote.value == 1) {
+              var account = content.created_by;
+              account.reputation += levels.win_rep_after_hot;
+              account.save();
             }
-          });
+            content.save();
+            Content.find({ $and: [{created_by: content.created_by}] }).sort({created_date:-1}).limit(1)
+              .then((lastContent) => {
+                if (lastContent && lastContent._id == content._id && content.notif) {
+                  var iDest = clients.map((e) => { return e.account_id }).indexOf(newVote.account);
+                  if (iDest >= 0 && iDest < clients.length) {
+                    socket.to(clients[select].id).emit("voted_for_me", {value:newVote.value});
+                }
+              }
+            });
+          })
+          .catch((err) => console.log(err));
       });
   }
 }
