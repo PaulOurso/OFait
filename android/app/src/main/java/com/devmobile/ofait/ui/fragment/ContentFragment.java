@@ -29,6 +29,7 @@ import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -105,6 +106,13 @@ public class ContentFragment extends Fragment {
         /*flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
             @Override
             public void onItemClicked(int i, Object o) {
+                Vote vote = new Vote();
+                int min = 0;
+                int max = 1;
+
+                Random r = new Random();
+                vote.value = r.nextInt(max - min + 1) + min;
+                mainActivity.displayVoteForMe(vote);
             }
         });*/
     }
