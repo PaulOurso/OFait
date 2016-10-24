@@ -52,9 +52,6 @@ public class AddContentFragment extends Fragment implements MenuAction {
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Switch notifForMyContentSwitch = (Switch) view.findViewById(R.id.new_content_switch_notif);
-        Account account = Preference.getAccount(this.getContext());
-        notifForMyContentSwitch.setChecked(account.notif);
         refreshData();
     }
 
@@ -94,6 +91,9 @@ public class AddContentFragment extends Fragment implements MenuAction {
             public void run() {
                 Answer<Account> answer = this.result;
                 TextView contentsToMake = (TextView) AddContentFragment.this.getActivity().findViewById(R.id.content_number);
+                Switch notifForMyContentSwitch = (Switch) AddContentFragment.this.getActivity().findViewById(R.id.new_content_switch_notif);
+                Account account = Preference.getAccount(AddContentFragment.this.getContext());
+                notifForMyContentSwitch.setChecked(account.notif);
 
                 if(answer.status < 300 ) {
                     String text = String.format(getString(R.string.content_count), answer.data.remaining_contents);

@@ -46,6 +46,7 @@
     <string name="create_content_button">Créer</string>
     <string name="content_count">%d</string>
     <string name="notif_for_my_content">Être notifié des votes pour ce contenu</string>
+    <string name="notif_for_my_content_default">Être notifié des votes par défaut</string>
 
     <!-- Contents -->
     <string name="content_date">%1$d %2$s %3$d</string>
