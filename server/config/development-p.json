@@ -2,14 +2,14 @@
   "Customer": {
     "server": {
       "web_socket": {
-        "host": "192.168.1.19"
+        "host": "192.168.21.169"
       },
       "api": {
-        "host": "192.168.1.19"
+        "host": "192.168.21.169"
       }
     },
     "levels": {
-      "default": 0,
+      "default": 10,
       "list": [
         { "reputation": 30,   "cost_vote": 50 },
         { "reputation": 80,   "cost_vote": 40 },

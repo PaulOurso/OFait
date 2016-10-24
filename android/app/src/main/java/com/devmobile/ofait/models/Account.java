@@ -14,12 +14,14 @@ public class Account {
     public String pseudo;
     public String google_id;
     public String fb_id;
-    public int votesSpent;
-    public int reputation;
-    public List<Vote> votes;
     public int remaining_contents;
     public boolean notif;
-    public int nextLvlReputation;
+    public int nb_votes;
+    public int votes_by_content;
+    public int votes_unused;
+    public int reputation;
+    public int next_lvl_reputation;
+    public int previous_reputation;
 
     public static Type typeAnswerOf() {
         return new TypeToken<Answer<Account>>() {

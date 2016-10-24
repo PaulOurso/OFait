@@ -4,9 +4,12 @@ package com.devmobile.ofait.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Html;
+import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.devmobile.ofait.R;
@@ -15,6 +18,8 @@ import com.devmobile.ofait.models.Answer;
 import com.devmobile.ofait.utils.Preference;
 import com.devmobile.ofait.utils.requests.APIHelper;
 import com.devmobile.ofait.utils.requests.TaskComplete;
+
+import java.text.DecimalFormatSymbols;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,10 +54,15 @@ public class AccountFragment extends Fragment {
             @Override
             public void run() {
                 Answer<Account> answer = this.result;
+                Account account = answer.data;
                 TextView accountName = (TextView) view.findViewById(R.id.account_name);
+
+                String textPseudo = String.format(getString(R.string.dynamical_string), Preference.getAccount(AccountFragment.getInstance().getContext()).pseudo);
+                accountName.setText(textPseudo);
 
                 //reputations
                 TextView accountReputationValue = (TextView) view.findViewById(R.id.account_reputation_value);
+                TextView accountPreviousReputation= (TextView) view.findViewById(R.id.account_previous_reputation);
                 TextView accountNextReputation= (TextView) view.findViewById(R.id.account_next_reputation);
 
                 //content available
@@ -62,29 +72,49 @@ public class AccountFragment extends Fragment {
                 TextView accountCurrentVotes= (TextView) view.findViewById(R.id.account_current_votes);
                 TextView accountVotesLevel= (TextView) view.findViewById(R.id.account_votes_next_content);
 
-                String textPseudo = String.format(getString(R.string.dynamical_string), Preference.getAccount(AccountFragment.getInstance().getContext()).pseudo);
-                accountName.setText(textPseudo);
+                ProgressBar progressReputation = (ProgressBar) view.findViewById(R.id.progressBar_reputation);
+                ProgressBar progressVotes= (ProgressBar) view.findViewById(R.id.progressBar_votes);
+
 
                 if(answer.status < 300 ) {
 
-                    String textReputation= String.format(getString(R.string.dynamical_integer), answer.data.reputation);
+                    String textReputation= String.format(getString(R.string.dynamical_integer), account.reputation);
                     accountReputationValue.setText(textReputation);
-                    String textNextReputation= String.format(getString(R.string.dynamical_integer), answer.data.nextLvlReputation);
+                    String textPreviousReputation= String.format(getString(R.string.dynamical_integer), account.previous_reputation);
+                    accountPreviousReputation.setText(textPreviousReputation);
+                    String textNextReputation= String.format(getString(R.string.dynamical_integer), account.next_lvl_reputation);
                     accountNextReputation.setText(textNextReputation);
 
-                    String textRemainingContents= String.format(getString(R.string.account_content_available_text), answer.data.remaining_contents);
+                    String textRemainingContents= String.format(getString(R.string.account_content_available_text), account.remaining_contents);
                     accountContentAvailable.setText(textRemainingContents);
 
-                    /*String textCurrentVotes= String.format(getString(R.string.dynamical_integer), answer.data.votes.size());
+                    String textCurrentVotes= String.format(getString(R.string.dynamical_integer), account.votes_unused%account.votes_by_content);
                     accountCurrentVotes.setText(textCurrentVotes);
-                    String textVotesLevel= String.format(getString(R.string.dynamical_integer), answer.data.votes.size());
-                    accountVotesLevel.setText(textVotesLevel);*/
+                    String textVotesLevel= String.format(getString(R.string.dynamical_integer), account.votes_by_content);
+                    accountVotesLevel.setText(textVotesLevel);
+
+                    progressReputation.setMax(account.next_lvl_reputation);
+                    if(account.next_lvl_reputation == -1){
+                        accountNextReputation.setText(DecimalFormatSymbols.getInstance().getInfinity());
+                        progressReputation.setMax(1);
+                        progressReputation.setProgress(1);
+                    }
+                    else{
+                        progressReputation.setProgress(account.reputation);
+                    }
+
+                    progressVotes.setMax(account.votes_by_content);
+                    progressVotes.setProgress(account.votes_unused%account.votes_by_content);
+
                 }
                 else{
-                    String text = "";
-                    accountReputationValue.setText(text);
-                    accountContentAvailable.setText(text+ getString(R.string.account_content_votes_left_text));
-
+                    String nullText = "";
+                    accountReputationValue.setText(nullText);
+                    accountContentAvailable.setText(nullText+ getString(R.string.account_content_votes_left_text));
+                    accountPreviousReputation.setText(nullText);
+                    accountNextReputation.setText(nullText);
+                    accountCurrentVotes.setText(nullText);
+                    accountVotesLevel.setText(nullText);
                     answer.message.displayMessage(AccountFragment.getInstance().getContext());
                 }
             }

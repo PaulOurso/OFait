@@ -6,7 +6,11 @@ const Account        = require('../models/Account'),
 
 exports.findAccountByID = function findAccountByID(req, res) {
   var id = req.params.id;
+<<<<<<< 535be6940784afa2ef2de0ae89924159e4cdc6d9
   var select = '_id pseudo votesSpent reputation fb_id google_id notif';
+=======
+  var select = '_id pseudo votes_spent reputation fb_id google_id';
+>>>>>>> account stat done and working
   if (id && id.match(/^[0-9a-fA-F]{24}$/)) {
     Account.findById(req.params.id, select).lean().exec()
       .then((account) => {
@@ -24,7 +28,11 @@ exports.findAccountByID = function findAccountByID(req, res) {
 exports.getAccountFromLogin = function getAccountFromLogin(req, res) {
   var fb_id = req.query.fb_id;
   var google_id = req.query.google_id;
+<<<<<<< 535be6940784afa2ef2de0ae89924159e4cdc6d9
   var select = '_id pseudo votesSpent reputation fb_id google_id notif';
+=======
+  var select = '_id pseudo votes_spent reputation fb_id google_id';
+>>>>>>> account stat done and working
   if (fb_id || google_id) {
     var param = fb_id ? {fb_id: fb_id} : {google_id: google_id};
     Account.findOne(param, select).lean().exec()
@@ -43,7 +51,11 @@ exports.getAccountFromLogin = function getAccountFromLogin(req, res) {
 exports.addAccountIfNotExist = function addAccountIfNotExist(req, res) {
   var fb_id = req.body.fb_id;
   var google_id = req.body.google_id;
+<<<<<<< 535be6940784afa2ef2de0ae89924159e4cdc6d9
   var select = '_id pseudo votesSpent reputation fb_id google_id notif';
+=======
+  var select = '_id pseudo votes_spent reputation fb_id google_id';
+>>>>>>> account stat done and working
   if (fb_id || google_id) {
     var param = fb_id ? {fb_id: fb_id} : {google_id: google_id};
     Account.findOne(param, select).lean().exec()
@@ -63,7 +75,11 @@ exports.addAccountIfNotExist = function addAccountIfNotExist(req, res) {
 
 exports.updateAccountByID = function updateAccountByID(req, res) {
   var id = req.params.id;
+<<<<<<< 535be6940784afa2ef2de0ae89924159e4cdc6d9
   var select = '_id pseudo votesSpent reputation fb_id google_id notif'
+=======
+  var select = '_id pseudo votes_spent reputation fb_id google_id'
+>>>>>>> account stat done and working
   if (id && id.match(/^[0-9a-fA-F]{24}$/)) {
     Account.findById(id, select).exec()
       .then((account) => {
@@ -89,17 +105,17 @@ exports.getStatsAccountByID = function getStatsAccountByID(req, res){
   Account.findById(id).lean().exec()
       .then((account) => {
 
-        var nbVotesUnused = account.votes.length - account.votesSpent;
-        var votesByContent = accountHelper.getNbVoteToMakeContent(account);
-        var nextLvlReputation = accountHelper.getNextLevelReputation(account);
+        var nbVotesUnused = account.votes.length - account.votes_spent;
+        account.reputation = 260;
+        var votesConstants = accountHelper.getVotesConstants(account);
+        var previousReputation = accountHelper.getPreviousLvlReputation(votesConstants);
+
+        console.log(previousReputation);
 
         var remaining_contents = 0;
-        if (votesByContent > 0)
-          remaining_contents = Math.floor(nbVotesUnused/votesByContent)
+        if (votesConstants.cost_vote > 0)
+          remaining_contents = Math.floor(nbVotesUnused/votesConstants.cost_vote);
 
-        if(nbVotesUnused == -1){
-          return response.formatErr(res,500,{message:"Erreur sur la recherche de votes"})
-        }
         account = {
           _id               : account._id,
           pseudo            : account.pseudo,
@@ -107,11 +123,15 @@ exports.getStatsAccountByID = function getStatsAccountByID(req, res){
           fb_id             : account.fb_id,
           votesSpent        : account.votesSpent,
           notif             : account.notif,
-          votes             : account.votes,
-          reputation        : account.reputation,
           remaining_contents: remaining_contents,
-          nextLvlReputation : nextLvlReputation
+          nb_votes          : account.votes.length,
+          votes_by_content  : votesConstants.cost_vote,
+          votes_unused      : nbVotesUnused,
+          reputation        : account.reputation,
+          next_lvl_reputation : votesConstants.reputation,
+          previous_reputation: previousReputation 
         }
+
 
         return response.formatAnswerObject(res, 201, {message:null}, account);
       })

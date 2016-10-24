@@ -71,4 +71,5 @@
     <string name="account_reputation_text">Reputation :</string>
     <string name="account_content_available_text">%d contenu en reserve</string>
     <string name="account_content_votes_left_text">Progression avant le prochain contenu</string>
+    <string name="text_0">0</string>
 </resources>
