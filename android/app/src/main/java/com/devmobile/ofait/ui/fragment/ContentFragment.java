@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.devmobile.ofait.R;
@@ -133,7 +134,28 @@ public class ContentFragment extends Fragment implements MenuAction {
         //Content content = listContents.get(0);
         Log.d("ContentFrag", "SET FAVORITE");
         if (listContents.size() > 0) {
-            // TODO: Add favorite
+
+            final ImageButton buttonFavorite = (ImageButton) activity.findViewById(R.id.button_favorite);
+
+            APIHelper.putOrDeleteFavorite(getContext(), listContents.get(0), account, new TaskComplete<Content>() {
+                @Override
+                public void run() {
+                    Answer<Content> answer= this.result;
+                    if(answer.status<300){
+                        if(answer.data.isFavorite){
+                            buttonFavorite.setImageResource(R.drawable.btn_favorite);
+                            Toast.makeText(getContext(), R.string.add_content_to_favorite, Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            buttonFavorite.setImageResource(R.drawable.btn_not_favorite);
+                            Toast.makeText(getContext(), R.string.remove_content_to_favorite, Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else{
+                        answer.message.displayMessage(AddContentFragment.getInstance().getContext());
+                    }
+                }
+            });
         }
     }
 

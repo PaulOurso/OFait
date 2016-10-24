@@ -53,6 +53,8 @@
     <string name="content_created_by">Par %s</string>
     <string name="content_points">%d points</string>
     <string name="no_contents_available">Pas de contenu disponible.</string>
+    <string name="add_content_to_favorite">Ce contenu a bien été ajouté à vos favoris</string>
+    <string name="remove_content_to_favorite">Ce contenu a bien été retiré de vos favoris</string>
     <string-array name="months">
         <item>Janvier</item>
         <item>Février</item>

@@ -98,7 +98,8 @@ exports.setOrDeleteFavorite = function setOrDeleteFavorite(req,res){
 
 	Content.findById(content_id,select).exec()
 	.then(function(content){
-		console.log(content);
+
+		var isFavorite= true;
 		var account_index = content.favorite_for_account.indexOf(account_id);
 		console.log(account_index);
 		if( account_index== -1){
@@ -106,10 +107,11 @@ exports.setOrDeleteFavorite = function setOrDeleteFavorite(req,res){
 		}
 		else{
 			content.favorite_for_account.splice(account_index,1);
+			isFavorite=false;
 		}
 		content.save();
 
-		return  response.formatAnswerArray(res, 200, {message:null}, content);
+		return  response.formatAnswerObject(res, 200, {message:null}, {_id: content._id,isFavorite:isFavorite});
 	})
 	.catch(function(err){
 		response.formatErr(res, 500, err);

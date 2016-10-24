@@ -33,6 +33,7 @@
                 android:layout_weight="1"
                 android:gravity="center">
                 <ImageButton
+                    android:id="@+id/button_favorite"
                     style="@style/ButtonVote"
                     android:src="@drawable/btn_not_favorite"
                     android:tag="btnSetFavorite"
