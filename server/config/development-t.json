@@ -9,6 +9,10 @@
       }
     },
     "levels": {
+      "nb_votes_to_win_rep" : 1,
+      "win_rep_after_nb_votes" : 1,
+      "nb_votes_to_win_hot" : 1,
+      "win_rep_after_hot" : 5,
       "default": 1,
       "list": [{ "reputation": 30,   "cost_vote": 2 }]
     }
