@@ -50,11 +50,14 @@ public class AccountFragment extends Fragment implements MenuAction {
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        refreshData();
+        refreshData(false);
     }
 
     public void refreshData() {
-        APIHelper.getAccountStats(this.getContext(), Preference.getAccount(this.getContext()), new TaskComplete<Account>() {
+        refreshData(true);
+    }
+    public void refreshData(boolean displayLoading) {
+        APIHelper.getAccountStats(this.getContext(), displayLoading, Preference.getAccount(this.getContext()), new TaskComplete<Account>() {
             @Override
             public void run() {
                 Answer<Account> answer = this.result;

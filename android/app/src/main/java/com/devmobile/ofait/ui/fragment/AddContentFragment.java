@@ -54,7 +54,7 @@ public class AddContentFragment extends Fragment implements MenuAction {
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        refreshData();
+        refreshData(false);
     }
 
     public void createNewContent(MainActivity activity) {
@@ -89,8 +89,12 @@ public class AddContentFragment extends Fragment implements MenuAction {
     }
 
     public void refreshData() {
+        refreshData(true);
+    }
+
+    public void refreshData(boolean displayLoading) {
         Account account = Preference.getAccount(this.getContext());
-        APIHelper.getAccountStats(this.getContext(), account, new TaskComplete<Account>() {
+        APIHelper.getAccountStats(this.getContext(), displayLoading, account, new TaskComplete<Account>() {
             @Override
             public void run() {
                 Answer<Account> answer = this.result;

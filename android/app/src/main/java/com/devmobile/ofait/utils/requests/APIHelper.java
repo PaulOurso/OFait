@@ -23,9 +23,7 @@ public class APIHelper {
     public static final String URL_GET_ACCOUNT_HISTORY_CONTENTS = IPConfig.DOMAIN_API + "/account/%s/history";
     public static final String URL_PUT_OR_DELETE_FAVORITE = IPConfig.DOMAIN_API + "/content/%s/favorite/%s";
 
-    public static void getAccountFromLogin(Context c, Account account, TaskComplete taskComplete) {
-        getAccountFromLogin(c, false, account, taskComplete);
-    }
+
     public static void getAccountFromLogin(Context c, boolean fromSplash, Account account, TaskComplete taskComplete) {
         APIRequest<Account> apiRequest = new APIRequest<>(c, Account.typeAnswerOf(), taskComplete);
         apiRequest.setShowDialog(!fromSplash);
@@ -66,10 +64,11 @@ public class APIHelper {
         apiRequest.execute(URL_CREATE_CONTENT);
     }
 
-    public static void getAccountStats(Context c, Account account, TaskComplete taskComplete) {
+    public static void getAccountStats(Context c, boolean displayLoading, Account account, TaskComplete taskComplete) {
         APIRequest<Account> apiRequest = new APIRequest<>(c, Account.typeAnswerOf(), taskComplete);
         String url = String.format(URL_ACCOUNT_STATS, account._id);
         apiRequest.setMethod(Request.Method.GET);
+        apiRequest.setShowDialog(displayLoading);
         apiRequest.execute(url);
     }
 
@@ -81,10 +80,11 @@ public class APIHelper {
         apiRequest.execute(url);
     }
 
-    public static void getFavoriteContents(Context c, Account account, TaskComplete taskComplete) {
+    public static void getFavoriteContents(Context c, boolean displayLoading, Account account, TaskComplete taskComplete) {
         APIRequest<Content> apiRequest = new APIRequest<>(c, Content.typeAnswerOf(), taskComplete);
         String url = String.format(URL_GET_ACCOUNT_FAVORITE_CONTENTS, account._id);
         apiRequest.setMethod(Request.Method.GET);
+        apiRequest.setShowDialog(displayLoading);
         apiRequest.execute(url);
     }
 
@@ -96,10 +96,11 @@ public class APIHelper {
         apiRequest.execute(url);
     }
 
-    public static void getHistoryContents(Context c, Account account, TaskComplete taskComplete) {
+    public static void getHistoryContents(Context c, boolean displayLoading, Account account, TaskComplete taskComplete) {
         APIRequest<Content> apiRequest = new APIRequest<>(c, Content.typeAnswerOf(), taskComplete);
         String url = String.format(URL_GET_ACCOUNT_HISTORY_CONTENTS, account._id);
         apiRequest.setMethod(Request.Method.GET);
+        apiRequest.setShowDialog(displayLoading);
         apiRequest.execute(url);
     }
 }
