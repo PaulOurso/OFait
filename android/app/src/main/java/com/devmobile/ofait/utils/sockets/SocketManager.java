@@ -1,5 +1,7 @@
 package com.devmobile.ofait.utils.sockets;
 
+import android.util.Log;
+
 import com.devmobile.ofait.models.Account;
 import com.devmobile.ofait.models.Vote;
 import com.devmobile.ofait.ui.mainmenu.MainActivity;
@@ -79,6 +81,7 @@ public class SocketManager {
         if (mSocket != null) {
             mSocket.disconnect();
             mSocket.off("connect");
+            mSocket.off("voted_for_me");
         }
     }
 
