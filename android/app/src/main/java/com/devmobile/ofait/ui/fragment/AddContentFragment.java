@@ -5,12 +5,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,7 +60,7 @@ public class AddContentFragment extends Fragment implements MenuAction {
     public void createNewContent(MainActivity activity) {
         closeKeyboard();
         final EditText newContentText = (EditText) activity.findViewById(R.id.new_content_text);
-        final Switch notifForMyContentSwitch = (Switch) activity.findViewById(R.id.new_content_switch_notif);
+        final SwitchCompat notifForMyContentSwitch = (SwitchCompat) activity.findViewById(R.id.new_content_switch_notif);
 
         if(!newContentText.getText().toString().isEmpty()){
             Content newContent = new Content();
@@ -76,6 +76,7 @@ public class AddContentFragment extends Fragment implements MenuAction {
                     newContentText.setText("");
                     Account account = Preference.getAccount(AddContentFragment.this.getContext());
                     notifForMyContentSwitch.setChecked(account.notif);
+                    refreshData();
                     if (answer.status < 300) {
                         Toast.makeText(AddContentFragment.getInstance().getContext(), R.string.create_content_done, Toast.LENGTH_LONG).show();
                     }
@@ -94,7 +95,7 @@ public class AddContentFragment extends Fragment implements MenuAction {
             public void run() {
                 Answer<Account> answer = this.result;
                 TextView contentsToMake = (TextView) AddContentFragment.this.getActivity().findViewById(R.id.content_number);
-                Switch notifForMyContentSwitch = (Switch) AddContentFragment.this.getActivity().findViewById(R.id.new_content_switch_notif);
+                SwitchCompat notifForMyContentSwitch = (SwitchCompat) AddContentFragment.this.getActivity().findViewById(R.id.new_content_switch_notif);
                 Account account = Preference.getAccount(AddContentFragment.this.getContext());
                 notifForMyContentSwitch.setChecked(account.notif);
 

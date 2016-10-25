@@ -39,8 +39,8 @@
     <!-- CREATE CONTENT -->
     <string name="create_content_done">Votre contenu a été crée !</string>
     <string name="create_content_error">Une erreur est apparu à la création de votre contenu</string>
-    <string name="creatable_content_">Contenus en reserve</string>
-    <string name="create_content_button">Créer</string>
+    <string name="creatable_content_">Publications disponible</string>
+    <string name="create_content_button">Publier</string>
     <string name="content_count">%d</string>
     <string name="notif_for_my_content">Être notifié des votes pour ce contenu</string>
     <string name="notif_for_my_content_default">Être notifié des votes par défaut</string>
@@ -82,4 +82,7 @@
     <!-- HISTORY -->
     <string name="history_not_content">Vous n\'avez pas partagé d\'infos insolite.</string>
     <string name="hot">HOT</string>
+    <string name="edit_text_write_content">Votre information insolite</string>
+    <string name="your_content_form">Votre info insolite</string>
+    <string name="notification">Notification</string>
 </resources>

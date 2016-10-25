@@ -32,4 +32,10 @@
         <item name="android:textColor">@color/colorWhite</item>
     </style>
 
+    <style name="SCBSwitch" parent="AppTheme.Base">
+        <item name="colorControlActivated">@color/colorGreen</item>
+        <item name="colorSwitchThumbNormal">#f1f1f1 </item>
+        <item name="android:colorForeground">#42221f1f </item>
+    </style>
+
 </resources>

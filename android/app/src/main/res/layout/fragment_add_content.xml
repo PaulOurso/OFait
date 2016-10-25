@@ -1,61 +1,100 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.devmobile.ofait.ui.fragment.AddContentFragment"
-    android:orientation="vertical">
-
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/creatable_content_"
-        android:gravity="center"
-        android:textSize="20dp"
-        android:layout_marginBottom="10dp"/>
-
-    <TextView
-        android:id="@+id/content_number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/content_count"
-        android:gravity="center"
-        android:textSize="20dp"
-        android:layout_marginBottom="30dp"/>
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
+    tools:context=".ui.fragment.AddContentFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="30dp">
+        android:orientation="vertical"
+        android:padding="20dp">
+
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/notif_for_my_content"/>
-        <Switch
-            android:id="@+id/new_content_switch_notif"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:text="@string/creatable_content_"
+            android:textAllCaps="true"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/content_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="@string/content_count"
+            android:textSize="20sp" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp" />
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorTitle"
+            android:text="@string/your_content_form"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:text="@string/notification" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorTextInfo"
+                    android:textSize="13sp"
+                    android:text="@string/notif_for_my_content" />
+            </LinearLayout>
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/new_content_switch_notif"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:theme="@style/SCBSwitch"/>
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/new_content_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:hint="@string/edit_text_write_content"
+            android:maxLines="15"
+            android:minLines="5"
+            android:textCursorDrawable="@null"
+            android:background="@drawable/edit_text_border" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:theme="@style/ButtonValide"
+            android:layout_marginTop="10dp"
+            android:onClick="uiDispatcher"
+            android:tag="createNewContent"
+            android:text="@string/create_content_button" />
     </LinearLayout>
-
-    <EditText
-        android:id="@+id/new_content_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="votre information insolite"
-        android:gravity="center"
-        android:minLines="3"
-        android:maxLines="15"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/create_content_button"
-        android:layout_gravity="center"
-        android:tag="createNewContent"
-        android:onClick="uiDispatcher"/>
-
-</LinearLayout>
+</ScrollView>
