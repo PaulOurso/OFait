@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.devmobile.ofait.R;
@@ -44,6 +45,7 @@ public class ContentFragment extends Fragment implements MenuAction {
     private boolean isRefreshing = false;
     private Account account;
     private MainActivity mainActivity;
+    private ImageButton buttonFavorite;
 
     public ContentFragment() {
         // Required empty public constructor
@@ -72,12 +74,15 @@ public class ContentFragment extends Fragment implements MenuAction {
         flingContainer = (SwipeFlingAdapterView) view.findViewById(R.id.fling_cards_contents);
         listContents.clear();
         arrayAdapter = new ArrayAdapterContent(getContext(), R.layout.item_card_content, listContents);
+        arrayAdapter.current_fragment_calling = ArrayAdapterContent.FRAGMENT_CALLING.FRAGMENT_CONTENT;
         flingContainer.setAdapter(arrayAdapter);
+         buttonFavorite = (ImageButton) view.findViewById(R.id.button_favorite);
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
             @Override
             public void removeFirstObjectInAdapter() {
                 listContents.remove(0);
                 arrayAdapter.notifyDataSetChanged();
+                refreshImageFavorite();
             }
 
             @Override
@@ -132,7 +137,26 @@ public class ContentFragment extends Fragment implements MenuAction {
         //Content content = listContents.get(0);
         Log.d("ContentFrag", "SET FAVORITE");
         if (listContents.size() > 0) {
-            // TODO: Add favorite
+
+            APIHelper.putOrDeleteFavorite(getContext(), listContents.get(0), account, new TaskComplete<Content>() {
+                @Override
+                public void run() {
+                    Answer<Content> answer= this.result;
+                    if(answer.status<300){
+                        for (Content c : listContents) {
+                            if (c._id.equals(answer.data._id)) {
+                                c.isFavorite = answer.data.isFavorite;
+                                arrayAdapter.notifyDataSetChanged();
+                                break;
+                            }
+                        }
+                        refreshImageFavorite();
+                    }
+                    else{
+                        answer.message.displayMessage(AddContentFragment.getInstance().getContext());
+                    }
+                }
+            });
         }
     }
 
@@ -167,6 +191,7 @@ public class ContentFragment extends Fragment implements MenuAction {
                             Collections.shuffle(listNewContents);
                             listContents.addAll(listNewContents);
                             arrayAdapter.notifyDataSetChanged();
+                            refreshImageFavorite();
                         }
                     }
                     else
@@ -197,6 +222,19 @@ public class ContentFragment extends Fragment implements MenuAction {
     public void refresh() {
         if (listContents.size() <= 2) {
             refreshData();
+        }
+    }
+    public void refreshImageFavorite() {
+        if (listContents.size() > 0) {
+            Content content = listContents.get(0);
+            if (content.isFavorite) {
+                buttonFavorite.setImageResource(R.drawable.btn_favorite);
+            } else {
+                buttonFavorite.setImageResource(R.drawable.btn_not_favorite);
+            }
+        }
+        else {
+            buttonFavorite.setImageResource(R.drawable.btn_not_favorite);
         }
     }
 }

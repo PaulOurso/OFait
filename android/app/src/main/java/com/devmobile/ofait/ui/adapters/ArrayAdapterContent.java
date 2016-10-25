@@ -2,14 +2,18 @@ package com.devmobile.ofait.ui.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.devmobile.ofait.R;
 import com.devmobile.ofait.models.Content;
+import com.devmobile.ofait.ui.fragment.BookmarkFragment;
 import com.devmobile.ofait.utils.FormatHelper;
 
 import java.util.Calendar;
@@ -23,6 +27,9 @@ public class ArrayAdapterContent extends ArrayAdapter<Content> {
 
     public LayoutInflater layoutInflater;
     public int resId;
+    public enum FRAGMENT_CALLING{FRAGMENT_CONTENT, FRAGMENT_BOOKMARK, FRAGMENT_HISTORY};
+    public FRAGMENT_CALLING current_fragment_calling;
+    public Fragment fragment;
 
     public ArrayAdapterContent(Context context, int resource, List<Content> objects) {
         super(context, resource, objects);
@@ -35,6 +42,7 @@ public class ArrayAdapterContent extends ArrayAdapter<Content> {
         public TextView tvContentCreatedBy;
         public TextView tvContentCreatedDate;
         public TextView tvContentPoints;
+        public LinearLayout rlRemoveButton;
     }
 
     @NonNull
@@ -49,12 +57,13 @@ public class ArrayAdapterContent extends ArrayAdapter<Content> {
             viewHolder.tvContentCreatedBy = (TextView) convertView.findViewById(R.id.card_content_created_by);
             viewHolder.tvContentCreatedDate = (TextView) convertView.findViewById(R.id.card_content_created_date);
             viewHolder.tvContentPoints = (TextView) convertView.findViewById(R.id.card_content_points);
+            viewHolder.rlRemoveButton = (LinearLayout) convertView.findViewById(R.id.remove_button);
             convertView.setTag(viewHolder);
         }
         else
             viewHolder = (ContentViewHolder) convertView.getTag();
 
-        Content content = getItem(position);
+        final Content content = getItem(position);
         viewHolder.tvContentValue.setText(content.content_value);
         viewHolder.tvContentCreatedBy.setText(getContext().getString(R.string.content_created_by, content.created_by.pseudo));
         viewHolder.tvContentPoints.setText(getContext().getString(R.string.content_points, content.nb_points));
@@ -66,6 +75,21 @@ public class ArrayAdapterContent extends ArrayAdapter<Content> {
                 getContext().getResources().getStringArray(R.array.months)[calendar.get(Calendar.MONTH)],
                 calendar.get(Calendar.YEAR));
         viewHolder.tvContentCreatedDate.setText(date);
+
+        if (current_fragment_calling == FRAGMENT_CALLING.FRAGMENT_BOOKMARK) {
+            viewHolder.rlRemoveButton.setVisibility(View.VISIBLE);
+            viewHolder.rlRemoveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (fragment != null) {
+                        ((BookmarkFragment)fragment).removeBookmark(content);
+                    }
+                }
+            });
+        }
+        else {
+            viewHolder.rlRemoveButton.setVisibility(View.GONE);
+        }
 
         return convertView;
     }

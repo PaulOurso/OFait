@@ -53,6 +53,8 @@
     <string name="content_created_by">Par %s</string>
     <string name="content_points">%d points</string>
     <string name="no_contents_available">Pas de contenu disponible.</string>
+    <string name="add_content_to_favorite">Ce contenu a bien été ajouté à vos favoris</string>
+    <string name="remove_content_to_favorite">Ce contenu a bien été retiré de vos favoris</string>
     <string-array name="months">
         <item>Janvier</item>
         <item>Février</item>
@@ -73,4 +75,7 @@
     <string name="account_content_available_text">%d contenu en reserve</string>
     <string name="account_content_votes_left_text">Progression avant le prochain contenu</string>
     <string name="text_0">0</string>
+    <string name="bookmark_not_favorites">Pas de favoris</string>
+    <string name="remove">Supprimer</string>
+    <string name="ask_remove_favorite">Voulez-vous réelement le supprimer de vos favoris ?</string>
 </resources>

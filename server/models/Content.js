@@ -12,7 +12,8 @@ var contentSchema = mongoose.Schema({
   'content_value' : {type:String, required:true},
   'created_date'  : {type:Date, default: Date.now},
   'notif'         : {type:Boolean, default:false},
-  'votes'         : [{type: Schema.Types.ObjectId, ref: 'Vote'}]
+  'votes'         : [{type: Schema.Types.ObjectId, ref: 'Vote'}],
+  'favorite_for_account': [{type: Schema.Types.ObjectId, ref: 'Account'}]
 }, {versionKey: false});
 
 module.exports = mongoose.model('Content', contentSchema);

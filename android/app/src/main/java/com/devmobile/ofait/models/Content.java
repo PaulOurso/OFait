@@ -18,6 +18,7 @@ public class Content {
     public List<Vote> votes;
     public int nb_points;
     public boolean notif;
+    public boolean isFavorite;
 
     public static Type typeAnswerOf() {
         return new TypeToken<Answer<Content>>() {

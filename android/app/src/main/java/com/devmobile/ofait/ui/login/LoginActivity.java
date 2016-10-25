@@ -177,22 +177,7 @@ public class LoginActivity extends AppCompatActivity {
     public void showPseudoLayout(){
         final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.layout_create_pseudo);
         Animation animation = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.fade_in);
-        animation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                linearLayout.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
+        linearLayout.setVisibility(View.VISIBLE);
         linearLayout.startAnimation(animation);
     }
 

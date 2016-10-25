@@ -13,7 +13,7 @@ var accountSchema = mongoose.Schema({
   'google_id'     : {type:String, index:true},
   'reputation'    : {type:Number, default:0},
   'notif'         : {type:Boolean, default:false},
-  'votes_spent'    : {type:Number, default:0},
+  'votes_spent'   : {type:Number, default:0},
   'votes'         : [{type: Schema.Types.ObjectId, ref: 'Vote'}]
 }, {versionKey: false});
 

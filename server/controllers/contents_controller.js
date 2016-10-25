@@ -4,7 +4,8 @@ const Account 		 = require('../models/Account'),
 	  Content        = require('../models/Content'),
 	  Vote 					 = require('../models/Vote'),
     response       = require('../helpers/answer_helper'),
-    accountHelper  = require('../helpers/account_helper');
+    accountHelper  = require('../helpers/account_helper'),
+    contentHelper  = require('../helpers/content_helper');
 
 exports.createContent = function createContent(req,res){
 	var created_by = req.body.created_by;
@@ -19,7 +20,7 @@ exports.createContent = function createContent(req,res){
         }
         
         var nbVotesUnused = account.votes.length - account.votes_spent;
-        //var nbVotesUnused = 200;
+        var nbVotesUnused = 200;
         var voteConstants = accountHelper.getVotesConstants(account);
         var nbVotesToUse = voteConstants.cost_vote;
 
@@ -54,12 +55,12 @@ exports.createContent = function createContent(req,res){
 
 exports.getContentsToVote = function getContentsToVote(req,res) {
 	var account_id = req.params.id;
-  var select = '_id created_by content_value created_date votes';
+  	var select = '_id created_by content_value created_date votes favorite_for_account';
 	if (account_id && account_id.match(/^[0-9a-fA-F]{24}$/)) {
 		Vote.find({account: account_id}).lean().exec()
 			.then((myVotes) => {
 				var myVotesContentsID = myVotes.map((elem) => elem.content);
-				Content.find({ $and: [ {created_by: {$ne: account_id}}, {_id: {$nin: myVotesContentsID}} ] }, select).populate('created_by votes').lean().exec()
+				Content.find({ $and: [ {created_by: {$ne: account_id}}, {_id: {$nin: myVotesContentsID}} ] }, select).populate('created_by votes').exec()
 					.then((contents) => {
 						contents = contents.map((c) => {
 							return {
@@ -68,7 +69,8 @@ exports.getContentsToVote = function getContentsToVote(req,res) {
 								content_value	: c.content_value,
 								created_date  : c.created_date,
 								nb_votes			: c.votes.length,
-								nb_points 		: c.votes.reduce((total, curVote) => { return total + curVote.value }, 0)
+								nb_points 		: c.votes.reduce((total, curVote) => { return total + curVote.value }, 0),
+								isFavorite		: contentHelper.checkIfFavorite(c,account_id)
 							};
 						});
 
@@ -89,4 +91,53 @@ exports.getContentsToVote = function getContentsToVote(req,res) {
 	else {
 		response.formatErr(res, 400, {message: 'Paramètres manquants.'});
 	}
+}
+
+exports.setOrDeleteFavorite = function setOrDeleteFavorite(req,res){
+	var content_id = req.params.content_id;
+	var account_id = req.params.account_id;
+	var select = '_id favorite_for_account';
+
+	Content.findById(content_id,select).exec()
+	.then(function(content){
+
+		var isFavorite= contentHelper.checkIfFavorite(content,account_id);
+		if( !isFavorite){
+			content.favorite_for_account.push(account_id);
+		}
+		else{
+			var account_index = content.favorite_for_account.indexOf(account_id);
+			content.favorite_for_account.splice(account_index,1);
+		}
+		content.save();
+
+		return  response.formatAnswerObject(res, 200, {message:null}, {_id: content._id,isFavorite:!isFavorite});
+	})
+	.catch(function(err){
+		response.formatErr(res, 500, err);
+	})
+}
+
+exports.getFavoriteOfAccount = function getFavoriteOfAccount(req,res){
+	var account_id = req.params.id;
+	var select = '_id created_by content_value created_date votes favorite_for_account';
+
+	Content.find({favorite_for_account: {$in: [account_id]}}, select).populate('created_by votes').exec()
+		.then(function(contents){
+			contents = contents.map((c) => {
+								return {
+									_id 					: c._id,
+									created_by		: { pseudo: c.created_by.pseudo },
+									content_value	: c.content_value,
+									created_date  : c.created_date,
+									nb_votes			: c.votes.length,
+									nb_points 		: c.votes.reduce((total, curVote) => { return total + curVote.value }, 0),
+									isFavorite		: true
+								};
+							});
+			response.formatAnswerArray(res, 200, {message:null}, contents);
+		})
+		.catch((err) => {
+			response.formatErr(res, 500, err);
+		});
 }
