@@ -156,7 +156,7 @@ exports.getHistoryOfAccount = function getHistoryOfAccount(req,res){
                   created_date  : c.created_date,
                   nb_votes      : c.votes.length,
                   nb_points     : c.votes.reduce((total, curVote) => { return total + curVote.value }, 0),
-                  isHot         : contentHelper.isHot(c.votes.length);
+                  isHot         : contentHelper.isHot(c.votes.length)
                 };
               });
       response.formatAnswerArray(res, 200, {message:null}, contents);
