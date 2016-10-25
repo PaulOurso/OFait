@@ -5,8 +5,9 @@ const 	Content = require('../models/Content'),
 		list_config = config.get('Customer.levels');
 
 exports.checkIfFavorite = function checkIfFavorite(content,account_id){
-	var isFavorite= true;
-		var account_index = content.favorite_for_account.indexOf(account_id);
-
-		return (account_index != -1);
+  if (content.favorite_for_account) {
+    var account_index = content.favorite_for_account.indexOf(account_id);
+    return (account_index != -1);
+  }
+  return false;
 }

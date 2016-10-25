@@ -60,7 +60,7 @@ exports.getContentsToVote = function getContentsToVote(req,res) {
 		Vote.find({account: account_id}).lean().exec()
 			.then((myVotes) => {
 				var myVotesContentsID = myVotes.map((elem) => elem.content);
-				Content.find({ $and: [ {created_by: {$ne: account_id}}, {_id: {$nin: myVotesContentsID}} ] }, select).populate('created_by votes').lean().exec()
+				Content.find({ $and: [ {created_by: {$ne: account_id}}, {_id: {$nin: myVotesContentsID}} ] }, select).populate('created_by votes').exec()
 					.then((contents) => {
 						contents = contents.map((c) => {
 							return {
@@ -110,7 +110,6 @@ exports.setOrDeleteFavorite = function setOrDeleteFavorite(req,res){
 			content.favorite_for_account.splice(account_index,1);
 		}
 		content.save();
-		console.log(isFavorite);
 
 		return  response.formatAnswerObject(res, 200, {message:null}, {_id: content._id,isFavorite:!isFavorite});
 	})
@@ -119,12 +118,11 @@ exports.setOrDeleteFavorite = function setOrDeleteFavorite(req,res){
 	})
 }
 
-exports.getFavoriteOffAccount = function getFavoriteOffAccount(req,res){
+exports.getFavoriteOfAccount = function getFavoriteOfAccount(req,res){
 	var content_id = req.params.id;
 
 	Content.find({_id: account_id},select).populate('favorites_contents','created_by.pseudo').lean().exec()
 	.then(function(contents){
-		console.log(contents);
 		return  response.formatAnswerArray(res, 200, {message:null}, contents);
 	})
 }

@@ -82,10 +82,7 @@ public class ContentFragment extends Fragment implements MenuAction {
             public void removeFirstObjectInAdapter() {
                 listContents.remove(0);
                 arrayAdapter.notifyDataSetChanged();
-                if(listContents.size() > 0){
-                    Log.d("ContentFragment",String.valueOf(listContents.get(0).isFavorite));
-                    refreshImageFavorite(listContents.get(0));
-                }
+                refreshImageFavorite();
             }
 
             @Override
@@ -146,13 +143,14 @@ public class ContentFragment extends Fragment implements MenuAction {
                 public void run() {
                     Answer<Content> answer= this.result;
                     if(answer.status<300){
-                        refreshImageFavorite(answer.data);
-                        if(answer.data.isFavorite){
-                            Toast.makeText(getContext(), R.string.add_content_to_favorite, Toast.LENGTH_LONG).show();
+                        for (Content c : listContents) {
+                            if (c._id.equals(answer.data._id)) {
+                                c.isFavorite = answer.data.isFavorite;
+                                arrayAdapter.notifyDataSetChanged();
+                                break;
+                            }
                         }
-                        else{
-                            Toast.makeText(getContext(), R.string.remove_content_to_favorite, Toast.LENGTH_LONG).show();
-                        }
+                        refreshImageFavorite();
                     }
                     else{
                         answer.message.displayMessage(AddContentFragment.getInstance().getContext());
@@ -193,6 +191,7 @@ public class ContentFragment extends Fragment implements MenuAction {
                             Collections.shuffle(listNewContents);
                             listContents.addAll(listNewContents);
                             arrayAdapter.notifyDataSetChanged();
+                            refreshImageFavorite();
                         }
                     }
                     else
@@ -225,11 +224,16 @@ public class ContentFragment extends Fragment implements MenuAction {
             refreshData();
         }
     }
-    public void refreshImageFavorite(Content content){
-        if(content.isFavorite){
-            buttonFavorite.setImageResource(R.drawable.btn_favorite);
+    public void refreshImageFavorite() {
+        if (listContents.size() > 0) {
+            Content content = listContents.get(0);
+            if (content.isFavorite) {
+                buttonFavorite.setImageResource(R.drawable.btn_favorite);
+            } else {
+                buttonFavorite.setImageResource(R.drawable.btn_not_favorite);
+            }
         }
-        else{
+        else {
             buttonFavorite.setImageResource(R.drawable.btn_not_favorite);
         }
     }
