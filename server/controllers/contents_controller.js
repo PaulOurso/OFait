@@ -146,7 +146,7 @@ exports.getHistoryOfAccount = function getHistoryOfAccount(req,res){
   var account_id = req.params.id;
   var select = '_id created_by content_value created_date votes';
 
-  Content.find({favorite_for_account: {$in: [account_id]}}, select).populate('created_by votes').exec()
+  Content.find({created_by: account_id}, select).populate('created_by votes').exec()
     .then(function(contents){
       contents = contents.map((c) => {
                 return {

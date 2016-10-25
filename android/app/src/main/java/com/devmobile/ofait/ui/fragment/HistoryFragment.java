@@ -67,7 +67,7 @@ public class HistoryFragment extends Fragment implements MenuAction {
 
     public void loadDatas() {
         Account account = Preference.getAccount(getContext());
-        APIHelper.getFavoriteContents(getContext(), account, new TaskComplete<Content>() {
+        APIHelper.getHistoryContents(getContext(), account, new TaskComplete<Content>() {
             @Override
             public void run() {
 
