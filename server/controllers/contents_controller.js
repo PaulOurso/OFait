@@ -20,7 +20,6 @@ exports.createContent = function createContent(req,res){
         }
         
         var nbVotesUnused = account.votes.length - account.votes_spent;
-        var nbVotesUnused = 200;
         var voteConstants = accountHelper.getVotesConstants(account);
         var nbVotesToUse = voteConstants.cost_vote;
 
