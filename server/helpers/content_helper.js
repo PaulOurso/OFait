@@ -13,5 +13,5 @@ exports.checkIfFavorite = function checkIfFavorite(content,account_id){
 }
 
 exports.isHot = function isHot(nb_votes) {
-  return (nb_votes >= list_config.is_hot_after);
+  return (nb_votes >= list_config.nb_votes_to_win_hot);
 }
