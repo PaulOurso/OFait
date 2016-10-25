@@ -25,6 +25,7 @@ import com.devmobile.ofait.models.Account;
 import com.devmobile.ofait.models.Vote;
 import com.devmobile.ofait.ui.fragment.AccountFragment;
 import com.devmobile.ofait.ui.fragment.AddContentFragment;
+import com.devmobile.ofait.ui.fragment.BookmarkFragment;
 import com.devmobile.ofait.ui.fragment.ContentFragment;
 import com.devmobile.ofait.utils.Preference;
 import com.devmobile.ofait.utils.interfaces.MenuAction;
@@ -158,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 viewIsAtHome = false;
                 break;
             case R.id.nav_favorites:
-                // TODO: add Fragment Favorites
+                fragment = BookmarkFragment.getInstance();
                 title  = getString(R.string.fragment_favorites_title);
                 viewIsAtHome = false;
                 break;

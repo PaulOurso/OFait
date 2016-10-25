@@ -75,4 +75,7 @@
     <string name="account_content_available_text">%d contenu en reserve</string>
     <string name="account_content_votes_left_text">Progression avant le prochain contenu</string>
     <string name="text_0">0</string>
+    <string name="bookmark_not_favorites">Pas de favoris</string>
+    <string name="remove">Supprimer</string>
+    <string name="ask_remove_favorite">Voulez-vous réelement le supprimer de vos favoris ?</string>
 </resources>
