@@ -45,18 +45,26 @@ function actionVote(socket, voteJSON) {
               account.save();
             }
             content.save();
-            Content.find({ $and: [{created_by: content.created_by}] }).sort({created_date:-1}).limit(1)
+            Content.find({created_by: content.created_by}).sort({created_date:-1}).limit(1).lean().exec()
               .then((lastContent) => {
-                if (lastContent && lastContent._id == content._id && content.notif) {
-                  var iDest = clients.map((e) => { return e.account_id }).indexOf(newVote.account);
-                  if (iDest >= 0 && iDest < clients.length) {
-                    socket.to(clients[select].id).emit("voted_for_me", {value:newVote.value});
+                if (lastContent && lastContent.length > 0) {
+                  var lastC = lastContent[0];
+                  if (String(lastC._id).localeCompare(String(content._id)) == 0 && lastC.notif) {
+                    var iDest = clients.map((e) => { return String(e.account_id) }).indexOf(String(lastC.created_by));
+                    if (iDest >= 0 && iDest < clients.length) {
+                      socket.to(clients[iDest].socket_id).emit("voted_for_me", {value:newVote.value});
+                    }
+                  }
                 }
-              }
-            });
+              })
+              .catch((err) => console.log(err));
           })
           .catch((err) => console.log(err));
-      });
+      })
+      .catch((err) => console.log(err));
+  }
+  else {
+    console.log("Format Vote error");
   }
 }
 
