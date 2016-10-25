@@ -2,11 +2,13 @@
 <resources>
     <color name="colorPrimary">#222222</color>
     <color name="colorPrimaryDark">#191919</color>
-    <color name="colorBackground">#c8c8c8</color>
-    <color name="colorAccent">#008e00</color>
-    <color name="colorYellow">#e2cf00</color>
+    <color name="colorBackground">#e1e1e1</color>
+    <color name="colorAccent">#e2cf00</color>
+    <color name="colorGreen">#008e00</color>
     <color name="colorBackgroundItem">@color/colorWhite</color>
     <color name="colorTextInfo">#606060</color>
+
+    <color name="colorBlueDark">#374A67</color>
 
     <color name="colorWhite">#FFFFFF</color>
     <color name="red">#FF0000</color>

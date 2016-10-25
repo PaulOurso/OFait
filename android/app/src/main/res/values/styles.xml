@@ -26,4 +26,10 @@
         <item name="android:layout_height">80dp</item>
     </style>
 
+    <style name="ButtonValide" parent="AppTheme.Base">
+        <item name="colorButtonNormal">@color/colorPrimary</item>
+        <item name="colorControlHighlight">@color/colorBlueDark</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
 </resources>
