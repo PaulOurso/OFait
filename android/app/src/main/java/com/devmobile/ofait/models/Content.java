@@ -19,6 +19,7 @@ public class Content {
     public int nb_points;
     public boolean notif;
     public boolean isFavorite;
+    public boolean isHot;
 
     public static Type typeAnswerOf() {
         return new TypeToken<Answer<Content>>() {

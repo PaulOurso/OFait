@@ -20,6 +20,7 @@ public class APIHelper {
     public static final String URL_ACCOUNT_STATS = IPConfig.DOMAIN_API + "/account/%s/stats";
     public static final String URL_GET_CONTENTS_TO_VOTE = IPConfig.DOMAIN_API + "/account/%s/contents_to_vote";
     public static final String URL_GET_ACCOUNT_FAVORITE_CONTENTS = IPConfig.DOMAIN_API + "/account/%s/favorite";
+    public static final String URL_GET_ACCOUNT_HISTORY_CONTENTS = IPConfig.DOMAIN_API + "/account/%s/history";
     public static final String URL_PUT_OR_DELETE_FAVORITE = IPConfig.DOMAIN_API + "/content/%s/favorite/%s";
 
     public static void getAccountFromLogin(Context c, Account account, TaskComplete taskComplete) {
@@ -92,6 +93,13 @@ public class APIHelper {
         String url = String.format(URL_PUT_OR_DELETE_FAVORITE, content._id,account._id);
         apiRequest.setMethod(Request.Method.PUT);
         apiRequest.setShowDialog(false);
+        apiRequest.execute(url);
+    }
+
+    public static void getHistoryContents(Context c, Account account, TaskComplete taskComplete) {
+        APIRequest<Content> apiRequest = new APIRequest<>(c, Content.typeAnswerOf(), taskComplete);
+        String url = String.format(URL_GET_ACCOUNT_HISTORY_CONTENTS, account._id);
+        apiRequest.setMethod(Request.Method.GET);
         apiRequest.execute(url);
     }
 }

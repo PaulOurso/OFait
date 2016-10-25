@@ -27,6 +27,7 @@ import com.devmobile.ofait.ui.fragment.AccountFragment;
 import com.devmobile.ofait.ui.fragment.AddContentFragment;
 import com.devmobile.ofait.ui.fragment.BookmarkFragment;
 import com.devmobile.ofait.ui.fragment.ContentFragment;
+import com.devmobile.ofait.ui.fragment.HistoryFragment;
 import com.devmobile.ofait.utils.Preference;
 import com.devmobile.ofait.utils.interfaces.MenuAction;
 import com.devmobile.ofait.utils.notifs.NotifInfo;
@@ -154,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 viewIsAtHome = false;
                 break;
             case R.id.nav_my_contents:
-                // TODO: add Fragment My Contents
+                fragment = HistoryFragment.getInstance();
                 title  = getString(R.string.fragment_my_contents_title);
                 viewIsAtHome = false;
                 break;

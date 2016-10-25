@@ -11,3 +11,7 @@ exports.checkIfFavorite = function checkIfFavorite(content,account_id){
   }
   return false;
 }
+
+exports.isHot = function isHot(nb_votes) {
+  return (nb_votes >= list_config.is_hot_after);
+}

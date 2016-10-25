@@ -43,6 +43,7 @@ public class ArrayAdapterContent extends ArrayAdapter<Content> {
         public TextView tvContentCreatedDate;
         public TextView tvContentPoints;
         public LinearLayout rlRemoveButton;
+        public LinearLayout tvHot;
     }
 
     @NonNull
@@ -58,6 +59,7 @@ public class ArrayAdapterContent extends ArrayAdapter<Content> {
             viewHolder.tvContentCreatedDate = (TextView) convertView.findViewById(R.id.card_content_created_date);
             viewHolder.tvContentPoints = (TextView) convertView.findViewById(R.id.card_content_points);
             viewHolder.rlRemoveButton = (LinearLayout) convertView.findViewById(R.id.remove_button);
+            viewHolder.tvHot = (LinearLayout) convertView.findViewById(R.id.content_is_hot);
             convertView.setTag(viewHolder);
         }
         else
@@ -75,6 +77,15 @@ public class ArrayAdapterContent extends ArrayAdapter<Content> {
                 getContext().getResources().getStringArray(R.array.months)[calendar.get(Calendar.MONTH)],
                 calendar.get(Calendar.YEAR));
         viewHolder.tvContentCreatedDate.setText(date);
+
+        if (current_fragment_calling == FRAGMENT_CALLING.FRAGMENT_HISTORY) {
+            if (content.isHot)
+                viewHolder.tvHot.setVisibility(View.VISIBLE);
+            else
+                viewHolder.tvHot.setVisibility(View.GONE);
+        }
+        else
+            viewHolder.tvHot.setVisibility(View.GONE);
 
         if (current_fragment_calling == FRAGMENT_CALLING.FRAGMENT_BOOKMARK) {
             viewHolder.rlRemoveButton.setVisibility(View.VISIBLE);

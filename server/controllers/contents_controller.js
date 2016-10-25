@@ -141,3 +141,27 @@ exports.getFavoriteOfAccount = function getFavoriteOfAccount(req,res){
 			response.formatErr(res, 500, err);
 		});
 }
+
+exports.getHistoryOfAccount = function getHistoryOfAccount(req,res){
+  var account_id = req.params.id;
+  var select = '_id created_by content_value created_date votes';
+
+  Content.find({favorite_for_account: {$in: [account_id]}}, select).populate('created_by votes').exec()
+    .then(function(contents){
+      contents = contents.map((c) => {
+                return {
+                  _id           : c._id,
+                  created_by    : { pseudo: c.created_by.pseudo },
+                  content_value : c.content_value,
+                  created_date  : c.created_date,
+                  nb_votes      : c.votes.length,
+                  nb_points     : c.votes.reduce((total, curVote) => { return total + curVote.value }, 0),
+                  isHot         : contentHelper.isHot(c.votes.length);
+                };
+              });
+      response.formatAnswerArray(res, 200, {message:null}, contents);
+    })
+    .catch((err) => {
+      response.formatErr(res, 500, err);
+    });
+}

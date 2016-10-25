@@ -75,7 +75,13 @@
     <string name="account_content_available_text">%d contenu en reserve</string>
     <string name="account_content_votes_left_text">Progression avant le prochain contenu</string>
     <string name="text_0">0</string>
+
+    <!-- Bookmark -->
     <string name="bookmark_not_favorites">Pas de favoris</string>
     <string name="remove">Supprimer</string>
     <string name="ask_remove_favorite">Voulez-vous réelement le supprimer de vos favoris ?</string>
+
+    <!-- HISTORY -->
+    <string name="history_not_content">Vous n\'avez pas partagé d\'infos insolite.</string>
+    <string name="hot">HOT</string>
 </resources>
