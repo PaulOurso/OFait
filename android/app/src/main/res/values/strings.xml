@@ -87,4 +87,5 @@
     <!-- HISTORY -->
     <string name="history_not_content">Vous n\'avez pas partagé d\'infos insolite.</string>
     <string name="hot">HOT</string>
+    <string name="connexion_inscription">Connexion / Inscription</string>
 </resources>
