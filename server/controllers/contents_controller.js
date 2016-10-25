@@ -124,7 +124,7 @@ exports.getFavoriteOfAccount = function getFavoriteOfAccount(req,res){
 	var account_id = req.params.id;
 	var select = '_id created_by content_value created_date votes favorite_for_account';
 
-	Content.find({favorite_for_account: {$in: [account_id]}}, select).populate('created_by votes').exec()
+	Content.find({favorite_for_account: {$in: [account_id]}}, select).sort({created_date:-1}).populate('created_by votes').exec()
 		.then(function(contents){
 			contents = contents.map((c) => {
 								var nb_points = c.votes.reduce((total, curVote) => { return total + curVote.value }, 0);
@@ -150,7 +150,7 @@ exports.getHistoryOfAccount = function getHistoryOfAccount(req,res){
   var account_id = req.params.id;
   var select = '_id created_by content_value created_date votes';
 
-  Content.find({created_by: account_id}, select).populate('created_by votes').exec()
+  Content.find({created_by: account_id}, select).sort({created_date:-1}).populate('created_by votes').exec()
     .then(function(contents){
       contents = contents.map((c) => {
                 var nb_points = c.votes.reduce((total, curVote) => { return total + curVote.value }, 0);
