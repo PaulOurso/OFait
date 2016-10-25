@@ -43,7 +43,8 @@
     <string name="create_content_button">Publier</string>
     <string name="content_count">%d</string>
     <string name="notif_for_my_content">Être notifié des votes pour ce contenu</string>
-    <string name="notif_for_my_content_default">Être notifié des votes par défaut</string>
+    <string name="edit_text_write_content">Votre information insolite</string>
+    <string name="your_content_form">Votre info insolite</string>
 
     <!-- Contents -->
     <string name="txt_content_value">“ %s ”</string>
@@ -69,9 +70,13 @@
     </string-array>
 
     <!-- ACCOUNT -->
-    <string name="account_reputation_text">Reputation :</string>
-    <string name="account_content_available_text">%d contenu en reserve</string>
-    <string name="account_content_votes_left_text">Progression avant le prochain contenu</string>
+    <string name="notification">Notification</string>
+    <string name="notification_default">Notification par défaut</string>
+    <string name="notif_for_my_content_default">Être notifié des votes par défaut</string>
+    <string name="reputation">Palier de réputation</string>
+    <string name="publications_available">Publications disponibles</string>
+    <string name="account_content_available_text">Publications disponible : <b>%d</b></string>
+    <string name="account_content_votes_left_text">Progression avant le prochain contenu :</string>
     <string name="text_0">0</string>
 
     <!-- Bookmark -->
@@ -82,7 +87,4 @@
     <!-- HISTORY -->
     <string name="history_not_content">Vous n\'avez pas partagé d\'infos insolite.</string>
     <string name="hot">HOT</string>
-    <string name="edit_text_write_content">Votre information insolite</string>
-    <string name="your_content_form">Votre info insolite</string>
-    <string name="notification">Notification</string>
 </resources>

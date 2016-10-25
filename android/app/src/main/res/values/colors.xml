@@ -9,6 +9,8 @@
     <color name="colorBackgroundItem">@color/colorWhite</color>
     <color name="colorTextInfo">#606060</color>
 
+    <color name="colorBackgroundProgressBar">#bebebe</color>
+
     <color name="colorBlueDark">#374A67</color>
     <color name="colorTitle">#3773ff</color>
 

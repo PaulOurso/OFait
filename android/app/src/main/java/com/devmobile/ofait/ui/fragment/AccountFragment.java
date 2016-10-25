@@ -4,14 +4,12 @@ package com.devmobile.ofait.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.Html;
-import android.text.SpannableString;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ProgressBar;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.devmobile.ofait.R;
@@ -67,7 +65,7 @@ public class AccountFragment extends Fragment implements MenuAction {
                 accountName.setText(textPseudo);
 
                 // Notif
-                Switch notifSwitch = (Switch) getActivity().findViewById(R.id.account_switch_notif);
+                SwitchCompat notifSwitch = (SwitchCompat) getActivity().findViewById(R.id.account_switch_notif);
                 notifSwitch.setChecked(account.notif);
                 notifSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
