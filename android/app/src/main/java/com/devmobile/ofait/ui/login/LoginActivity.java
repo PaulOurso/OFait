@@ -8,8 +8,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -175,13 +177,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void showPseudoLayout(){
-        final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.layout_create_pseudo);
+        final ScrollView linearLayout = (ScrollView) findViewById(R.id.layout_create_pseudo);
         Animation animation = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.fade_in);
         linearLayout.setVisibility(View.VISIBLE);
         linearLayout.startAnimation(animation);
     }
 
     public void createPseudo(View view) {
+        closeKeyboard();
         String pseudo = ((EditText) findViewById(R.id.create_pseudo_edit)).getText().toString();
 
         if(!pseudo.isEmpty()) {
@@ -209,9 +212,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void quitCreatePseudo(View view) {
+        closeKeyboard();
         EditText editText = (EditText) findViewById(R.id.create_pseudo_edit);
         editText.setText("");
-        final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.layout_create_pseudo);
+        final ScrollView linearLayout = (ScrollView) findViewById(R.id.layout_create_pseudo);
         Animation animation = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.fade_out);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -229,5 +233,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         linearLayout.startAnimation(animation);
+    }
+
+    public void closeKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 }

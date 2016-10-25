@@ -1,55 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout_create_pseudo"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:visibility="gone">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/pseudo_text"
-        android:textSize="20dp"
-        android:layout_marginBottom="30dp"
-        android:layout_gravity="center"/>
-
-    <TextView
-        android:id="@+id/error_create_pseudo_no_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="left"
-        android:textColor="@color/red"
-        android:visibility="gone" />
-
-    <EditText
-        android:id="@+id/create_pseudo_edit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:hint="@string/pseudo_hint"
-        android:gravity="center"/>
+    android:visibility="gone"
+    android:padding="20dp"
+    android:background="@color/colorBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:layout_gravity="center">
 
-    <Button
-        android:id="@+id/create_pseudo_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/ok"
-        android:layout_gravity="center"
-        android:onClick="createPseudo"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pseudo_text"
+            android:textSize="16sp"
+            android:layout_marginBottom="20dp"
+            android:textAllCaps="true"
+            android:layout_gravity="center"/>
 
-    <Button
-        android:id="@+id/create_pseudo_quit_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_pseudo_quit"
-        android:layout_gravity="center"
-        android:onClick="quitCreatePseudo"/>
+        <TextView
+            android:id="@+id/error_create_pseudo_no_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textColor="@color/red"
+            android:visibility="gone" />
 
+        <EditText
+            android:id="@+id/create_pseudo_edit"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="15dp"
+            android:hint="@string/pseudo_hint"
+            android:gravity="center"
+            android:textCursorDrawable="@null"
+            android:background="@drawable/edit_text_border"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/create_pseudo_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ok"
+                android:layout_gravity="center"
+                android:onClick="createPseudo"
+                android:theme="@style/ButtonValide"/>
+
+            <Button
+                android:id="@+id/create_pseudo_quit_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_pseudo_quit"
+                android:layout_gravity="center"
+                android:onClick="quitCreatePseudo"
+                android:theme="@style/ButtonValide"/>
+
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</ScrollView>

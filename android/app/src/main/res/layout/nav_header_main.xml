@@ -19,6 +19,13 @@
         android:src="@drawable/ic_setting_dark"
         />
 
+    <ImageView
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/logo_ofait"
+        android:alpha="0.25"/>
+
     <LinearLayout
         android:id="@+id/menu_layout"
         android:layout_width="match_parent"
@@ -32,6 +39,8 @@
             android:layout_height="wrap_content"
             android:textSize="25sp"
             android:textAllCaps="true"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"
             android:text="Pseudo"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 

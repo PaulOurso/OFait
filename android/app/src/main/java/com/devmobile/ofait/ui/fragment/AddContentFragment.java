@@ -1,14 +1,16 @@
 package com.devmobile.ofait.ui.fragment;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,12 +54,13 @@ public class AddContentFragment extends Fragment implements MenuAction {
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        refreshData();
+        refreshData(false);
     }
 
     public void createNewContent(MainActivity activity) {
+        closeKeyboard();
         final EditText newContentText = (EditText) activity.findViewById(R.id.new_content_text);
-        final Switch notifForMyContentSwitch = (Switch) activity.findViewById(R.id.new_content_switch_notif);
+        final SwitchCompat notifForMyContentSwitch = (SwitchCompat) activity.findViewById(R.id.new_content_switch_notif);
 
         if(!newContentText.getText().toString().isEmpty()){
             Content newContent = new Content();
@@ -73,6 +76,7 @@ public class AddContentFragment extends Fragment implements MenuAction {
                     newContentText.setText("");
                     Account account = Preference.getAccount(AddContentFragment.this.getContext());
                     notifForMyContentSwitch.setChecked(account.notif);
+                    refreshData();
                     if (answer.status < 300) {
                         Toast.makeText(AddContentFragment.getInstance().getContext(), R.string.create_content_done, Toast.LENGTH_LONG).show();
                     }
@@ -85,13 +89,17 @@ public class AddContentFragment extends Fragment implements MenuAction {
     }
 
     public void refreshData() {
+        refreshData(true);
+    }
+
+    public void refreshData(boolean displayLoading) {
         Account account = Preference.getAccount(this.getContext());
-        APIHelper.getAccountStats(this.getContext(), account, new TaskComplete<Account>() {
+        APIHelper.getAccountStats(this.getContext(), displayLoading, account, new TaskComplete<Account>() {
             @Override
             public void run() {
                 Answer<Account> answer = this.result;
                 TextView contentsToMake = (TextView) AddContentFragment.this.getActivity().findViewById(R.id.content_number);
-                Switch notifForMyContentSwitch = (Switch) AddContentFragment.this.getActivity().findViewById(R.id.new_content_switch_notif);
+                SwitchCompat notifForMyContentSwitch = (SwitchCompat) AddContentFragment.this.getActivity().findViewById(R.id.new_content_switch_notif);
                 Account account = Preference.getAccount(AddContentFragment.this.getContext());
                 notifForMyContentSwitch.setChecked(account.notif);
 
@@ -111,5 +119,13 @@ public class AddContentFragment extends Fragment implements MenuAction {
     @Override
     public void refresh() {
         refreshData();
+    }
+
+    public void closeKeyboard() {
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 }

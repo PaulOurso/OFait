@@ -97,8 +97,6 @@ exports.getStatsAccountByID = function getStatsAccountByID(req, res){
         var votesConstants = accountHelper.getVotesConstants(account);
         var previousReputation = accountHelper.getPreviousLvlReputation(votesConstants);
 
-        console.log(previousReputation);
-
         var remaining_contents = 0;
         if (votesConstants.cost_vote > 0)
           remaining_contents = Math.floor(nbVotesUnused/votesConstants.cost_vote);

@@ -1,142 +1,185 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.devmobile.ofait.ui.fragment.AccountFragment"
     android:orientation="vertical"
-    android:weightSum="1">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/account_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/dynamical_string"
-        android:textSize="30dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
-        android:gravity="center"/>
+    android:background="@color/colorBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="30dp">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/notif_for_my_content_default"/>
-        <Switch
-            android:id="@+id/account_switch_notif"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/account_reputation_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/account_reputation_text"
-        android:textSize="20dp"
-        android:layout_marginBottom="5dp"
-        android:gravity="center"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:orientation="vertical"
+        android:padding="20dp">
 
         <TextView
-            android:id="@+id/account_previous_reputation"
+            android:id="@+id/account_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dynamical_string"
+            android:textSize="30sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="30dp"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+        <TextView
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TitleCategory"
+            android:text="@string/notification"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:text="@string/notification_default" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorTextInfo"
+                    android:textSize="13sp"
+                    android:text="@string/notif_for_my_content_default" />
+            </LinearLayout>
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/account_switch_notif"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:theme="@style/SCBSwitch"/>
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            style="@style/TitleCategory"
+            android:text="@string/reputation"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/account_previous_reputation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dynamical_integer"
+                android:textSize="20sp"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                android:gravity="center"/>
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="10dp"
+                android:layout_weight="1"
+                android:id="@+id/progressBar_reputation"
+                android:progressDrawable="@drawable/progress_bar_custom"/>
+
+            <TextView
+                android:id="@+id/account_next_reputation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dynamical_integer"
+                android:textSize="20sp"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/account_reputation_value"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/dynamical_integer"
-            android:textSize="20dp"
-            android:padding="10dp"/>
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/progressBar_reputation"
-            android:layout_weight="1"/>
+            android:textSize="20sp"
+            android:gravity="center"/>
 
         <TextView
-            android:id="@+id/account_next_reputation"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            style="@style/TitleCategory"
+            android:text="@string/publications_available"/>
+
+        <TextView
+            android:id="@+id/account_content_available"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="@string/account_content_available_text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_marginTop="3dp"
+            android:text="@string/account_content_votes_left_text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_0"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                android:textSize="20sp"/>
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="10dp"
+                android:id="@+id/progressBar_votes"
+                android:layout_weight="1"
+                android:progressDrawable="@drawable/progress_bar_custom"/>
+
+            <TextView
+                android:id="@+id/account_votes_next_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dynamical_integer"
+                android:textSize="20sp"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/account_current_votes"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/dynamical_integer"
-            android:textSize="20dp"
-            android:padding="10dp"/>
+            android:textSize="20sp"
+            android:gravity="center"/>
+
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/account_reputation_value"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/dynamical_integer"
-        android:textSize="20dp"
-        android:padding="10dp"
-        android:layout_marginBottom="30dp"
-        android:gravity="center"/>
-
-    <TextView
-        android:id="@+id/account_content_available"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/account_content_available_text"
-        android:textSize="20dp"
-        android:layout_marginBottom="30dp"
-        android:gravity="center"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/account_content_votes_left_text"
-        android:textSize="20dp"
-        android:layout_marginBottom="10dp"
-        android:gravity="center"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_0"
-            android:textSize="20dp"
-            android:padding="10dp"/>
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/progressBar_votes"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:id="@+id/account_votes_next_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/dynamical_integer"
-            android:textSize="20dp"
-            android:padding="10dp"/>
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/account_current_votes"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/dynamical_integer"
-        android:textSize="20dp"
-        android:padding="10dp"
-        android:gravity="center"/>
-
-</LinearLayout>
+</ScrollView>

@@ -62,12 +62,16 @@ public class HistoryFragment extends Fragment implements MenuAction {
         arrayAdapter.current_fragment_calling = ArrayAdapterContent.FRAGMENT_CALLING.FRAGMENT_HISTORY;
         arrayAdapter.fragment = HistoryFragment.this;
         listView.setAdapter(arrayAdapter);
-        loadDatas();
+        loadDatas(false);
     }
 
     public void loadDatas() {
+        loadDatas(true);
+    }
+
+    public void loadDatas(boolean displayLoading) {
         Account account = Preference.getAccount(getContext());
-        APIHelper.getHistoryContents(getContext(), account, new TaskComplete<Content>() {
+        APIHelper.getHistoryContents(getContext(), displayLoading, account, new TaskComplete<Content>() {
             @Override
             public void run() {
 

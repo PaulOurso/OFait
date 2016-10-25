@@ -1,34 +1,5 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="windowNoTitle">false</item>
-        <item name="windowActionBar">true</item>
-        <item name="android:windowFullscreen">false</item>
-    </style>
-
-    <!-- Splash theme. -->
-    <style name="AppTheme.Base.SplashTheme">
-        <!-- Customize your theme here. -->
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
-        <item name="android:windowFullscreen">true</item>
-    </style>
-
-    <style name="AppTheme.Base.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="AppTheme.Base.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.Base.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-
     <!-- CardViews -->
     <style name="MyCardViewStyle" parent="CardView.Light">
         <item name="cardCornerRadius">@dimen/border_radius_card</item>
@@ -38,8 +9,8 @@
 
     <style name="CardViewInside" parent="AppTheme.Base">
         <item name="android:background">@drawable/card_border</item>
-        <item name="android:paddingBottom">24dp</item>
-        <item name="android:paddingTop">24dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:paddingTop">16dp</item>
         <item name="android:paddingLeft">16dp</item>
         <item name="android:paddingRight">16dp</item>
     </style>
@@ -53,6 +24,24 @@
         <item name="android:scaleType">fitCenter</item>
         <item name="android:layout_width">80dp</item>
         <item name="android:layout_height">80dp</item>
+    </style>
+
+    <style name="ButtonValide" parent="AppTheme.Base">
+        <item name="colorButtonNormal">@color/colorPrimary</item>
+        <item name="colorControlHighlight">@color/colorBlueDark</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
+    <style name="SCBSwitch" parent="AppTheme.Base">
+        <item name="colorControlActivated">@color/colorGreen</item>
+        <item name="colorSwitchThumbNormal">#f1f1f1 </item>
+        <item name="android:colorForeground">#42221f1f </item>
+    </style>
+
+    <style name="TitleCategory" parent="AppTheme.Base">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorTitle</item>
     </style>
 
 </resources>

@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -23,10 +22,7 @@ import com.devmobile.ofait.utils.interfaces.MenuAction;
 import com.devmobile.ofait.utils.requests.APIHelper;
 import com.devmobile.ofait.utils.requests.TaskComplete;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -68,12 +64,15 @@ public class BookmarkFragment extends Fragment implements MenuAction {
         arrayAdapter.current_fragment_calling = ArrayAdapterContent.FRAGMENT_CALLING.FRAGMENT_BOOKMARK;
         arrayAdapter.fragment = BookmarkFragment.this;
         listView.setAdapter(arrayAdapter);
-        loadContents();
+        loadContents(false);
     }
 
     public void loadContents() {
+        loadContents(true);
+    }
+    public void loadContents(boolean displayLoading) {
         Account account = Preference.getAccount(getContext());
-        APIHelper.getFavoriteContents(getContext(), account, new TaskComplete<Content>() {
+        APIHelper.getFavoriteContents(getContext(), displayLoading, account, new TaskComplete<Content>() {
             @Override
             public void run() {
 

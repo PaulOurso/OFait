@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#222222</color>
+    <color name="colorSecondary">#414141</color>
+    <color name="colorPrimaryDark">#191919</color>
+    <color name="colorBackground">#e1e1e1</color>
+    <color name="colorAccent">#e2cf00</color>
+    <color name="colorGreen">#008e00</color>
+    <color name="colorBackgroundItem">@color/colorWhite</color>
+    <color name="colorTextInfo">#606060</color>
 
+    <color name="colorBackgroundProgressBar">#bebebe</color>
 
+    <color name="colorBlueDark">#374A67</color>
+    <color name="colorTitle">#3773ff</color>
+
+    <color name="colorWhite">#FFFFFF</color>
     <color name="red">#FF0000</color>
 </resources>
