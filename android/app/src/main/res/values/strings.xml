@@ -13,9 +13,6 @@
 
     <string name="action_settings">Settings</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <string name="pseudo_text">Choisissez votre pseudo:</string>
     <string name="pseudo_hint">Pseudo</string>
     <string name="error_create_pseudo_no_text">Veuillez entrer un pseudo</string>
@@ -29,13 +26,13 @@
     <string name="error_request_no_response">Le serveur ne répond pas.</string>
 
     <!-- MENU NAV -->
-    <string name="nav_contents">Contenu</string>
+    <string name="nav_contents">Les insolites</string>
     <string name="nav_add">Ajouter</string>
-    <string name="nav_my_contents">Mes contenus</string>
+    <string name="nav_my_contents">Mes contributions</string>
     <string name="nav_favorites">Favoris</string>
     <string name="fragment_contents_title">Les insolites</string>
     <string name="fragment_add_title">Ajouter</string>
-    <string name="fragment_my_contents_title">Mes contenus</string>
+    <string name="fragment_my_contents_title">Mes contributions</string>
     <string name="fragment_favorites_title">Mes favoris</string>
     <string name="fragment_account_title">Mon compte</string>
 
@@ -49,6 +46,7 @@
     <string name="notif_for_my_content_default">Être notifié des votes par défaut</string>
 
     <!-- Contents -->
+    <string name="txt_content_value">“ %s ”</string>
     <string name="content_date">%1$d %2$s %3$d</string>
     <string name="content_created_by">Par %s</string>
     <string name="content_points">%d points</string>

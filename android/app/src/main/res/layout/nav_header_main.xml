@@ -32,6 +32,8 @@
             android:layout_height="wrap_content"
             android:textSize="25sp"
             android:textAllCaps="true"
+            android:textColor="@color/colorYellow"
+            android:textStyle="bold"
             android:text="Pseudo"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 

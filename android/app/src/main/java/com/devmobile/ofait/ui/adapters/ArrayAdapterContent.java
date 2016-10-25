@@ -66,7 +66,7 @@ public class ArrayAdapterContent extends ArrayAdapter<Content> {
             viewHolder = (ContentViewHolder) convertView.getTag();
 
         final Content content = getItem(position);
-        viewHolder.tvContentValue.setText(content.content_value);
+        viewHolder.tvContentValue.setText(getContext().getString(R.string.txt_content_value, content.content_value));
         viewHolder.tvContentCreatedBy.setText(getContext().getString(R.string.content_created_by, content.created_by.pseudo));
         viewHolder.tvContentPoints.setText(getContext().getString(R.string.content_points, content.nb_points));
 
@@ -78,12 +78,8 @@ public class ArrayAdapterContent extends ArrayAdapter<Content> {
                 calendar.get(Calendar.YEAR));
         viewHolder.tvContentCreatedDate.setText(date);
 
-        if (current_fragment_calling == FRAGMENT_CALLING.FRAGMENT_HISTORY) {
-            if (content.isHot)
-                viewHolder.tvHot.setVisibility(View.VISIBLE);
-            else
-                viewHolder.tvHot.setVisibility(View.GONE);
-        }
+        if (content.isHot)
+            viewHolder.tvHot.setVisibility(View.VISIBLE);
         else
             viewHolder.tvHot.setVisibility(View.GONE);
 
