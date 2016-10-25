@@ -63,14 +63,16 @@ exports.getContentsToVote = function getContentsToVote(req,res) {
 				Content.find({ $and: [ {created_by: {$ne: account_id}}, {_id: {$nin: myVotesContentsID}} ] }, select).populate('created_by votes').exec()
 					.then((contents) => {
 						contents = contents.map((c) => {
-							return {
+							var nb_points = c.votes.reduce((total, curVote) => { return total + curVote.value }, 0);
+                return {
 								_id 					: c._id,
 								created_by		: { pseudo: c.created_by.pseudo },
 								content_value	: c.content_value,
 								created_date  : c.created_date,
 								nb_votes			: c.votes.length,
-								nb_points 		: c.votes.reduce((total, curVote) => { return total + curVote.value }, 0),
-								isFavorite		: contentHelper.checkIfFavorite(c,account_id)
+								nb_points 		: nb_points,
+								isFavorite		: contentHelper.checkIfFavorite(c,account_id),
+                isHot         : contentHelper.isHot(nb_points)
 							};
 						});
 
@@ -125,14 +127,16 @@ exports.getFavoriteOfAccount = function getFavoriteOfAccount(req,res){
 	Content.find({favorite_for_account: {$in: [account_id]}}, select).populate('created_by votes').exec()
 		.then(function(contents){
 			contents = contents.map((c) => {
-								return {
+								var nb_points = c.votes.reduce((total, curVote) => { return total + curVote.value }, 0);
+                return {
 									_id 					: c._id,
 									created_by		: { pseudo: c.created_by.pseudo },
 									content_value	: c.content_value,
 									created_date  : c.created_date,
 									nb_votes			: c.votes.length,
-									nb_points 		: c.votes.reduce((total, curVote) => { return total + curVote.value }, 0),
-									isFavorite		: true
+									nb_points 		: nb_points,
+									isFavorite		: true,
+                  isHot         : contentHelper.isHot(nb_points)
 								};
 							});
 			response.formatAnswerArray(res, 200, {message:null}, contents);
@@ -149,14 +153,15 @@ exports.getHistoryOfAccount = function getHistoryOfAccount(req,res){
   Content.find({created_by: account_id}, select).populate('created_by votes').exec()
     .then(function(contents){
       contents = contents.map((c) => {
+                var nb_points = c.votes.reduce((total, curVote) => { return total + curVote.value }, 0);
                 return {
                   _id           : c._id,
                   created_by    : { pseudo: c.created_by.pseudo },
                   content_value : c.content_value,
                   created_date  : c.created_date,
                   nb_votes      : c.votes.length,
-                  nb_points     : c.votes.reduce((total, curVote) => { return total + curVote.value }, 0),
-                  isHot         : contentHelper.isHot(c.votes.length)
+                  nb_points     : nb_points,
+                  isHot         : contentHelper.isHot(nb_points)
                 };
               });
       response.formatAnswerArray(res, 200, {message:null}, contents);
